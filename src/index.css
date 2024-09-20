@@ -1,6 +1,7 @@
 :root {
   --main-color: #191919;
   --main-color-2: #ffffff;
+  --main-color-3: #d9d9d9;
   --main-accent-color: #798ea4;
   --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
   --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
@@ -33,6 +34,10 @@ p,
 label,
 button {
   font-size: var(--medium-font);
+}
+
+input {
+  background-color: var(--main-color-3);
 }
 
 button {
