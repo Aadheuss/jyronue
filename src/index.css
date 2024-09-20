@@ -1,3 +1,23 @@
+@font-face {
+  font-family: "ibm-plex-sans";
+  src: url("./assets/fonts/ibm-plex-sans/ibmplexsans-regular-webfont.woff2")
+      format("woff2"),
+    url("./assets/fonts//ibm-plex-sans/ibmplexsans-regular-webfont.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ibm-plex-sans";
+  src: url("./assets/fonts/ibm-plex-sans/ibmplexsans-bold-webfont.woff2")
+      format("woff2"),
+    url("./assets/fonts//ibm-plex-sans/ibmplexsans-bold-webfont.woff")
+      format("woff");
+  font-weight: 700;
+  font-style: bold;
+}
+
 :root {
   --main-color: #191919;
   --main-color-2: #ffffff;
@@ -5,7 +25,7 @@
   --main-accent-color: #798ea4;
   --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
   --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "ibm-plex-sans", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #ffffff;
