@@ -37,6 +37,10 @@ button {
 }
 
 input {
+  background-color: var(--main-color-2);
+}
+
+input:hover {
   background-color: var(--main-color-3);
 }
 
