@@ -1,0 +1,17 @@
+.inputContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  color: var(--main-color);
+  position: absolute;
+  left: 0.5rem;
+}
+
+.input {
+  padding: 0.5rem;
+  width: 100%;
+}

@@ -1,5 +1,6 @@
 import styles from "./SignupPage.module.css";
 import logo from "../../assets/images/jyronue-logo.svg";
+import InputContainer from "../../components/InputContainer/InputContainer";
 
 const SignupPage = () => {
   return (
@@ -14,28 +15,17 @@ const SignupPage = () => {
             <p className={styles.text}>Create an account to get started</p>
           </div>
           <form className={styles.signupForm}>
-            <div className={styles.inputWrapper}>
-              <label className={styles.label} htmlFor="username">
-                Username
-              </label>
-              <input
-                id="username"
-                className={styles.input}
-                type="text"
-                autoComplete="username"
-              />
-            </div>
-            <div className={styles.inputWrapper}>
-              <label className={styles.label} htmlFor="password">
-                Password
-              </label>
-              <input
-                id="password"
-                className={styles.input}
-                type="password"
-                autoComplete="new-password"
-              />
-            </div>
+            <InputContainer
+              id="username"
+              autoComplete="username"
+              label="Username"
+            />
+            <InputContainer
+              id="password"
+              type="password"
+              autoComplete="new-password"
+              label="Password"
+            />
             <button type="submit">Sign up</button>
           </form>
         </div>

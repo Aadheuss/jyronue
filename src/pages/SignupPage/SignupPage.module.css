@@ -46,21 +46,3 @@
   gap: 1.25rem;
   width: clamp(min(250px, 100vw), calc(300px + 10vw), 30vw);
 }
-
-.inputWrapper {
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.label {
-  color: var(--main-color);
-  position: absolute;
-  left: 0.5rem;
-}
-
-.input {
-  padding: 0.5rem;
-  width: 100%;
-}
