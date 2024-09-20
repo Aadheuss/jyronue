@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./InputContainer.module.css";
+import { isInputEmpty } from "../../utils/domUtils";
 
 type InputTypes = "password" | "text";
 
@@ -16,9 +17,11 @@ const InputContainer: FC<Props> = ({
   autoComplete,
   label,
 }) => {
+  const [input, setInput] = useState(false);
+
   return (
     <div className={styles.inputContainer}>
-      <label className={styles.label} htmlFor={id}>
+      <label className={input ? styles.hiddenLabel : styles.label} htmlFor={id}>
         {label}
       </label>
       <input
@@ -26,6 +29,7 @@ const InputContainer: FC<Props> = ({
         className={styles.input}
         type={type}
         autoComplete={autoComplete}
+        onInput={(e) => setInput(isInputEmpty(e))}
       />
     </div>
   );
