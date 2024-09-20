@@ -1,4 +1,7 @@
 :root {
+  --main-color: #191919;
+  --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
+  --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -22,6 +25,12 @@ body {
 
 h1 {
   line-height: 1.1;
+}
+
+p,
+label,
+button {
+  font-size: var(--medium-font);
 }
 
 button {
