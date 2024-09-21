@@ -52,7 +52,8 @@ h1 {
 
 p,
 label,
-button {
+button,
+input {
   font-size: var(--medium-font);
 }
 
