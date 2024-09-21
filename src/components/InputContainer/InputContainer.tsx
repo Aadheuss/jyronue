@@ -18,6 +18,7 @@ const InputContainer: FC<Props> = ({
   label,
 }) => {
   const [input, setInput] = useState(false);
+  const [visibility, setVisibility] = useState(false);
 
   return (
     <div className={styles.inputContainer}>
@@ -27,10 +28,19 @@ const InputContainer: FC<Props> = ({
       <input
         id={id}
         className={styles.input}
-        type={type}
+        type={type !== "password" ? type : visibility ? "text" : type}
         autoComplete={autoComplete}
         onInput={(e) => setInput(isInputEmpty(e))}
       />
+      {type === "password" && input && (
+        <button
+          type="button"
+          className={styles.visibilityBtn}
+          onClick={() => setVisibility(!visibility)}
+        >
+          <span className={visibility ? styles.visible : styles.hidden}></span>
+        </button>
+      )}
     </div>
   );
 };

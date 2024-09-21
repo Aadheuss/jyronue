@@ -20,3 +20,47 @@
   padding: 0.5rem;
   width: 100%;
 }
+
+.visibilityBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0.5rem;
+  background-color: transparent;
+  padding: 0;
+  height: 100%;
+  width: 50px;
+  border-radius: 0;
+}
+
+.visibilityBtn:hover {
+  background-color: transparent;
+}
+
+.icon {
+  display: block;
+  height: 100%;
+  width: calc(var(--medium-font) * 2);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: calc(var(--medium-font) * 1.25) auto;
+}
+
+.hidden {
+  composes: icon;
+  background-image: url("../../assets/images//visibility-off-icon.svg");
+}
+
+.hidden:hover {
+  background-image: url("../../assets/images//visibility-off-icon-hover.svg");
+}
+
+.visible {
+  composes: icon;
+  background-image: url("../../assets/images//visibility-icon.svg");
+}
+
+.visible:hover {
+  background-image: url("../../assets/images//visibility-icon-hover.svg");
+}
