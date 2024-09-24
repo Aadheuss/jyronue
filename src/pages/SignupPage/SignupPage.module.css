@@ -48,3 +48,14 @@
   gap: 1.25rem;
   width: clamp(min(250px, 100vw), calc(300px + 10vw), 30vw);
 }
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorTxt {
+  color: var(--invalid-color);
+  font-size: var(--small-font);
+  align-self: flex-start;
+}

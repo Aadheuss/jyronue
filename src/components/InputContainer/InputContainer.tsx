@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import styles from "./InputContainer.module.css";
 import { isInputEmpty } from "../../utils/domUtils";
+import { useFormContext } from "react-hook-form";
 
 type InputTypes = "password" | "text";
 
@@ -9,6 +10,21 @@ interface Props {
   type?: InputTypes;
   autoComplete: string;
   label: string;
+  validation: {
+    required?: string;
+    minLength?: {
+      value: number;
+      message: string;
+    };
+    maxLength?: {
+      value: number;
+      message: string;
+    };
+    pattern?: {
+      value: RegExp;
+      message: string;
+    };
+  };
 }
 
 const InputContainer: FC<Props> = ({
@@ -16,9 +32,12 @@ const InputContainer: FC<Props> = ({
   type = "text",
   autoComplete,
   label,
+  validation,
 }) => {
   const [input, setInput] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const { register } = useFormContext();
+  const { required, minLength, maxLength, pattern } = validation;
 
   return (
     <div className={styles.inputContainer}>
@@ -31,6 +50,13 @@ const InputContainer: FC<Props> = ({
         type={type !== "password" ? type : visibility ? "text" : type}
         autoComplete={autoComplete}
         onInput={(e) => setInput(isInputEmpty(e))}
+        {...register(id, {
+          required: required,
+          minLength: minLength,
+          maxLength: maxLength,
+          pattern: pattern,
+        })}
+        name={id}
       />
       {type === "password" && input && (
         <button
