@@ -4,6 +4,7 @@ import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { formValues } from "../../config/formValues";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const SignupPage = () => {
   const methods = useForm<formValues>();
@@ -12,6 +13,7 @@ const SignupPage = () => {
     formState: { errors },
   } = methods;
   const navigate = useNavigate();
+  const [focus, setFocus] = useState(false);
 
   console.log(errors);
 
@@ -66,6 +68,10 @@ const SignupPage = () => {
                   </span>
                 )}
                 <InputContainer
+                  form={{
+                    focus,
+                    setFocus,
+                  }}
                   id="username"
                   autoComplete="username"
                   label="Username"
@@ -90,6 +96,10 @@ const SignupPage = () => {
                   </span>
                 )}
                 <InputContainer
+                  form={{
+                    focus,
+                    setFocus,
+                  }}
                   id="password"
                   type="password"
                   autoComplete="new-password"

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import styles from "./InputContainer.module.css";
 import { isInputEmpty } from "../../utils/domUtils";
 import { useFormContext } from "react-hook-form";
@@ -6,6 +6,10 @@ import { useFormContext } from "react-hook-form";
 type InputTypes = "password" | "text";
 
 interface Props {
+  form: {
+    focus: boolean;
+    setFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  };
   id: string;
   type?: InputTypes;
   autoComplete: string;
@@ -33,15 +37,22 @@ const InputContainer: FC<Props> = ({
   autoComplete,
   label,
   validation,
+  form,
 }) => {
   const [input, setInput] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const { register } = useFormContext();
   const { required, minLength, maxLength, pattern } = validation;
 
   return (
     <div className={styles.inputContainer}>
-      <label className={input ? styles.hiddenLabel : styles.label} htmlFor={id}>
+      <label
+        className={
+          input || isFocused || form.focus ? styles.hiddenLabel : styles.label
+        }
+        htmlFor={id}
+      >
         {label}
       </label>
       <input
@@ -56,7 +67,16 @@ const InputContainer: FC<Props> = ({
           maxLength: maxLength,
           pattern: pattern,
         })}
+        onFocus={() => {
+          setIsFocused(true);
+          form.setFocus(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+          form.setFocus(false);
+        }}
         name={id}
+        placeholder={isFocused || input || form.focus ? label : ""}
       />
       {type === "password" && input && (
         <button
