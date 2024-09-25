@@ -15,8 +15,6 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [focus, setFocus] = useState(false);
 
-  console.log(errors);
-
   const onSubmit: SubmitHandler<formValues> = async (data) => {
     const formData = new URLSearchParams();
     formData.append("username", data.username);
