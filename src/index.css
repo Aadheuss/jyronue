@@ -55,7 +55,8 @@ h1 {
 p,
 label,
 button,
-input {
+input,
+input::placeholder {
   font-size: var(--medium-font);
 }
 
