@@ -3,6 +3,7 @@ import logo from "../../assets/images/jyronue-logo.svg";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { formValues } from "../../config/formValues";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
   const methods = useForm<formValues>();
@@ -10,10 +11,38 @@ const SignupPage = () => {
     handleSubmit,
     formState: { errors },
   } = methods;
+  const navigate = useNavigate();
 
   console.log(errors);
 
-  const onSubmit: SubmitHandler<formValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<formValues> = async (data) => {
+    const formData = new URLSearchParams();
+    formData.append("username", data.username);
+    formData.append("password", data.password);
+
+    try {
+      const res = await fetch("http://localhost:3000/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData,
+      });
+
+      const resData = await res.json();
+      console.log(resData);
+
+      if (resData.errors) {
+        console.log(resData.errors);
+      } else {
+        console.log(resData);
+        navigate("/login");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className={styles.signupPageWrapper}>
       <main className={styles.main}>
