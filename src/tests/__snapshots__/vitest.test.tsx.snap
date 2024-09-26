@@ -1,0 +1,94 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Signup Page > Container match snapshot 1`] = `
+<div>
+  <div
+    class="_signupPageWrapper_5b1584"
+  >
+    <main
+      class="_main_5b1584"
+    >
+      <div
+        class="_imgContainer_5b1584"
+      >
+        <img
+          alt="Jyronue-logo"
+          class="_logo_5b1584"
+          src="/src/assets/images/jyronue-logo.svg"
+        />
+      </div>
+      <div
+        class="_mainItem_5b1584"
+      >
+        <div
+          class="_greeting_5b1584"
+        >
+          <h1
+            class="_h1_5b1584"
+          >
+            Welcome to Jyronue
+          </h1>
+          <p
+            class="_text_5b1584"
+          >
+            Create an account to get started
+          </p>
+        </div>
+        <form
+          class="_signupForm_5b1584"
+        >
+          <div
+            class="_itemContainer_5b1584"
+          >
+            <div
+              class="_inputContainer_c33ca3"
+            >
+              <label
+                class="_label_c33ca3"
+                for="username"
+              >
+                Username
+              </label>
+              <input
+                autocomplete="username"
+                class="_input_c33ca3"
+                id="username"
+                name="username"
+                placeholder=""
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="_itemContainer_5b1584"
+          >
+            <div
+              class="_inputContainer_c33ca3"
+            >
+              <label
+                class="_label_c33ca3"
+                for="password"
+              >
+                Password
+              </label>
+              <input
+                autocomplete="new-password"
+                class="_input_c33ca3"
+                id="password"
+                name="password"
+                placeholder=""
+                type="password"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+          >
+            Sign up
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+`;
