@@ -21,6 +21,10 @@
   width: 100%;
 }
 
+.input:not(:focus)::placeholder {
+  color: var(--main-color);
+}
+
 .input:focus {
   outline-color: var(--accent-color-1);
   border-color: var(--accent-color-1);
