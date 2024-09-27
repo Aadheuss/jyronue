@@ -21,6 +21,11 @@
   width: 100%;
 }
 
+.input:focus {
+  outline-color: var(--accent-color-1);
+  border-color: var(--accent-color-1);
+}
+
 .visibilityBtn {
   display: flex;
   align-items: center;

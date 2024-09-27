@@ -23,6 +23,7 @@
   --main-color-2: #ffffff;
   --main-color-3: #d9d9d9;
   --main-accent-color: #798ea4;
+  --accent-color-1: #3bc1e7;
   --invalid-color: #ff1717;
   --small-font: clamp(0.9rem, calc(0.8rem + 0.15vw), 2.5rem);
   --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
