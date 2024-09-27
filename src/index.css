@@ -84,6 +84,13 @@ button:hover {
   background-color: #67798b;
 }
 
+input:hover,
+button:hover {
+  -webkit-transition: background-color 900ms ease-out;
+  -ms-transition: background-color 900ms ease-out;
+  transition: background-color 900ms ease-out;
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
