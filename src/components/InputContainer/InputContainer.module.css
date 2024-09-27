@@ -64,3 +64,10 @@
 .visible:hover {
   background-image: url("../../assets/images//visibility-icon-hover.svg");
 }
+
+.hidden:hover,
+.visible:hover {
+  -webkit-transition: background-image 300ms ease-in;
+  -ms-transition: background-image 300ms ease-in;
+  transition: background-image 300ms ease-in;
+}
