@@ -1,0 +1,61 @@
+.loginPageWrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background-image: url("../../assets/images/mr-karl-unsplash.jpg");
+  background-size: cover;
+}
+
+.h1 {
+  font-size: var(--medium-large-font);
+  margin: 0;
+}
+
+.text {
+  margin: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #191919f6;
+  width: clamp(min(100vw, 300px), calc(50vw - 2rem), 100%);
+  padding: 2rem 1rem;
+}
+
+.imgContainer {
+  margin: 2rem;
+}
+
+.logo {
+  width: max(100px, 6vw);
+  height: auto;
+}
+
+.mainItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 10%;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  width: clamp(min(250px, 100vw), calc(300px + 10vw), 30vw);
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorTxt {
+  color: var(--invalid-color);
+  font-size: var(--small-font);
+  align-self: flex-start;
+}

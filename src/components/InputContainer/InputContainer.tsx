@@ -1,7 +1,8 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./InputContainer.module.css";
 import { isInputEmpty } from "../../utils/domUtils";
 import { useFormContext } from "react-hook-form";
+import { errorValue } from "../../config/formValues";
 
 type InputTypes = "password" | "text";
 
@@ -9,6 +10,7 @@ interface Props {
   form: {
     focus: boolean;
     setFocus: React.Dispatch<React.SetStateAction<boolean>>;
+    setError?: React.Dispatch<React.SetStateAction<errorValue | null>>;
   };
   id: string;
   type?: InputTypes;
@@ -60,7 +62,13 @@ const InputContainer: FC<Props> = ({
         className={styles.input}
         type={type !== "password" ? type : visibility ? "text" : type}
         autoComplete={autoComplete}
-        onInput={(e) => setInput(isInputEmpty(e))}
+        onInput={(e) => {
+          setInput(isInputEmpty(e));
+
+          if (form.setError) {
+            form.setError(null);
+          }
+        }}
         {...register(id, {
           required: required,
           minLength: minLength,

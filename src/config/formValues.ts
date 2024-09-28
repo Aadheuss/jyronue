@@ -3,4 +3,9 @@ type formValues = {
   password: string;
 };
 
-export type { formValues };
+type errorValue = {
+  field: string;
+  msg: string;
+};
+
+export type { formValues, errorValue };
