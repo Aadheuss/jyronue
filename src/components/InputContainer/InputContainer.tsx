@@ -46,8 +46,14 @@ const InputContainer: FC<Props> = ({
   const [isFocused, setIsFocused] = useState(false);
   const { register } = useFormContext();
   const { required, minLength, maxLength, pattern } = validation;
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [isAutofilled, setIsAutofilled] = useState(false);
+  const { ref, ...rest } = register(id, {
+    required: required,
+    minLength: minLength,
+    maxLength: maxLength,
+    pattern: pattern,
+  });
 
   useLayoutEffect(() => {
     // Check for prefilled input on load periodically
@@ -77,17 +83,15 @@ const InputContainer: FC<Props> = ({
         autoComplete={autoComplete}
         onInput={(e) => {
           setInput(isInputEmpty(e));
-
           if (form.setError) {
             form.setError(null);
           }
         }}
-        {...register(id, {
-          required: required,
-          minLength: minLength,
-          maxLength: maxLength,
-          pattern: pattern,
-        })}
+        {...rest}
+        ref={(e) => {
+          ref(e);
+          inputRef.current = e;
+        }}
         onFocus={() => {
           setIsFocused(true);
           form.setFocus(true);
@@ -98,7 +102,6 @@ const InputContainer: FC<Props> = ({
         }}
         name={id}
         placeholder={isFocused || input || form.focus ? label : ""}
-        ref={inputRef}
       />
       {type === "password" && input && (
         <button
