@@ -1,6 +1,6 @@
-import { FC, useState } from "react";
+import { FC, useLayoutEffect, useRef, useState } from "react";
 import styles from "./InputContainer.module.css";
-import { isInputEmpty } from "../../utils/domUtils";
+import { checkAutofilled, isInputEmpty } from "../../utils/domUtils";
 import { useFormContext } from "react-hook-form";
 import { errorValue } from "../../config/formValues";
 
@@ -46,12 +46,25 @@ const InputContainer: FC<Props> = ({
   const [isFocused, setIsFocused] = useState(false);
   const { register } = useFormContext();
   const { required, minLength, maxLength, pattern } = validation;
+  const inputRef = useRef(null);
+  const [isAutofilled, setIsAutofilled] = useState(false);
+
+  useLayoutEffect(() => {
+    // Check for prefilled input on load periodically
+    // The time when it's autofilled is not very stable, so check few times
+    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 0);
+    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 150);
+    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 450);
+    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 600);
+  }, []);
 
   return (
     <div className={styles.inputContainer}>
       <label
         className={
-          input || isFocused || form.focus ? styles.hiddenLabel : styles.label
+          input || isFocused || form.focus || isAutofilled
+            ? styles.hiddenLabel
+            : styles.label
         }
         htmlFor={id}
       >
@@ -85,6 +98,7 @@ const InputContainer: FC<Props> = ({
         }}
         name={id}
         placeholder={isFocused || input || form.focus ? label : ""}
+        ref={inputRef}
       />
       {type === "password" && input && (
         <button
