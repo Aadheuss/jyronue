@@ -1,6 +1,10 @@
 import { FC, useLayoutEffect, useRef, useState } from "react";
 import styles from "./InputContainer.module.css";
-import { checkAutofilled, isInputEmpty } from "../../utils/domUtils";
+import {
+  checkAutofilled,
+  registerAutofilledInput,
+  isInputEmpty,
+} from "../../utils/domUtils";
 import { useFormContext } from "react-hook-form";
 import { errorValue } from "../../config/formValues";
 
@@ -58,10 +62,15 @@ const InputContainer: FC<Props> = ({
   useLayoutEffect(() => {
     // Check for prefilled input on load periodically
     // The time when it's autofilled is not very stable, so check few times
-    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 0);
-    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 150);
-    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 450);
-    setTimeout(checkAutofilled.bind(this, inputRef, setIsAutofilled), 600);
+    const registerAutofill = () => {
+      registerAutofilledInput(inputRef);
+      checkAutofilled(inputRef, setIsAutofilled);
+    };
+
+    setTimeout(registerAutofill, 0);
+    setTimeout(registerAutofill, 150);
+    setTimeout(registerAutofill, 450);
+    setTimeout(registerAutofill, 600);
   }, []);
 
   return (
