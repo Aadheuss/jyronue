@@ -43,7 +43,8 @@ const LoginPage = () => {
         navigate("/");
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
+      navigate("/error");
     }
   };
 
