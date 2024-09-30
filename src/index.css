@@ -76,7 +76,7 @@ input:hover {
 
 button {
   background-color: var(--main-accent-color);
-  border-radius: 8px;
+  border-radius: 16px;
   border: 1px solid transparent;
   padding: 0.25em 1em;
   font-weight: 500;
