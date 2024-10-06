@@ -15,6 +15,7 @@ interface Props {
     focus: boolean;
     setFocus: React.Dispatch<React.SetStateAction<boolean>>;
     setError?: React.Dispatch<React.SetStateAction<errorValue | null>>;
+    setErrorList?: React.Dispatch<React.SetStateAction<errorValue[] | null>>;
   };
   id: string;
   type?: InputTypes;
@@ -94,6 +95,10 @@ const InputContainer: FC<Props> = ({
           setInput(isInputEmpty(e));
           if (form.setError) {
             form.setError(null);
+          }
+
+          if (form.setErrorList) {
+            form.setErrorList(null);
           }
         }}
         {...rest}

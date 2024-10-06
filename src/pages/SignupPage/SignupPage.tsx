@@ -5,6 +5,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { formValues } from "../../config/formValues";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { errorValue } from "../../config/formValues";
 
 const SignupPage = () => {
   const methods = useForm<formValues>();
@@ -14,6 +15,7 @@ const SignupPage = () => {
   } = methods;
   const navigate = useNavigate();
   const [focus, setFocus] = useState(false);
+  const [errorList, setErrorList] = useState<errorValue[] | null>(null);
 
   const onSubmit: SubmitHandler<formValues> = async (data) => {
     const formData = new URLSearchParams();
@@ -34,6 +36,7 @@ const SignupPage = () => {
 
       if (resData.errors) {
         console.log(resData.errors);
+        setErrorList(resData.errors);
       } else {
         console.log(resData);
         navigate("/login");
@@ -66,10 +69,20 @@ const SignupPage = () => {
                     {errors.username.message}
                   </span>
                 )}
+                {errorList &&
+                  errorList.map(
+                    (error: errorValue, index) =>
+                      error.field === "username" && (
+                        <span key={index} className={styles.errorTxt}>
+                          {error.msg}
+                        </span>
+                      )
+                  )}
                 <InputContainer
                   form={{
                     focus,
                     setFocus,
+                    setErrorList,
                   }}
                   id="username"
                   autoComplete="username"
@@ -88,16 +101,27 @@ const SignupPage = () => {
                   }}
                 />
               </div>
+
               <div className={styles.itemContainer}>
                 {errors.password && (
                   <span className={styles.errorTxt}>
                     {errors.password.message}
                   </span>
                 )}
+                {errorList &&
+                  errorList.map(
+                    (error: errorValue, index) =>
+                      error.field === "password" && (
+                        <span key={index} className={styles.errorTxt}>
+                          {error.msg}
+                        </span>
+                      )
+                  )}
                 <InputContainer
                   form={{
                     focus,
                     setFocus,
+                    setErrorList,
                   }}
                   id="password"
                   type="password"
