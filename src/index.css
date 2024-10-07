@@ -42,6 +42,7 @@
   --accent-color-1: #3bc1e7;
   --invalid-color: #ff1717;
   --warning-color: #e8903c;
+  --logo: clamp(25px, calc(1.5rem + calc(0.5vh + 0.5vw)), 5rem);
   --small-font: clamp(0.9rem, calc(0.8rem + 0.15vw), 2.5rem);
   --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
   --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
