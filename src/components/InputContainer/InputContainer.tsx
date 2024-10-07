@@ -65,6 +65,7 @@ const InputContainer: FC<Props> = ({
     // The time when it's autofilled is not very stable, so check few times
     const registerAutofill = () => {
       registerAutofilledInput(inputRef);
+      setInput(isInputEmpty({ inputRef }));
       checkAutofilled(inputRef, setIsAutofilled);
     };
 
@@ -92,7 +93,7 @@ const InputContainer: FC<Props> = ({
         type={type !== "password" ? type : visibility ? "text" : type}
         autoComplete={autoComplete}
         onInput={(e) => {
-          setInput(isInputEmpty(e));
+          setInput(isInputEmpty({ e }));
           if (form.setError) {
             form.setError(null);
           }
