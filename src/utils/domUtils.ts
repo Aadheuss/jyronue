@@ -1,5 +1,22 @@
-const isInputEmpty = (e: React.FormEvent<HTMLInputElement>): boolean => {
-  const element = e.target as HTMLInputElement;
+type isInputEmptyArgs = {
+  e?: React.FormEvent<HTMLInputElement>;
+  inputRef?: React.MutableRefObject<null | HTMLInputElement>;
+};
+
+const isInputEmpty = ({ e, inputRef }: isInputEmptyArgs): boolean => {
+  let element;
+
+  if (e) {
+    element = e.target as HTMLInputElement;
+  }
+
+  if (inputRef) {
+    element = inputRef.current;
+  }
+
+  if (!element) {
+    return false;
+  }
 
   return element.value.length > 0;
 };
