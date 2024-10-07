@@ -44,7 +44,7 @@
   --warning-color: #e8903c;
   --logo: clamp(25px, calc(1.5rem + calc(0.5vh + 0.5vw)), 5rem);
   --small-font: clamp(0.9rem, calc(0.8rem + 0.15vw), 2.5rem);
-  --medium-font: clamp(1rem, calc(1rem + 0.25vw), 3rem);
+  --medium-font: clamp(1rem, calc(0.925rem + 0.25vw), 3rem);
   --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
   --big-small-font: clamp(1.5rem, calc(1.5rem + 0.25vw), 3.75rem);
   --big-large-font: clamp(4.5rem, calc(6rem + calc(0.25vw + 0.25vw)), 12rem);
