@@ -3,6 +3,7 @@ import SignupPage from "../pages/SignupPage/SignupPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
+import PostDetailsPage from "../pages/PostDetailsPage/PostDetailsPage";
 
 const routes = [
   {
@@ -19,6 +20,10 @@ const routes = [
         element: <LoginPage />,
       },
       { path: "/error", element: <ErrorPage /> },
+      {
+        path: "/post/:postid",
+        element: <PostDetailsPage />,
+      },
     ],
   },
 ];
