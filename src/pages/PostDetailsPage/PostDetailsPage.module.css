@@ -1,0 +1,152 @@
+.mainWrapper {
+  font-family: "inter", system-ui, sans-serif;
+  display: flex;
+  flex: auto;
+}
+
+.postImages {
+  background-color: #141414;
+  flex: auto;
+}
+
+.postData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #000000;
+  padding: 1.5rem 2rem;
+  width: 25vw;
+}
+
+.postUserProfile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.postProfile {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.postProfileItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text {
+  margin: 0;
+}
+
+.displayName {
+  composes: text;
+  font-weight: 500;
+}
+
+.username {
+  composes: text;
+  font-family: "ibm-plex-sans", system-ui, sans-serif;
+  font-size: var(--small-font);
+  font-weight: 300;
+}
+
+.interactionInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.interactionButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 0;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: #000000;
+}
+
+.button:hover {
+  background-color: #000000;
+  transition: background-image 500ms ease-out;
+}
+
+.like {
+  composes: button;
+  background-image: url("../../assets//images/like_icon.svg");
+}
+
+.like:hover {
+  background-image: url("../../assets//images/like_icon_hover.svg");
+}
+
+.reply {
+  composes: button;
+  background-image: url("../../assets//images/comment_icon.svg");
+}
+
+.reply:hover {
+  background-image: url("../../assets//images/comment_icon_hover.svg");
+}
+
+.likeInfo {
+  composes: text;
+  font-size: var(--small-font);
+}
+
+.likeNumber {
+  font-weight: 500;
+  color: var(--main-accent-color);
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.commentProfile {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.commentProfileInfo {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.commentUserProfile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.commentDisplayName {
+  composes: text;
+  font-weight: 500;
+  font-size: var(--small-font);
+}
+
+.commentUsername {
+  composes: username;
+  font-size: var(--small-little-font);
+}
+
+.commentText {
+  font-size: var(--small-font);
+}
