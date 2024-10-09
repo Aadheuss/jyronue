@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import logo from "../../assets/images/jyronue-logo.svg";
 import { useEffect, useState } from "react";
+import CommentList from "../../components/CommentList/CommentList";
 
 type content = {
   id: string;
@@ -103,19 +103,7 @@ const PostDetailsPage = () => {
               likes
             </p>
           </div>
-          <div className={styles.comments}>
-            <p>Comments</p>
-            <div className={styles.comment}>
-              <div className={styles.commentProfile}>
-                <img className={styles.commentUserProfile} src={logo}></img>
-                <div className={styles.commentProfileInfo}>
-                  <p className={styles.commentDisplayName}>Display name</p>
-                  <p className={styles.commentUsername}>@Username</p>
-                </div>
-              </div>
-              <p className={styles.commentText}>This is the comment Content</p>
-            </div>
-          </div>
+          <CommentList />
         </div>
       </main>
     </>
