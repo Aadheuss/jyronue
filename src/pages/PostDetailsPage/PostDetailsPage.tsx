@@ -90,7 +90,10 @@ const PostDetailsPage = () => {
           <p>{post && post.caption}</p>
           <div className={styles.interactionInfo}>
             <div className={styles.interactionButtons}>
-              <button className={styles.like}></button>
+              <button
+                data-like={post?.likesBox.id}
+                className={styles.like}
+              ></button>
               <button className={styles.reply}></button>
             </div>
             <p className={styles.likeInfo}>
