@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
@@ -99,17 +99,26 @@ const PostDetailsPage = () => {
         <div className={styles.postData} style={{ maxHeight: height }}>
           <div className={styles.postDataItem}>
             <div className={styles.postProfile}>
-              <img
-                className={styles.postUserProfile}
-                src={post?.author.profileImage.pictureUrl}
-              ></img>
+              <Link to={post ? `/profile/${post.author.username}` : ""}>
+                {" "}
+                <img
+                  className={styles.postUserProfile}
+                  src={post?.author.profileImage.pictureUrl}
+                ></img>
+              </Link>
               <div className={styles.postProfileItem}>
-                <p className={styles.displayName}>
+                <Link
+                  to={post ? `/profile/${post.author.username}` : ""}
+                  className={styles.displayName}
+                >
                   {post && post.author.displayName}
-                </p>
-                <p className={styles.username}>
+                </Link>
+                <Link
+                  to={post ? `/profile/${post.author.username}` : ""}
+                  className={styles.username}
+                >
                   {post && `@${post.author.username}`}
-                </p>
+                </Link>
               </div>
             </div>
             <p className={styles.text}>{post && unescapeInput(post.caption)}</p>

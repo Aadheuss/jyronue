@@ -43,6 +43,12 @@
   border-radius: 50%;
 }
 
+.postUserProfile:hover {
+  box-shadow: -1px 1px 1px 1px var(--accent-color-1),
+    0 0 10px var(--main-accent-color);
+  transition: box-shadow 500ms ease-out;
+}
+
 .postProfile {
   display: flex;
   gap: 0.5rem;
@@ -73,12 +79,21 @@
   composes: text;
   font-weight: 500;
 }
+.displayName:hover {
+  border-bottom: 1px solid var(--main-color-2);
+  transition: border 500ms ease-in-out;
+}
 
 .username {
   composes: text;
   font-family: "ibm-plex-sans", system-ui, sans-serif;
   font-size: var(--small-font);
   font-weight: 300;
+}
+
+.username:hover {
+  color: var(--accent-color-1);
+  transition: color 500ms ease-out;
 }
 
 .interactionInfo {
