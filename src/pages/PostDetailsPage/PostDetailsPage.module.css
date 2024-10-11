@@ -18,6 +18,23 @@
   padding: 1.5rem 2rem;
   width: 25vw;
   gap: 1rem;
+  overflow-y: auto;
+}
+
+.postData::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.postData::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.postData::-webkit-scrollbar-thumb {
+  background: var(--main-color-3);
+}
+
+.postData::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
 }
 
 .postUserProfile {

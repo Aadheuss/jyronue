@@ -43,6 +43,9 @@ const PostDetailsPage = () => {
   const [post, setPost] = useState<null | PostValue>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState<number | null>(null);
+  const height = headerRef
+    ? `calc(100dvh - calc(${headerHeight}px + 3rem))`
+    : "100%";
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -72,12 +75,11 @@ const PostDetailsPage = () => {
       const current = headerRef ? headerRef.current : headerRef;
       const size = current ? current.clientHeight : null;
       setHeaderHeight(size);
-      console.log(size);
     }
 
     window.addEventListener("resize", updateHeaderHeight);
 
-    updateHeaderHeight();
+    setTimeout(updateHeaderHeight, 0);
 
     return () => window.removeEventListener("resize", updateHeaderHeight);
   }, [headerRef]);
@@ -94,7 +96,7 @@ const PostDetailsPage = () => {
             images={post ? post.content : null}
           />
         </div>
-        <div className={styles.postData}>
+        <div className={styles.postData} style={{ maxHeight: height }}>
           <div className={styles.postDataItem}>
             <div className={styles.postProfile}>
               <img
