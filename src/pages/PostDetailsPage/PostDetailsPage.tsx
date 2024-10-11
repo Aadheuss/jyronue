@@ -4,6 +4,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
 import PostImages from "../../components/PostImages/PostImages";
+import { unescapeInput } from "../../utils/htmlDecoder";
 
 type content = {
   id: string;
@@ -94,7 +95,7 @@ const PostDetailsPage = () => {
           />
         </div>
         <div className={styles.postData}>
-          <div>
+          <div className={styles.postDataItem}>
             <div className={styles.postProfile}>
               <img
                 className={styles.postUserProfile}
@@ -109,7 +110,7 @@ const PostDetailsPage = () => {
                 </p>
               </div>
             </div>
-            <p>{post && post.caption}</p>
+            <p className={styles.text}>{post && unescapeInput(post.caption)}</p>
             <div className={styles.interactionInfo}>
               <div className={styles.interactionButtons}>
                 <button

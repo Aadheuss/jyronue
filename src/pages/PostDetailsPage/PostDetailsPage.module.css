@@ -37,8 +37,16 @@
   align-items: flex-start;
 }
 
+.postDataItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
 .text {
   margin: 0;
+  text-align: start;
+  font-size: var(--medium-small-font);
 }
 
 .displayName {
