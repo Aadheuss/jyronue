@@ -1,0 +1,37 @@
+.postImages {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 2rem 0;
+  gap: 2rem;
+  overflow-y: scroll;
+}
+
+.postImages::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.postImages::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.postImages::-webkit-scrollbar-thumb {
+  background: var(--main-color-3);
+}
+
+.postImages::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
+}
+
+.imageItem {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  max-height: 100%;
+}
+
+.image {
+  max-height: 100%;
+}

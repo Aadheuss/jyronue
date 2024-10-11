@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
+import PostImages from "../../components/PostImages/PostImages";
 
 type content = {
   id: string;
@@ -39,6 +40,8 @@ type PostValue = {
 const PostDetailsPage = () => {
   const { postid } = useParams();
   const [post, setPost] = useState<null | PostValue>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -49,12 +52,10 @@ const PostDetailsPage = () => {
         });
 
         const resData = await res.json();
-        console.log(resData);
 
         if (resData.error) {
           console.log(resData.error);
         } else {
-          console.log(resData);
           setPost(resData.post);
         }
       } catch (err) {
@@ -65,13 +66,33 @@ const PostDetailsPage = () => {
     fetchPost();
   }, [postid]);
 
+  useLayoutEffect(() => {
+    function updateHeaderHeight() {
+      const current = headerRef ? headerRef.current : headerRef;
+      const size = current ? current.clientHeight : null;
+      setHeaderHeight(size);
+      console.log(size);
+    }
+
+    window.addEventListener("resize", updateHeaderHeight);
+
+    updateHeaderHeight();
+
+    return () => window.removeEventListener("resize", updateHeaderHeight);
+  }, [headerRef]);
+
   return (
     <>
-      <header>
+      <header ref={headerRef}>
         <NavBar />
       </header>
       <main className={styles.mainWrapper}>
-        <div className={styles.postImages}></div>
+        <div className={styles.postImages}>
+          <PostImages
+            headerHeight={headerHeight}
+            images={post ? post.content : null}
+          />
+        </div>
         <div className={styles.postData}>
           <div className={styles.postProfile}>
             <img

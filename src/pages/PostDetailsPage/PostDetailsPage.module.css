@@ -5,6 +5,7 @@
 }
 
 .postImages {
+  display: flex;
   background-color: #141414;
   flex: auto;
 }
