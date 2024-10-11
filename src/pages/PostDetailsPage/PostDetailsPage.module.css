@@ -40,13 +40,16 @@
 .postDataItem {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--medium-font);
+  width: 100%;
+  border-bottom: 1px solid var(--main-accent-color);
+  padding-bottom: 0.75rem;
 }
 
 .text {
   margin: 0;
   text-align: start;
-  font-size: var(--medium-small-font);
+  font-size: var(--medium-little-font);
 }
 
 .displayName {
