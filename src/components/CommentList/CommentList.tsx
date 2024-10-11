@@ -43,7 +43,6 @@ const CommentList = () => {
         );
 
         const resData = await res.json();
-        console.log(resData);
 
         if (resData.error) {
           console.log(resData.error);
@@ -58,8 +57,6 @@ const CommentList = () => {
 
     fetchComments();
   }, [postid]);
-
-  console.log(comments);
 
   return (
     <ul className={styles.comments}>
