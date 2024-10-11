@@ -63,6 +63,7 @@
   --logo: clamp(25px, calc(1.5rem + calc(0.5vh + 0.5vw)), 5rem);
   --small-little-font: clamp(0.75rem, calc(0.75rem + 0.1vw), 2.15rem);
   --small-font: clamp(0.9rem, calc(0.8rem + 0.15vw), 2.5rem);
+  --medium-little-font: clamp(0.9rem, calc(0.85rem + 0.15vw), 2.75rem);
   --medium-font: clamp(1rem, calc(0.925rem + 0.25vw), 3rem);
   --medium-large-font: clamp(1.25rem, calc(1.25rem + 0.25vw), 3.25rem);
   --big-small-font: clamp(1.5rem, calc(1.5rem + 0.25vw), 3.75rem);
