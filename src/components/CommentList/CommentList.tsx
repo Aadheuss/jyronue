@@ -61,7 +61,7 @@ const CommentList = () => {
 
   return (
     <ul className={styles.comments}>
-      <p className={styles.text}>Comments</p>
+      <p className={styles.commentHeading}>Comments</p>
       <div className={styles.commentList}>
         {comments && comments.length > 0 ? (
           comments.map((comment) => {

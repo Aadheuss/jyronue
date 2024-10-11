@@ -8,6 +8,15 @@
   gap: 0.75rem;
 }
 
+.text {
+  margin: 0;
+}
+
+.commentHeading {
+  composes: text;
+  font-size: var(--medium-little-font);
+}
+
 .commentList {
   display: flex;
   flex-direction: column;
@@ -18,10 +27,6 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-}
-
-.text {
-  margin: 0;
 }
 
 .username {
