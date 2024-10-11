@@ -80,3 +80,49 @@
   composes: text;
   font-size: var(--small-little-font);
 }
+
+.interactionInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.interactionButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  border-radius: 0;
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: #000000;
+}
+
+.button:hover {
+  background-color: #000000;
+  transition: background-image 500ms ease-out;
+}
+
+.like {
+  composes: button;
+  background-image: url("../../assets//images/like_icon.svg");
+}
+
+.like:hover {
+  background-image: url("../../assets//images/like_icon_hover.svg");
+}
+
+.reply {
+  composes: button;
+  background-image: url("../../assets//images/comment_icon.svg");
+}
+
+.reply:hover {
+  background-image: url("../../assets//images/comment_icon_hover.svg");
+}

@@ -93,6 +93,15 @@ const CommentList = () => {
                   <p className={styles.commentText}>
                     {unescapeInput(comment.content)}
                   </p>
+                  <div className={styles.interactionInfo}>
+                    <div className={styles.interactionButtons}>
+                      <button
+                        data-like={comment.likesBox.id}
+                        className={styles.like}
+                      ></button>
+                      <button className={styles.reply}></button>
+                    </div>
+                  </div>
                 </div>
               </li>
             );
