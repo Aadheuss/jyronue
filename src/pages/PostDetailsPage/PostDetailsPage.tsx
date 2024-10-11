@@ -94,36 +94,39 @@ const PostDetailsPage = () => {
           />
         </div>
         <div className={styles.postData}>
-          <div className={styles.postProfile}>
-            <img
-              className={styles.postUserProfile}
-              src={post?.author.profileImage.pictureUrl}
-            ></img>
-            <div className={styles.postProfileItem}>
-              <p className={styles.displayName}>
-                {post && post.author.displayName}
-              </p>
-              <p className={styles.username}>
-                {post && `@${post.author.username}`}
+          <div>
+            <div className={styles.postProfile}>
+              <img
+                className={styles.postUserProfile}
+                src={post?.author.profileImage.pictureUrl}
+              ></img>
+              <div className={styles.postProfileItem}>
+                <p className={styles.displayName}>
+                  {post && post.author.displayName}
+                </p>
+                <p className={styles.username}>
+                  {post && `@${post.author.username}`}
+                </p>
+              </div>
+            </div>
+            <p>{post && post.caption}</p>
+            <div className={styles.interactionInfo}>
+              <div className={styles.interactionButtons}>
+                <button
+                  data-like={post?.likesBox.id}
+                  className={styles.like}
+                ></button>
+                <button className={styles.reply}></button>
+              </div>
+              <p className={styles.likeInfo}>
+                <span className={styles.likeNumber}>
+                  {post && post.likesBox._count.likes}
+                </span>{" "}
+                likes
               </p>
             </div>
           </div>
-          <p>{post && post.caption}</p>
-          <div className={styles.interactionInfo}>
-            <div className={styles.interactionButtons}>
-              <button
-                data-like={post?.likesBox.id}
-                className={styles.like}
-              ></button>
-              <button className={styles.reply}></button>
-            </div>
-            <p className={styles.likeInfo}>
-              <span className={styles.likeNumber}>
-                {post && post.likesBox._count.likes}
-              </span>{" "}
-              likes
-            </p>
-          </div>
+
           <CommentList />
         </div>
       </main>

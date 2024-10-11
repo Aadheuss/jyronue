@@ -17,6 +17,7 @@
   background-color: #000000;
   padding: 1.5rem 2rem;
   width: 25vw;
+  gap: 1rem;
 }
 
 .postUserProfile {
