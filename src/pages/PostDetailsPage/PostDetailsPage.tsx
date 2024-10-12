@@ -80,6 +80,7 @@ const PostDetailsPage = () => {
     window.addEventListener("resize", updateHeaderHeight);
 
     setTimeout(updateHeaderHeight, 0);
+    setTimeout(updateHeaderHeight, 100);
 
     return () => window.removeEventListener("resize", updateHeaderHeight);
   }, [headerRef]);
