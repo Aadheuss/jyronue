@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./CommentList.module.css";
 import { Link, useParams } from "react-router-dom";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import ReplyList from "../ReplyList/ReplyList";
 
 type CommentValue = {
   id: string;
@@ -102,6 +103,12 @@ const CommentList = () => {
                       <button className={styles.reply}></button>
                     </div>
                   </div>
+                  {comment._count.replies > 0 && (
+                    <ReplyList
+                      commentId={comment.id}
+                      replyCount={comment._count.replies}
+                    />
+                  )}
                 </div>
               </li>
             );
