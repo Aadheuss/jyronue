@@ -8,6 +8,7 @@
   display: flex;
   background-color: #141414;
   flex: auto;
+  min-width: 0;
 }
 
 .postData {
@@ -16,7 +17,7 @@
   align-items: flex-start;
   background-color: #000000;
   padding: 1.5rem 2rem;
-  width: 25vw;
+  width: max(25vw, 350px);
   gap: 1rem;
   overflow-y: auto;
 }
