@@ -4,8 +4,9 @@ import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { formValues } from "../../config/formValues";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { errorValue } from "../../config/formValues";
+import { UserContext } from "../../context/context";
 
 const LoginPage = () => {
   const methods = useForm<formValues>();
@@ -16,6 +17,17 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState<null | errorValue>(null);
+  const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    const isLoggedIn = () => {
+      if (user) {
+        navigate("/");
+      }
+    };
+
+    isLoggedIn();
+  }, [user]);
 
   const onSubmit: SubmitHandler<formValues> = async (data) => {
     const formData = new URLSearchParams();
@@ -40,6 +52,7 @@ const LoginPage = () => {
         setError(resData.error);
       } else {
         console.log(resData);
+        setUser(resData.user);
         navigate("/");
       }
     } catch (err) {
