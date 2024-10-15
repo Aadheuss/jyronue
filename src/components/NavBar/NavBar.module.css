@@ -40,3 +40,12 @@
   width: var(--logo);
   height: auto;
 }
+
+.logoutButton {
+  composes: link;
+  background-color: inherit;
+}
+
+.logoutButton:hover {
+  background-color: inherit;
+}
