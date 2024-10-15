@@ -34,15 +34,20 @@ const NavBar = () => {
       </Link>
       <ul className={styles.navList}>
         {user ? (
-          <li className={styles.navItem}>
-            <button
-              className={styles.logoutButton}
-              type="button"
-              onClick={logout}
-            >
-              Log out
-            </button>
-          </li>
+          <>
+            <li className={styles.navItemCreate}>
+              <button className={styles.createPostButton}>Create</button>
+            </li>
+            <li className={styles.navItem}>
+              <button
+                className={styles.logoutButton}
+                type="button"
+                onClick={logout}
+              >
+                Log out
+              </button>
+            </li>
+          </>
         ) : (
           <>
             <li className={styles.navItem}>
