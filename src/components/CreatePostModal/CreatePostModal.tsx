@@ -118,7 +118,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
   };
 
   const unselectImage = (index: number) => {
-    const newFiles = files.filter((file, i) => {
+    const newFiles = files.filter((_file, i) => {
       return i !== index;
     });
 
