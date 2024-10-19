@@ -1,0 +1,212 @@
+.modalHidden {
+  max-height: calc(100dvh - 4rem - 4rem);
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  padding: 2rem;
+  color: var(--main-color-2);
+  width: 500px;
+  border: none;
+  border-radius: 4px;
+  background-color: #000000;
+  border: 1px groove #151515;
+  animation: hide 500ms;
+}
+
+.modal::backdrop {
+  background-color: #151515ef;
+}
+
+.modal::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: #757575;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
+}
+
+.modal {
+  composes: modalHidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: show 500ms;
+}
+
+@keyframes show {
+  from {
+    transform: translateY(-200%) scale(0.5);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hide {
+  from {
+    display: flex;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    display: none;
+    transform: translateY(-200%) scale(0.5);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  padding: 0;
+  background-color: transparent;
+  width: 1em;
+  height: 1em;
+  background-image: url("../../assets/images/close-icon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+  align-self: flex-end;
+  transition: all 250ms ease-in;
+}
+
+.closeButton:hover {
+  background-color: transparent;
+  transform: scale(1.25);
+  transition: all 250ms ease-in;
+}
+
+.postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.captionLabel {
+  position: absolute;
+  opacity: 0;
+}
+
+.caption {
+  font-family: "inter", system-ui, sans-serif;
+  font-size: var(--medium-little-font);
+  width: 100%;
+  background-color: inherit;
+  padding: 0;
+  color: var(--main-color-3);
+  caret-color: var(--main-color-3);
+  resize: none;
+  border: none;
+  border-radius: 4px;
+}
+
+.caption::-webkit-scrollbar {
+  width: 9px;
+}
+
+.caption::-webkit-scrollbar-track {
+  background-color: inherit;
+}
+
+.caption::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: var(--main-color-3);
+  border-radius: 4px;
+}
+
+.caption:hover::-webkit-scrollbar-thumb {
+  background-color: var(--main-accent-color);
+}
+
+.caption:focus-visible {
+  outline: none;
+  border: none;
+  background-color: #0c0c0c;
+}
+
+.caption::-webkit-input-placeholder {
+  -webkit-text-fill-color: initial;
+}
+
+.textLimit {
+  font-family: "inter", system-ui, sans-serif;
+  font-size: var(--small-little-font);
+  color: #757575;
+  align-self: flex-start;
+}
+
+.textLimitMain {
+  color: var(--main-color-3);
+}
+
+.formItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fileButton {
+  font-size: var(--small-little-font);
+  position: relative;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background-color: transparent;
+  background-image: url("../../assets/images/image_file_icon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 2em 2em;
+  transition: all 300ms ease-out;
+}
+
+.fileButton:hover {
+  background-color: transparent;
+  background-image: url("../../assets/images/image_file_hover_icon.svg");
+  background-color: #151515;
+  box-shadow: 0 0 0 0.5em #151515;
+  transform: scale(1.1);
+  transition: all 300ms ease-in;
+}
+
+.fileButton:focus,
+.fileButton:focus-visible {
+  border: 1px solid;
+  border-radius: 4px;
+  transition: all 300ms ease-in;
+}
+
+.fileInput {
+  position: absolute;
+  left: 0;
+  font-size: var(--small-little-font);
+  width: 2em;
+  height: 2em;
+}
+
+.postButton {
+  padding: 0;
+  align-self: flex-end;
+  background-color: inherit;
+  color: var(--accent-color-1);
+}
+
+.postButton:hover {
+  background-color: inherit;
+}

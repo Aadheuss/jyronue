@@ -112,6 +112,10 @@ input:hover {
   background-color: var(--main-color-3);
 }
 
+input[type="file"] {
+  display: none;
+}
+
 button {
   background-color: var(--main-accent-color);
   border-radius: 16px;
