@@ -98,12 +98,12 @@
   align-items: flex-start;
 }
 
-.captionLabel {
+.textareaLabel {
   position: absolute;
   opacity: 0;
 }
 
-.caption {
+.textarea {
   font-family: "inter", system-ui, sans-serif;
   font-size: var(--medium-little-font);
   width: 100%;
@@ -116,35 +116,34 @@
   border-radius: 4px;
 }
 
-.caption::-webkit-scrollbar {
-  width: 9px;
+.textarea::-webkit-scrollbar {
+  width: 0.5vw;
 }
 
-.caption::-webkit-scrollbar-track {
-  background-color: inherit;
+.textarea::-webkit-scrollbar-track {
+  background-color: #141414;
 }
 
-.caption::-webkit-scrollbar-thumb {
+.textarea::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background-color: var(--main-color-3);
-  border-radius: 4px;
+  background-color: #757575;
 }
 
-.caption:hover::-webkit-scrollbar-thumb {
+.textarea:hover::-webkit-scrollbar-thumb {
   background-color: var(--main-accent-color);
 }
 
-.caption:focus-visible {
+.textarea:focus-visible {
   outline: none;
   border: none;
   background-color: #0c0c0c;
 }
 
-.caption::-webkit-input-placeholder {
+.textarea::-webkit-input-placeholder {
   -webkit-text-fill-color: initial;
 }
 
-.textLimit {
+.textareaLimit {
   font-family: "inter", system-ui, sans-serif;
   font-size: var(--small-little-font);
   color: #757575;
@@ -209,4 +208,10 @@
 
 .postButton:hover {
   background-color: inherit;
+}
+
+.error {
+  align-self: flex-start;
+  color: var(--invalid-color);
+  font-size: var(--small-little-font);
 }

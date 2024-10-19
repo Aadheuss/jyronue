@@ -1,6 +1,9 @@
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import ImagePreview from "../ImagePreview/ImagePreview";
 import styles from "./CreatePostModal.module.css";
 import React, { FC, SetStateAction, useEffect, useRef, useState } from "react";
+import { CreatePostFormValues } from "../../config/formValues";
+import TextArea from "../TextArea/TextArea";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -9,21 +12,17 @@ interface Props {
 const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
   const modalRef = useRef<null | HTMLDialogElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [input, setInput] = useState<string>("");
   const fileInputRef = useRef<null | HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const methods = useForm<CreatePostFormValues>();
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  const updateInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    e.preventDefault();
-
-    const textarea = e.target as HTMLTextAreaElement;
-
-    if (textarea) {
-      if (textarea.value.length < 2049) {
-        setInput(textarea.value);
-      }
-    }
+  const onSubmit: SubmitHandler<CreatePostFormValues> = async (data) => {
+    console.log(data);
   };
 
   const openModal = () => {
@@ -43,7 +42,6 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
       setIsOpen(false);
       setFiles([]);
       setPreviews([]);
-      setInput("");
       current.close();
     }
   };
@@ -137,71 +135,77 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
           aria-label="Close button"
           onClick={closeModal}
         ></button>
-        <form
-          className={styles.postForm}
-          method="dialog"
-          encType="multipart/form-data"
-        >
-          <div className={styles.inputContainer}>
-            <label className={styles.captionLabel} htmlFor="caption">
-              Caption
-            </label>
-            <textarea
-              className={styles.caption}
+        <FormProvider {...methods}>
+          <form
+            className={styles.postForm}
+            method="dialog"
+            encType="multipart/form-data"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {errors.content && (
+              <span className={styles.error}>{errors.content.message}</span>
+            )}
+            <TextArea
+              isOpen={isOpen}
               id="caption"
               name="content"
+              label="Caption"
               placeholder="Tell a story about your post"
-              onInput={(e) => updateInput(e)}
               rows={5}
-              value={input}
-              required
-              autoFocus
-            ></textarea>
-          </div>
-          <div className={styles.textLimit}>
-            <span>{input.length}</span> / 2048
-          </div>
-          {files.length > 0 && (
-            <ImagePreview previews={previews} unselectImage={unselectImage} />
-          )}
-          {files.length > 0 && (
-            <div className={styles.textLimit}>
-              <span className={styles.textLimitMain}>{files.length}</span> / 10
-            </div>
-          )}
+              autoFocus={true}
+              rules={{
+                required: "Caption is required",
+                maxLength: {
+                  message: "Caption cannot be more than 2048 characters",
+                  value: 2048,
+                },
+              }}
+              limited={true}
+              parentStyles={styles}
+            />
+            {files.length > 0 && (
+              <ImagePreview previews={previews} unselectImage={unselectImage} />
+            )}
+            {files.length > 0 && (
+              <div className={styles.textLimit}>
+                <span className={styles.textLimitMain}>{files.length}</span> /
+                10
+              </div>
+            )}
 
-          <div className={styles.formItem}>
-            <div className={styles.inputContainer}>
-              <button
-                className={styles.fileButton}
-                type="button"
-                aria-label="Select images"
-                onClick={() => {
-                  const current = fileInputRef.current;
+            <div className={styles.formItem}>
+              <div className={styles.inputContainer}>
+                <button
+                  className={styles.fileButton}
+                  type="button"
+                  aria-label="Select images"
+                  onClick={() => {
+                    const current = fileInputRef.current;
 
-                  if (current) {
-                    if (files.length < 10) {
-                      current.click();
+                    if (current) {
+                      if (files.length < 10) {
+                        current.click();
+                      }
                     }
-                  }
-                }}
-              ></button>
-              <input
-                className={styles.fileInput}
-                ref={fileInputRef}
-                type="file"
-                id="files"
-                name="files"
-                accept="image/png, image/jpeg"
-                multiple
-                onInput={(e) => {
-                  selectImages(e);
-                }}
-              ></input>
+                  }}
+                ></button>
+                <input
+                  className={styles.fileInput}
+                  ref={fileInputRef}
+                  type="file"
+                  id="files"
+                  name="files"
+                  accept="image/png, image/jpeg"
+                  multiple
+                  onInput={(e) => {
+                    selectImages(e);
+                  }}
+                ></input>
+              </div>
+              <button className={styles.postButton}>Share</button>
             </div>
-            <button className={styles.postButton}>Share</button>
-          </div>
-        </form>
+          </form>
+        </FormProvider>
       </dialog>
     </div>
   );

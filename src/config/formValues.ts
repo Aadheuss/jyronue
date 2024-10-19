@@ -3,9 +3,14 @@ type formValues = {
   password: string;
 };
 
+type CreatePostFormValues = {
+  content: string;
+  files: File[];
+};
+
 type errorValue = {
   field: string;
   msg: string;
 };
 
-export type { formValues, errorValue };
+export type { formValues, CreatePostFormValues, errorValue };
