@@ -14,7 +14,7 @@ interface Props {
 
 const PostImages: FC<Props> = ({ images, headerHeight }) => {
   const height = headerHeight
-    ? `calc(100dvh - calc(${headerHeight}px + 4rem))`
+    ? `calc(100dvh - calc(${headerHeight}px + calc(clamp(1em, calc(0.5rem + 2vw), 3rem) * 2)))`
     : "100%";
 
   return (
