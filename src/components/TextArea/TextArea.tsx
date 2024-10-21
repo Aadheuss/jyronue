@@ -43,6 +43,8 @@ const TextArea: FC<Props> = ({
     };
 
     resetInput();
+
+    return () => setInput("");
   }, [isOpen]);
 
   const updateInput = (e: React.FormEvent<HTMLTextAreaElement>) => {

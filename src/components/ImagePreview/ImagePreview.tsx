@@ -4,16 +4,16 @@ import { FC, useLayoutEffect, useRef, useState } from "react";
 interface Props {
   previews: string[];
   unselectImage: (index: number) => void;
+  files: File[];
 }
 
-const ImagePreview: FC<Props> = ({ previews, unselectImage }) => {
+const ImagePreview: FC<Props> = ({ previews, files, unselectImage }) => {
   const imgRef = useRef<null | HTMLImageElement>(null);
   const [imgWidth, setImgWidth] = useState<null | number>(null);
 
   function updateImgHeight() {
     const current = imgRef ? imgRef.current : imgRef;
     const size = current ? current.clientWidth : null;
-    console.log(size);
     setImgWidth(size);
   }
 
@@ -37,10 +37,15 @@ const ImagePreview: FC<Props> = ({ previews, unselectImage }) => {
             <button
               type="button"
               className={styles.removeButton}
-              aria-label="Remove image"
+              aria-label={`Remove image ${index + 1}: ${files[index]?.name}`}
               onClick={() => unselectImage(index)}
             ></button>
-            <img ref={imgRef} className={styles.image} src={preview}></img>
+            <img
+              ref={imgRef}
+              className={styles.image}
+              src={preview}
+              alt={`selected image ${index + 1}: ${files[index]?.name}`}
+            ></img>
           </li>
         );
       })}

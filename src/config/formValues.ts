@@ -4,7 +4,7 @@ type formValues = {
 };
 
 type CreatePostFormValues = {
-  content: string;
+  caption: string;
   files: File[];
 };
 

@@ -215,3 +215,13 @@
   color: var(--invalid-color);
   font-size: var(--small-little-font);
 }
+
+.filesError {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5em;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

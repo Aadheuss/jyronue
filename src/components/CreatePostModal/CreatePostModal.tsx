@@ -4,6 +4,7 @@ import styles from "./CreatePostModal.module.css";
 import React, { FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { CreatePostFormValues } from "../../config/formValues";
 import TextArea from "../TextArea/TextArea";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -19,10 +20,42 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
   const {
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = methods;
+  const [filesError, setFIlesError] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<CreatePostFormValues> = async (data) => {
-    console.log(data);
+    setFIlesError([]);
+    const formData = new FormData();
+    formData.append("caption", data.caption);
+    files.forEach((file) => {
+      console.log(file);
+      formData.append("images", file);
+    });
+
+    if (files.length < 1) {
+      setFIlesError(["Please select atleast one image"]);
+    } else {
+      try {
+        const res = await fetch("http://localhost:3000/post", {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        });
+
+        const resData = await res.json();
+        console.log(resData);
+
+        if (resData.errors) {
+          console.log(resData.errors);
+        } else {
+          navigate(`/post/${resData.post.id}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   const openModal = () => {
@@ -42,6 +75,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
       setIsOpen(false);
       setFiles([]);
       setPreviews([]);
+      clearErrors();
       current.close();
     }
   };
@@ -96,13 +130,27 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
 
     if (fileInput) {
       const fileList = fileInput.files;
+      console.log({ fileList });
 
       if (fileList) {
         const setupFiles = [...files];
+        const acceptedMimetpe = new RegExp(/^(image\/(jpeg|png))$/, "i");
+
         let i = 0;
         while (setupFiles.length < 10 && i < fileList.length) {
-          setupFiles.push(fileList[i]);
+          if (acceptedMimetpe.test(fileList[i].type)) {
+            setupFiles.push(fileList[i]);
+          }
+
           i++;
+        }
+
+        const containInvalidType = [...fileList].some(
+          (file) => !acceptedMimetpe.test(file.type)
+        );
+
+        if (containInvalidType) {
+          setFIlesError([...filesError, "Can only accept jpeg and png file"]);
         }
 
         setFiles([...setupFiles]);
@@ -110,9 +158,6 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
 
       fileInput.value = "";
     }
-
-    console.log(fileInput.files);
-    console.log(files);
   };
 
   const unselectImage = (index: number) => {
@@ -142,13 +187,13 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
             encType="multipart/form-data"
             onSubmit={handleSubmit(onSubmit)}
           >
-            {errors.content && (
-              <span className={styles.error}>{errors.content.message}</span>
+            {errors.caption && (
+              <span className={styles.error}>{errors.caption.message}</span>
             )}
             <TextArea
               isOpen={isOpen}
               id="caption"
-              name="content"
+              name="caption"
               label="Caption"
               placeholder="Tell a story about your post"
               rows={5}
@@ -164,7 +209,11 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
               parentStyles={styles}
             />
             {files.length > 0 && (
-              <ImagePreview previews={previews} unselectImage={unselectImage} />
+              <ImagePreview
+                files={files}
+                previews={previews}
+                unselectImage={unselectImage}
+              />
             )}
             {files.length > 0 && (
               <div className={styles.textLimit}>
@@ -173,6 +222,15 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
               </div>
             )}
 
+            {filesError && (
+              <ul className={styles.filesError}>
+                {filesError.map((error, index) => (
+                  <span className={styles.error} key={index}>
+                    {error}
+                  </span>
+                ))}
+              </ul>
+            )}
             <div className={styles.formItem}>
               <div className={styles.inputContainer}>
                 <button
@@ -180,6 +238,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
                   type="button"
                   aria-label="Select images"
                   onClick={() => {
+                    setFIlesError([]);
                     const current = fileInputRef.current;
 
                     if (current) {
