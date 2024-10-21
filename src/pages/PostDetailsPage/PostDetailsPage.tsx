@@ -91,12 +91,10 @@ const PostDetailsPage = () => {
         <NavBar />
       </header>
       <main className={styles.mainWrapper}>
-        <div className={styles.postImages}>
-          <PostImages
-            headerHeight={headerHeight}
-            images={post ? post.content : null}
-          />
-        </div>
+        <PostImages
+          headerHeight={headerHeight}
+          images={post ? post.content : null}
+        />
         <div className={styles.postData} style={{ maxHeight: height }}>
           <div className={styles.postDataItem}>
             <div className={styles.postProfile}>
