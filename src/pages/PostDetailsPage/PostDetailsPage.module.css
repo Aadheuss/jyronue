@@ -128,6 +128,15 @@
   background-image: url("../../assets//images/like_icon_hover.svg");
 }
 
+.liked {
+  composes: like;
+  background-image: url("../../assets/images/like_icon_liked.svg");
+}
+
+.liked:hover {
+  background-image: url("../../assets/images/like_icon.svg");
+}
+
 .reply {
   composes: button;
   background-image: url("../../assets//images/comment_icon.svg");
