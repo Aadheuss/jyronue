@@ -44,6 +44,7 @@ const fetchToggleLike = async ({
     });
 
     const resData = await res.json();
+
     return resData;
   } catch (err) {
     console.error(err);

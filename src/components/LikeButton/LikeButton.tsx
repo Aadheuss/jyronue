@@ -85,6 +85,7 @@ const LikeButton: FC<Props> = ({
     formData.append("likesboxid", likesBoxId);
 
     const toggle = likeStatus ? "unlike" : "like";
+
     const toggleLikeData = await fetchToggleLike({
       id,
       type,
@@ -118,11 +119,11 @@ const LikeButton: FC<Props> = ({
           : styles.like
       }
       onClick={() => {
-        if (likesBox && id && likesBox.id) {
+        if (id && likesBoxId) {
           toggleLike({
             id,
             type,
-            likesBoxId: likesBox.id,
+            likesBoxId,
           });
         }
       }}

@@ -114,15 +114,6 @@
   transition: background-image 500ms ease-out;
 }
 
-.like {
-  composes: button;
-  background-image: url("../../assets//images/like_icon.svg");
-}
-
-.like:hover {
-  background-image: url("../../assets//images/like_icon_hover.svg");
-}
-
 .reply {
   composes: button;
   background-image: url("../../assets//images/comment_icon.svg");

@@ -3,6 +3,7 @@ import styles from "./CommentList.module.css";
 import { Link, useParams } from "react-router-dom";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyList from "../ReplyList/ReplyList";
+import LikeButton from "../LikeButton/LikeButton";
 
 type CommentValue = {
   id: string;
@@ -60,6 +61,29 @@ const CommentList = () => {
     fetchComments();
   }, [postid]);
 
+  const updateLikesBox = ({
+    likesBox,
+  }: {
+    likesBox: {
+      id: string;
+      _count: {
+        likes: number;
+      };
+    };
+  }) => {
+    if (comments) {
+      const selectedComment = comments.find(
+        (comment) => comment.likesBox.id === likesBox.id
+      );
+      const changedComment = { ...selectedComment, likesBox };
+      const updatedComment = comments.map((comment) => {
+        return comment.id === changedComment.id ? changedComment : comment;
+      }) as CommentValue[];
+
+      setComments([...updatedComment]);
+    }
+  };
+
   return (
     <ul className={styles.comments}>
       <p className={styles.commentHeading}>Comments</p>
@@ -96,10 +120,14 @@ const CommentList = () => {
                   </p>
                   <div className={styles.interactionInfo}>
                     <div className={styles.interactionButtons}>
-                      <button
-                        data-like={comment.likesBox.id}
-                        className={styles.like}
-                      ></button>
+                      <LikeButton
+                        id={comment.id}
+                        type="comment"
+                        likesBox={comment.likesBox}
+                        likesBoxId={comment.likesBox.id}
+                        updateLikesBox={updateLikesBox}
+                        size="SMALL"
+                      />
                       <button className={styles.reply}></button>
                     </div>
                   </div>

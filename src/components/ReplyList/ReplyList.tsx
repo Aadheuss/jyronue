@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import styles from "./ReplyList.module.css";
 import { Link } from "react-router-dom";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import LikeButton from "../LikeButton/LikeButton";
 
 type ReplyValue = {
   id: string;
@@ -69,6 +70,30 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
     }
   };
 
+  const updateLikesBox = ({
+    likesBox,
+  }: {
+    likesBox: {
+      id: string;
+      _count: {
+        likes: number;
+      };
+    };
+  }) => {
+    if (replies) {
+      const selectedReply = replies.find(
+        (reply) => reply.likesBox.id === likesBox.id
+      );
+      const changedReply = { ...selectedReply, likesBox };
+      const updatedreplies = replies.map((reply) => {
+        return reply.id === changedReply.id ? changedReply : reply;
+      }) as ReplyValue[];
+
+      console.log(updatedreplies);
+      setReplies([...updatedreplies]);
+    }
+  };
+
   return (
     <>
       {view ? (
@@ -114,10 +139,14 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
                         </Link>
                         <div className={styles.interactionInfo}>
                           <div className={styles.interactionButtons}>
-                            <button
-                              data-like={reply.likesBox.id}
-                              className={styles.likeButton}
-                            ></button>
+                            <LikeButton
+                              id={reply.id}
+                              type="reply"
+                              likesBox={reply.likesBox}
+                              likesBoxId={reply.likesBox.id}
+                              updateLikesBox={updateLikesBox}
+                              size="SMALL"
+                            />
                             <button className={styles.replyButton}></button>
                           </div>
                         </div>

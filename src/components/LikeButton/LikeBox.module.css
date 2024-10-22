@@ -11,7 +11,7 @@
 
 .button:hover {
   background-color: #000000;
-  transition: background-image 500ms ease-out;
+  transition: all 500ms ease-out;
 }
 
 .like {
@@ -25,10 +25,12 @@
 
 .liked {
   composes: like;
+
   background-image: url("../../assets/images/like_icon_liked.svg");
 }
 
 .liked:hover {
+  transform: scale(1.15);
   background-image: url("../../assets/images/like_icon_liked_hover.svg");
 }
 
@@ -50,5 +52,6 @@
 }
 
 .likedSmall:hover {
+  transform: scale(1.15);
   background-image: url("../../assets/images/like_icon_liked_hover.svg");
 }
