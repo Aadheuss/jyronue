@@ -42,7 +42,7 @@ const LikeButton: FC<Props> = ({
       if (user && likesBoxId) {
         try {
           const res = await fetch(
-            `http://localhost:3000/${type}/${id}/likesbox/${likesBoxId}/status`,
+            `http://localhost:3000/${type}/${id}/likesbox/${likesBoxId}/status?type=${type}`,
             {
               method: "GET",
               credentials: "include",
