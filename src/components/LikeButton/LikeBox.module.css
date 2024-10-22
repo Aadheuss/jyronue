@@ -29,5 +29,26 @@
 }
 
 .liked:hover {
+  background-image: url("../../assets/images/like_icon_liked_hover.svg");
+}
+
+.likeSmall {
+  composes: button;
+  width: 1em;
+  height: 1em;
+  background-size: 1em 1em;
   background-image: url("../../assets/images/like_icon.svg");
+}
+
+.likeSmall:hover {
+  background-image: url("../../assets/images/like_icon_hover.svg");
+}
+
+.likedSmall {
+  composes: likeSmall;
+  background-image: url("../../assets/images/like_icon_liked.svg");
+}
+
+.likedSmall:hover {
+  background-image: url("../../assets/images/like_icon_liked_hover.svg");
 }

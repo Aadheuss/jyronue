@@ -23,6 +23,7 @@ interface Props {
       };
     };
   }) => void;
+  size?: "SMALL" | "REGULAR";
 }
 
 const LikeButton: FC<Props> = ({
@@ -31,6 +32,7 @@ const LikeButton: FC<Props> = ({
   likesBox,
   likesBoxId,
   updateLikesBox,
+  size,
 }) => {
   const { user } = useContext(UserContext);
   const [likeStatus, setLikeStatus] = useState<boolean>(false);
@@ -104,7 +106,17 @@ const LikeButton: FC<Props> = ({
   return (
     <button
       data-like={likesBox && likesBox.id}
-      className={user ? (likeStatus ? styles.liked : styles.like) : styles.like}
+      className={
+        user
+          ? likeStatus
+            ? size === "SMALL"
+              ? styles.likedSmall
+              : styles.liked
+            : size === "SMALL"
+            ? styles.likeSmall
+            : styles.like
+          : styles.like
+      }
       onClick={() => {
         if (likesBox && id && likesBox.id) {
           toggleLike({
