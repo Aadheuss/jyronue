@@ -131,6 +131,13 @@ const CommentList = () => {
                       <button className={styles.reply}></button>
                     </div>
                   </div>
+                  {comment.likesBox._count.likes > 0 && (
+                    <p className={styles.likeCountText}>
+                      <span> {comment.likesBox._count.likes}</span>{" "}
+                      {comment.likesBox._count.likes < 2 ? "like" : "likes"}
+                    </p>
+                  )}
+
                   {comment._count.replies > 0 && (
                     <ReplyList
                       commentId={comment.id}

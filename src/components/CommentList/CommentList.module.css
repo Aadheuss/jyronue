@@ -122,3 +122,8 @@
 .reply:hover {
   background-image: url("../../assets//images/comment_icon_hover.svg");
 }
+
+.likeCountText {
+  margin: 0;
+  font-size: calc(var(--small-little-font) - 0.2rem);
+}

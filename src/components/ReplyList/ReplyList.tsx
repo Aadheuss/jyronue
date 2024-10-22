@@ -150,6 +150,12 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
                             <button className={styles.replyButton}></button>
                           </div>
                         </div>
+                        {reply.likesBox._count.likes > 0 && (
+                          <p className={styles.likeCountText}>
+                            <span> {reply.likesBox._count.likes}</span>{" "}
+                            {reply.likesBox._count.likes < 2 ? "like" : "likes"}
+                          </p>
+                        )}
                       </div>
                     </li>
                   );

@@ -141,3 +141,8 @@
   color: var(--main-color-3);
   transition: color 250ms ease-out;
 }
+
+.likeCountText {
+  margin: 0;
+  font-size: calc(var(--small-little-font) - 0.2rem);
+}
