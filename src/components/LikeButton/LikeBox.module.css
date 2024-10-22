@@ -1,0 +1,33 @@
+.button {
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+  border-radius: 0;
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #000000;
+}
+
+.button:hover {
+  background-color: #000000;
+  transition: background-image 500ms ease-out;
+}
+
+.like {
+  composes: button;
+  background-image: url("../../assets/images/like_icon.svg");
+}
+
+.like:hover {
+  background-image: url("../../assets/images/like_icon_hover.svg");
+}
+
+.liked {
+  composes: like;
+  background-image: url("../../assets/images/like_icon_liked.svg");
+}
+
+.liked:hover {
+  background-image: url("../../assets/images/like_icon.svg");
+}

@@ -1,13 +1,15 @@
 const fetchLikesBox = async ({
-  postId,
+  id,
+  type,
   likesBoxId,
 }: {
-  postId: string;
+  id: string;
+  type: "post" | "comment" | "reply";
   likesBoxId: string;
 }) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/post/${postId}/likesbox/${likesBoxId}`,
+      `http://localhost:3000/${type}/${id}/likesbox/${likesBoxId}`,
       {
         method: "GET",
         credentials: "include",
@@ -24,16 +26,18 @@ const fetchLikesBox = async ({
 };
 
 const fetchToggleLike = async ({
-  postId,
+  id,
+  type,
   toggle,
   formData,
 }: {
-  postId: string;
+  id: string;
+  type: "post" | "comment" | "reply";
   toggle: "like" | "unlike";
   formData: URLSearchParams;
 }) => {
   try {
-    const res = await fetch(`http://localhost:3000/post/${postId}/${toggle}`, {
+    const res = await fetch(`http://localhost:3000/${type}/${id}/${toggle}`, {
       method: "POST",
       credentials: "include",
       body: formData,

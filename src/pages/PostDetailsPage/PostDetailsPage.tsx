@@ -1,18 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import {
-  useLayoutEffect,
-  useEffect,
-  useRef,
-  useState,
-  useContext,
-} from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
 import PostImages from "../../components/PostImages/PostImages";
 import { unescapeInput } from "../../utils/htmlDecoder";
-import { UserContext } from "../../context/context";
-import { fetchLikesBox, fetchToggleLike } from "../../utils/fetchFunctions";
+import LikeButton from "../../components/LikeButton/LikeButton";
 
 type content = {
   id: string;
@@ -47,10 +40,8 @@ type PostValue = {
 };
 
 const PostDetailsPage = () => {
-  const { user } = useContext(UserContext);
-  const { postid } = useParams();
+  const postId = useParams().postid;
   const [post, setPost] = useState<null | PostValue>(null);
-  const [likeStatus, setLikeStatus] = useState<boolean>(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState<number | null>(null);
   const height = headerRef
@@ -60,7 +51,7 @@ const PostDetailsPage = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/post/${postid}`, {
+        const res = await fetch(`http://localhost:3000/post/${postId}`, {
           method: "GET",
           credentials: "include",
         });
@@ -72,7 +63,6 @@ const PostDetailsPage = () => {
         } else {
           console.log(resData.post);
           setPost(resData.post);
-          setLikeStatus(resData.userLikeStatus);
         }
       } catch (err) {
         console.log(err);
@@ -80,41 +70,11 @@ const PostDetailsPage = () => {
     };
 
     fetchPost();
-  }, [postid]);
 
-  const toggleLike = async ({
-    postId,
-    type,
-    likesBoxId,
-    setLikeStatus,
-    likeStatus,
-  }: {
-    postId: string;
-    type: string;
-    likesBoxId: string;
-    setLikeStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    likeStatus: boolean;
-  }) => {
-    const formData = new URLSearchParams();
-    formData.append("type", type);
-    formData.append("likesboxid", likesBoxId);
-
-    const toggle = likeStatus ? "unlike" : "like";
-    const toggleLikeData = await fetchToggleLike({
-      postId,
-      toggle,
-      formData,
-    });
-
-    if (toggleLikeData && (!toggleLikeData.errors || !toggleLikeData.errors)) {
-      const likesBoxData = await fetchLikesBox({ postId, likesBoxId });
-      if (likesBoxData && (!likesBoxData.error || likesBoxData.errors)) {
-        const likesBox = likesBoxData.likesBox;
-        setPost({ ...post, likesBox } as PostValue);
-        setLikeStatus(!likeStatus);
-      }
-    }
-  };
+    return () => {
+      setPost(null);
+    };
+  }, [postId]);
 
   useLayoutEffect(() => {
     function updateHeaderHeight() {
@@ -130,6 +90,19 @@ const PostDetailsPage = () => {
 
     return () => window.removeEventListener("resize", updateHeaderHeight);
   }, [headerRef]);
+
+  const updateLikesBox = ({
+    likesBox,
+  }: {
+    likesBox: {
+      id: string;
+      _count: {
+        likes: number;
+      };
+    };
+  }) => {
+    setPost({ ...post, likesBox } as PostValue);
+  };
 
   return (
     <>
@@ -169,27 +142,13 @@ const PostDetailsPage = () => {
             <p className={styles.text}>{post && unescapeInput(post.caption)}</p>
             <div className={styles.interactionInfo}>
               <div className={styles.interactionButtons}>
-                <button
-                  data-like={post?.likesBox.id}
-                  className={
-                    user
-                      ? likeStatus
-                        ? styles.liked
-                        : styles.like
-                      : styles.like
-                  }
-                  onClick={() => {
-                    if (post && postid) {
-                      toggleLike({
-                        postId: postid,
-                        type: "POST",
-                        likesBoxId: post.likesBox.id,
-                        setLikeStatus: setLikeStatus,
-                        likeStatus,
-                      });
-                    }
-                  }}
-                ></button>
+                <LikeButton
+                  id={postId}
+                  type="post"
+                  likesBoxId={post ? post.likesBox.id : null}
+                  likesBox={post ? post.likesBox : null}
+                  updateLikesBox={updateLikesBox}
+                />
                 <button className={styles.reply}></button>
               </div>
               <p className={styles.likeInfo}>
