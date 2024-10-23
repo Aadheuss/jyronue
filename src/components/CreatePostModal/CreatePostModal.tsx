@@ -76,6 +76,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
       setFiles([]);
       setPreviews([]);
       clearErrors();
+      setFIlesError([]);
       current.close();
     }
   };
