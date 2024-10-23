@@ -95,7 +95,7 @@ const LikeButton: FC<Props> = ({
 
     if (toggleLikeData && (!toggleLikeData.errors || !toggleLikeData.errors)) {
       const likesBoxData = await fetchLikesBox({ id, type, likesBoxId });
-      if (likesBoxData && (!likesBoxData.error || likesBoxData.errors)) {
+      if (likesBoxData && (!likesBoxData.error || !likesBoxData.errors)) {
         const likesBox = likesBoxData.likesBox;
         updateLikesBox({ likesBox });
         const currentLikeStatus = !likeStatus;
