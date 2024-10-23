@@ -9,16 +9,11 @@ type imageValue = {
 
 interface Props {
   images: null | imageValue[];
-  headerHeight: null | number;
 }
 
-const PostImages: FC<Props> = ({ images, headerHeight }) => {
-  const height = headerHeight
-    ? `calc(100dvh - calc(${headerHeight}px + calc(clamp(1em, calc(0.5rem + 2vw), 3rem) * 2)))`
-    : "100%";
-
+const PostImages: FC<Props> = ({ images }) => {
   return (
-    <ul className={styles.postImages} style={{ maxHeight: height }}>
+    <ul className={styles.postImages}>
       {images &&
         images.length &&
         images.map((image) => {

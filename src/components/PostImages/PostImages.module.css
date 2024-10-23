@@ -7,6 +7,13 @@
   gap: clamp(1em, calc(0.5rem + 2vw), 3rem);
   overflow-y: auto;
   list-style: none;
+  max-height: calc(
+    100dvh - var(--nav-height) - calc(clamp(1em, calc(0.5rem + 2vw), 3rem) * 2)
+  );
+  background-image: linear-gradient(
+    var(--main-accent-color),
+    var(--main-color)
+  );
 }
 
 .postImages::-webkit-scrollbar {

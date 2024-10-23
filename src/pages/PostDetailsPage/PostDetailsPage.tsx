@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { useLayoutEffect, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
 import PostImages from "../../components/PostImages/PostImages";
 import { unescapeInput } from "../../utils/htmlDecoder";
@@ -43,10 +43,6 @@ const PostDetailsPage = () => {
   const postId = useParams().postid;
   const [post, setPost] = useState<null | PostValue>(null);
   const headerRef = useRef<HTMLElement | null>(null);
-  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
-  const height = headerRef
-    ? `calc(100dvh - calc(${headerHeight}px + 3rem))`
-    : "100%";
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -76,21 +72,6 @@ const PostDetailsPage = () => {
     };
   }, [postId]);
 
-  useLayoutEffect(() => {
-    function updateHeaderHeight() {
-      const current = headerRef ? headerRef.current : headerRef;
-      const size = current ? current.clientHeight : null;
-      setHeaderHeight(size);
-    }
-
-    window.addEventListener("resize", updateHeaderHeight);
-
-    setTimeout(updateHeaderHeight, 0);
-    setTimeout(updateHeaderHeight, 100);
-
-    return () => window.removeEventListener("resize", updateHeaderHeight);
-  }, [headerRef]);
-
   const updateLikesBox = ({
     likesBox,
   }: {
@@ -110,11 +91,8 @@ const PostDetailsPage = () => {
         <NavBar />
       </header>
       <main className={styles.mainWrapper}>
-        <PostImages
-          headerHeight={headerHeight}
-          images={post ? post.content : null}
-        />
-        <div className={styles.postData} style={{ maxHeight: height }}>
+        <PostImages images={post ? post.content : null} />
+        <div className={styles.postData}>
           <div className={styles.postDataItem}>
             <div className={styles.postProfile}>
               <Link to={post ? `/profile/${post.author.username}` : ""}>
