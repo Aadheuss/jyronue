@@ -87,7 +87,10 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
             {...rest}
           ></input>
         </div>
-        <button className={styles.commentButton}></button>
+        <button
+          className={styles.commentButton}
+          aria-label="Reply to the post"
+        ></button>
       </form>
     </div>
   );
