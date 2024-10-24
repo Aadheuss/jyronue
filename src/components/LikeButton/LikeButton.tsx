@@ -76,6 +76,7 @@ const LikeButton: FC<Props> = ({
 
   return (
     <button
+      aria-label={`like ${type ? type : ""}`}
       data-like={likesBox && likesBox.id}
       className={
         user
