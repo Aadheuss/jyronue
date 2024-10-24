@@ -85,7 +85,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
             );
           })
         ) : (
-          <li className={styles.comment}>
+          <li className={styles.comment} key="no-comment-list">
             <p className={styles.commentText}>No comments yet</p>
           </li>
         )}
