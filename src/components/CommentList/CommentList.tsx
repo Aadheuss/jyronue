@@ -1,38 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./CommentList.module.css";
 import { Link, useParams } from "react-router-dom";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyList from "../ReplyList/ReplyList";
 import LikeButton from "../LikeButton/LikeButton";
+import CommentBox from "../CommentBox/CommentBox";
+import { CommentValue } from "../../config/typeValues";
 
-type CommentValue = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  authorid: string;
-  postId: string;
-  content: string;
-  author: {
-    displayName: string;
-    username: string;
-    profileImage: {
-      pictureUrl: string;
-    };
-  };
-  likesBox: {
-    id: string;
-    _count: {
-      likes: number;
-    };
-  };
-  _count: {
-    replies: number;
-  };
-};
+interface Props {
+  commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
+}
 
-const CommentList = () => {
+const CommentList: FC<Props> = ({ commentInputRef }) => {
   const { postid } = useParams();
-  const [comments, setComments] = useState<null | CommentValue[]>(null);
+  const [comments, setComments] = useState<CommentValue[]>([]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -63,6 +44,7 @@ const CommentList = () => {
 
   const updateLikesBox = ({
     likesBox,
+    userLikeStatus,
   }: {
     likesBox: {
       id: string;
@@ -70,12 +52,13 @@ const CommentList = () => {
         likes: number;
       };
     };
+    userLikeStatus: boolean;
   }) => {
     if (comments) {
       const selectedComment = comments.find(
         (comment) => comment.likesBox.id === likesBox.id
       );
-      const changedComment = { ...selectedComment, likesBox };
+      const changedComment = { ...selectedComment, likesBox, userLikeStatus };
       const updatedComment = comments.map((comment) => {
         return comment.id === changedComment.id ? changedComment : comment;
       }) as CommentValue[];
@@ -84,8 +67,17 @@ const CommentList = () => {
     }
   };
 
+  const updateComments = ({ comment }: { comment: CommentValue }) => {
+    setComments([comment, ...comments]);
+    console.log(comments);
+  };
+
   return (
     <ul className={styles.comments}>
+      <CommentBox
+        updateComments={updateComments}
+        commentInputRef={commentInputRef}
+      />
       <p className={styles.commentHeading}>Comments</p>
       <div className={styles.commentList}>
         {comments && comments.length > 0 ? (
@@ -127,6 +119,7 @@ const CommentList = () => {
                         likesBoxId={comment.likesBox.id}
                         updateLikesBox={updateLikesBox}
                         size="SMALL"
+                        userLikeStatus={comment.userLikeStatus}
                       />
                       <button className={styles.reply}></button>
                     </div>

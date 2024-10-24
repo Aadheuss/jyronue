@@ -1,11 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
 import PostImages from "../../components/PostImages/PostImages";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import LikeButton from "../../components/LikeButton/LikeButton";
+import { UserContext } from "../../context/context";
 
 type content = {
   id: string;
@@ -37,12 +38,15 @@ type PostValue = {
     comments: number;
     replies: number;
   };
+  userLikeStatus: boolean;
 };
 
 const PostDetailsPage = () => {
+  const { user } = useContext(UserContext);
   const postId = useParams().postid;
   const [post, setPost] = useState<null | PostValue>(null);
-  const headerRef = useRef<HTMLElement | null>(null);
+  const commentInputRef = useRef<null | HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -74,6 +78,7 @@ const PostDetailsPage = () => {
 
   const updateLikesBox = ({
     likesBox,
+    userLikeStatus,
   }: {
     likesBox: {
       id: string;
@@ -81,13 +86,22 @@ const PostDetailsPage = () => {
         likes: number;
       };
     };
+    userLikeStatus: boolean;
   }) => {
-    setPost({ ...post, likesBox } as PostValue);
+    setPost({ ...post, likesBox, userLikeStatus } as PostValue);
+  };
+
+  const focusCommentInput = () => {
+    if (user) {
+      commentInputRef.current?.focus();
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
     <>
-      <header ref={headerRef}>
+      <header>
         <NavBar />
       </header>
       <main className={styles.mainWrapper}>
@@ -126,8 +140,12 @@ const PostDetailsPage = () => {
                   likesBoxId={post ? post.likesBox.id : null}
                   likesBox={post ? post.likesBox : null}
                   updateLikesBox={updateLikesBox}
+                  userLikeStatus={post ? post.userLikeStatus : false}
                 />
-                <button className={styles.reply}></button>
+                <button
+                  className={styles.reply}
+                  onClick={focusCommentInput}
+                ></button>
               </div>
               <p className={styles.likeInfo}>
                 <span className={styles.likeNumber}>
@@ -138,7 +156,7 @@ const PostDetailsPage = () => {
             </div>
           </div>
 
-          <CommentList />
+          <CommentList commentInputRef={commentInputRef} />
         </div>
       </main>
     </>

@@ -1,7 +1,8 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext } from "react";
 import styles from "./LikeBox.module.css";
 import { UserContext } from "../../context/context";
 import { fetchLikesBox, fetchToggleLike } from "../../utils/fetchFunctions";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   id: string | undefined;
@@ -15,6 +16,7 @@ interface Props {
   likesBoxId: string | null;
   updateLikesBox: ({
     likesBox,
+    userLikeStatus,
   }: {
     likesBox: {
       id: string;
@@ -22,8 +24,10 @@ interface Props {
         likes: number;
       };
     };
+    userLikeStatus: boolean;
   }) => void;
   size?: "SMALL" | "REGULAR";
+  userLikeStatus: boolean;
 }
 
 const LikeButton: FC<Props> = ({
@@ -31,45 +35,12 @@ const LikeButton: FC<Props> = ({
   type,
   likesBox,
   likesBoxId,
+  userLikeStatus,
   updateLikesBox,
   size,
 }) => {
   const { user } = useContext(UserContext);
-  const [likeStatus, setLikeStatus] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fecthUserLikeStatus = async () => {
-      if (user && likesBoxId) {
-        try {
-          const res = await fetch(
-            `http://localhost:3000/${type}/${id}/likesbox/${likesBoxId}/status?type=${type}`,
-            {
-              method: "GET",
-              credentials: "include",
-            }
-          );
-
-          const resData = await res.json();
-
-          console.log(resData);
-
-          if (resData.error | resData.errors) {
-            console.error(resData.error, resData.errors);
-          } else {
-            setLikeStatus(resData.userLikeStatus);
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-
-    fecthUserLikeStatus();
-
-    return () => {
-      setLikeStatus(false);
-    };
-  }, [id, likesBoxId, user, type]);
+  const navigate = useNavigate();
 
   const toggleLike = async ({
     id,
@@ -83,9 +54,7 @@ const LikeButton: FC<Props> = ({
     const formData = new URLSearchParams();
     formData.append("type", type);
     formData.append("likesboxid", likesBoxId);
-
-    const toggle = likeStatus ? "unlike" : "like";
-
+    const toggle = userLikeStatus ? "unlike" : "like";
     const toggleLikeData = await fetchToggleLike({
       id,
       type,
@@ -93,13 +62,14 @@ const LikeButton: FC<Props> = ({
       formData,
     });
 
-    if (toggleLikeData && (!toggleLikeData.errors || !toggleLikeData.errors)) {
+    if (!toggleLikeData.errors || !toggleLikeData.errors) {
       const likesBoxData = await fetchLikesBox({ id, type, likesBoxId });
-      if (likesBoxData && (!likesBoxData.error || !likesBoxData.errors)) {
+      if (!likesBoxData.error || !likesBoxData.errors) {
         const likesBox = likesBoxData.likesBox;
-        updateLikesBox({ likesBox });
-        const currentLikeStatus = !likeStatus;
-        setLikeStatus(currentLikeStatus);
+        updateLikesBox({
+          likesBox,
+          userLikeStatus: !userLikeStatus,
+        });
       }
     }
   };
@@ -109,7 +79,7 @@ const LikeButton: FC<Props> = ({
       data-like={likesBox && likesBox.id}
       className={
         user
-          ? likeStatus
+          ? userLikeStatus
             ? size === "SMALL"
               ? styles.likedSmall
               : styles.liked
@@ -119,12 +89,16 @@ const LikeButton: FC<Props> = ({
           : styles.like
       }
       onClick={() => {
-        if (id && likesBoxId) {
-          toggleLike({
-            id,
-            type,
-            likesBoxId,
-          });
+        if (user) {
+          if (id && likesBoxId) {
+            toggleLike({
+              id,
+              type,
+              likesBoxId,
+            });
+          }
+        } else {
+          navigate("/login");
         }
       }}
     ></button>

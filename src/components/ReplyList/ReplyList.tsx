@@ -32,6 +32,7 @@ type ReplyValue = {
   _count: {
     replies: number;
   };
+  userLikeStatus: boolean;
 };
 
 interface Props {
@@ -72,6 +73,7 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
 
   const updateLikesBox = ({
     likesBox,
+    userLikeStatus,
   }: {
     likesBox: {
       id: string;
@@ -79,17 +81,17 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
         likes: number;
       };
     };
+    userLikeStatus: boolean;
   }) => {
     if (replies) {
       const selectedReply = replies.find(
         (reply) => reply.likesBox.id === likesBox.id
       );
-      const changedReply = { ...selectedReply, likesBox };
+      const changedReply = { ...selectedReply, likesBox, userLikeStatus };
       const updatedreplies = replies.map((reply) => {
         return reply.id === changedReply.id ? changedReply : reply;
       }) as ReplyValue[];
 
-      console.log(updatedreplies);
       setReplies([...updatedreplies]);
     }
   };
@@ -146,6 +148,7 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
                               likesBoxId={reply.likesBox.id}
                               updateLikesBox={updateLikesBox}
                               size="SMALL"
+                              userLikeStatus={reply.userLikeStatus}
                             />
                             <button className={styles.replyButton}></button>
                           </div>

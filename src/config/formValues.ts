@@ -13,4 +13,8 @@ type errorValue = {
   msg: string;
 };
 
-export type { formValues, CreatePostFormValues, errorValue };
+type CommentFormValue = {
+  content: string;
+};
+
+export type { formValues, CreatePostFormValues, errorValue, CommentFormValue };
