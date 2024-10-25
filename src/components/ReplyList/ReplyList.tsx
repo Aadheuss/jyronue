@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ReplyList.module.css";
 import { CommentValue, ReplyValue } from "../../config/typeValues";
 import Reply from "../Reply/Reply";
@@ -19,6 +19,7 @@ const ReplyList: FC<Props> = ({
   setView,
 }) => {
   const { replies } = comment;
+  const [openReplyId, setOpenReplyId] = useState<string>("");
 
   useEffect(() => {
     const fetchReplies = async () => {
@@ -90,8 +91,12 @@ const ReplyList: FC<Props> = ({
                 replies.length > 0 &&
                 replies.map((reply) => (
                   <Reply
-                    updateLikesBox={updateLikesBox}
+                    comment={comment}
                     reply={reply}
+                    updateLikesBox={updateLikesBox}
+                    openReplyId={openReplyId}
+                    setOpenReplyId={setOpenReplyId}
+                    updateComment={updateComment}
                     key={reply.id}
                   />
                 ))}

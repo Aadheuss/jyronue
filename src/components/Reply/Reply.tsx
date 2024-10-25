@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "./Reply.module.css";
-import { ReplyValue } from "../../config/typeValues";
-import { FC } from "react";
+import { CommentValue, ReplyValue } from "../../config/typeValues";
+import { FC, useRef } from "react";
 import LikeButton from "../LikeButton/LikeButton";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import ReplyBox from "../ReplyBox/ReplyBox";
 
 interface Props {
+  comment: CommentValue;
   reply: ReplyValue;
   updateLikesBox: ({
     likesBox,
@@ -19,9 +21,25 @@ interface Props {
     };
     userLikeStatus: boolean;
   }) => void;
+  updateComment: ({ updatedComment }: { updatedComment: CommentValue }) => void;
+  openReplyId: string;
+  setOpenReplyId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Reply: FC<Props> = ({ reply, updateLikesBox }) => {
+const Reply: FC<Props> = ({
+  comment,
+  reply,
+  updateLikesBox,
+  updateComment,
+  openReplyId,
+  setOpenReplyId,
+}) => {
+  const replyInputRef = useRef<null | HTMLInputElement>(null);
+
+  const openReplyForm = ({ id }: { id: string }) => {
+    setOpenReplyId(id);
+  };
+
   return (
     <li className={styles.reply} key={reply.id}>
       <Link to={`/profile/${reply.author.username}`}>
@@ -67,7 +85,10 @@ const Reply: FC<Props> = ({ reply, updateLikesBox }) => {
               size="SMALL"
               userLikeStatus={reply.userLikeStatus}
             />
-            <button className={styles.replyButton}></button>
+            <button
+              className={styles.replyButton}
+              onClick={() => openReplyForm({ id: reply.id })}
+            ></button>
           </div>
         </div>
         {reply.likesBox._count.likes > 0 && (
@@ -75,6 +96,16 @@ const Reply: FC<Props> = ({ reply, updateLikesBox }) => {
             <span> {reply.likesBox._count.likes}</span>{" "}
             {reply.likesBox._count.likes < 2 ? "like" : "likes"}
           </p>
+        )}
+        {openReplyId === reply.id && (
+          <ReplyBox
+            replyToId={reply.authorid}
+            commentId={comment.id}
+            comment={comment}
+            parentId={reply.id}
+            replyInputRef={replyInputRef}
+            updateComment={updateComment}
+          />
         )}
       </div>
     </li>

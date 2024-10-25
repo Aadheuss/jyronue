@@ -9,16 +9,18 @@ interface Props {
   replyToId: string;
   comment: CommentValue;
   commentId: string;
+  parentId?: string;
   replyInputRef: React.MutableRefObject<null | HTMLInputElement>;
   updateComment: ({ updatedComment }: { updatedComment: CommentValue }) => void;
-  view: boolean;
-  setView: React.Dispatch<React.SetStateAction<boolean>>;
+  view?: boolean;
+  setView?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ReplyBox: FC<Props> = ({
   replyToId,
   comment,
   commentId,
+  parentId,
   replyInputRef,
   updateComment,
   view,
@@ -68,6 +70,10 @@ const ReplyBox: FC<Props> = ({
     formData.append("content", data.content);
     formData.append("replytoid", replyToId);
 
+    if (parentId) {
+      formData.append("parentid", parentId);
+    }
+
     setInput("");
 
     try {
@@ -97,8 +103,12 @@ const ReplyBox: FC<Props> = ({
         }
         updatedComment._count.replies += 1;
         updateComment({ updatedComment });
-        if (!view) {
-          setView(true);
+        if (view !== undefined) {
+          if (!view) {
+            if (setView) {
+              setView(true);
+            }
+          }
         }
       }
     } catch (err) {
