@@ -89,7 +89,12 @@ const LikeButton: FC<Props> = ({
             : styles.like
           : styles.like
       }
-      onClick={() => {
+      onMouseDown={(e) => {
+        e.preventDefault();
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+
         if (user) {
           if (id && likesBoxId) {
             toggleLike({
