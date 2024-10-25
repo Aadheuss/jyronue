@@ -50,6 +50,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
         if (resData.errors) {
           console.log(resData.errors);
         } else {
+          closeModal();
           navigate(`/post/${resData.post.id}`);
         }
       } catch (err) {
