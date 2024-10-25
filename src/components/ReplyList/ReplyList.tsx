@@ -1,75 +1,60 @@
-import { FC, useState } from "react";
+import { FC, useEffect } from "react";
 import styles from "./ReplyList.module.css";
 import { Link } from "react-router-dom";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import LikeButton from "../LikeButton/LikeButton";
-
-type ReplyValue = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  authorid: string;
-  postId: string;
-  commentId: string;
-  replyToId: string;
-  replyTo: {
-    username: string;
-  };
-  content: string;
-  author: {
-    displayName: string;
-    username: string;
-    profileImage: {
-      pictureUrl: string;
-    };
-  };
-  likesBox: {
-    id: string;
-    _count: {
-      likes: number;
-    };
-  };
-  _count: {
-    replies: number;
-  };
-  userLikeStatus: boolean;
-};
+import { CommentValue, ReplyValue } from "../../config/typeValues";
 
 interface Props {
-  commentId: string;
+  comment: CommentValue;
   replyCount: number;
+  updateComment: ({ updatedComment }: { updatedComment: CommentValue }) => void;
+  view: boolean;
+  setView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
-  const [replies, setReplies] = useState<null | ReplyValue[]>(null);
+const ReplyList: FC<Props> = ({
+  comment,
+  replyCount,
+  updateComment,
+  view,
+  setView,
+}) => {
+  const { replies } = comment;
 
-  const [view, setView] = useState(false);
+  useEffect(() => {
+    const fetchReplies = async () => {
+      if (!replies && view) {
+        try {
+          const res = await fetch(
+            `http://localhost:3000/comment/${comment.id}/replies`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
 
-  const fetchReplies = async () => {
-    if (replies === null) {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/comment/${commentId}/replies`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-
-        const resData = await res.json();
-        console.log(resData);
-
-        if (resData.error) {
-          console.log(resData.error);
-        } else {
+          const resData = await res.json();
           console.log(resData);
-          setReplies(resData.replies);
+
+          if (resData.error) {
+            console.log(resData.error);
+          } else {
+            console.log(resData);
+            const updatedComment = { ...comment, replies: resData.replies };
+            console.log(updatedComment);
+            updateComment({ updatedComment });
+          }
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
       }
-    }
-  };
+    };
+
+    fetchReplies();
+
+    return () => {};
+  }, [comment, replies, updateComment, view]);
 
   const updateLikesBox = ({
     likesBox,
@@ -92,7 +77,8 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
         return reply.id === changedReply.id ? changedReply : reply;
       }) as ReplyValue[];
 
-      setReplies([...updatedreplies]);
+      const updatedComment = { ...comment, replies: updatedreplies };
+      updateComment({ updatedComment });
     }
   };
 
@@ -176,7 +162,6 @@ const ReplyList: FC<Props> = ({ commentId, replyCount }) => {
         <button
           className={styles.showReplyButton}
           onClick={() => {
-            fetchReplies();
             setView(true);
           }}
         >

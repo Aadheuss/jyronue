@@ -12,7 +12,7 @@ interface Props {
 const CommentList: FC<Props> = ({ commentInputRef }) => {
   const { postid } = useParams();
   const [comments, setComments] = useState<CommentValue[]>([]);
-
+  const [openReplyId, setOpenReplyId] = useState<string>("");
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -70,18 +70,36 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
     console.log(comments);
   };
 
+  const updateComment = ({
+    updatedComment,
+  }: {
+    updatedComment: CommentValue;
+  }) => {
+    const updatedComments = comments.map((comment) =>
+      comment.id === updatedComment.id ? updatedComment : comment
+    );
+    setComments([...updatedComments]);
+  };
+
   return (
-    <ul className={styles.comments}>
+    <div className={styles.comments}>
       <CommentBox
         updateComments={updateComments}
         commentInputRef={commentInputRef}
       />
       <p className={styles.commentHeading}>Comments</p>
-      <div className={styles.commentList}>
+      <ul className={styles.commentList}>
         {comments && comments.length > 0 ? (
           comments.map((comment) => {
             return (
-              <Comment comment={comment} updateLikesBox={updateLikesBox} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                updateLikesBox={updateLikesBox}
+                openReplyId={openReplyId}
+                setOpenReplyId={setOpenReplyId}
+                updateComment={updateComment}
+              />
             );
           })
         ) : (
@@ -89,8 +107,8 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
             <p className={styles.commentText}>No comments yet</p>
           </li>
         )}
-      </div>
-    </ul>
+      </ul>
+    </div>
   );
 };
 

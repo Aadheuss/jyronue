@@ -1,0 +1,67 @@
+.replyBox {
+  width: 100%;
+  font-size: var(--small-font);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5em 0;
+}
+
+.replyBoxForm {
+  display: flex;
+  align-items: center;
+}
+
+.inputContainer {
+  flex: auto;
+}
+
+.replyInput {
+  font-size: inherit;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+}
+
+.replyInput::placeholder {
+  font-size: inherit;
+}
+
+.replyInput:focus {
+  width: 100%;
+  outline: none;
+  border: none;
+}
+
+.replyInput:hover {
+  background-color: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+.replyButton {
+  width: 2em;
+  height: 2em;
+  background-image: url("../../assets/images/send_icon.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  align-self: flex-end;
+  font-size: inherit;
+  background-color: inherit;
+  transition: all 250ms ease-out;
+}
+
+.replyButton:hover {
+  background-image: url("../../assets/images/send_icon_hover.svg");
+  background-color: inherit;
+  background-color: #151515;
+  box-shadow: 0 0 0 0.1em #151515;
+  transform: scale(1.1);
+  transition: all 250ms ease-in;
+}
+
+.errorText {
+  color: var(--invalid-color);
+  font-size: var(--small-little-font);
+}
