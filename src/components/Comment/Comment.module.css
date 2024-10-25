@@ -17,6 +17,7 @@
 
 .mainComment {
   display: flex;
+  flex: auto;
   flex-direction: column;
   gap: 0.5rem;
 }

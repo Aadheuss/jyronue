@@ -5,6 +5,7 @@
 .reply {
   display: flex;
   align-items: flex-start;
+  width: 100%;
   gap: 1rem;
 }
 
@@ -17,6 +18,7 @@
 
 .mainReply {
   display: flex;
+  flex: auto;
   flex-direction: column;
   gap: 0.5rem;
 }

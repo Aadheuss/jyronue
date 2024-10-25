@@ -53,7 +53,7 @@ const ReplyList: FC<Props> = ({
     fetchReplies();
 
     return () => {};
-  }, [comment, replies, updateComment, view]);
+  }, [view]);
 
   const updateLikesBox = ({
     likesBox,

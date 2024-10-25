@@ -2,7 +2,7 @@
   font-family: "inter", system-ui, sans-serif;
   display: grid;
   max-width: 100%;
-  grid-template-columns: 1fr max(25vw, 350px);
+  grid-template-columns: 1fr min(650px, max(33vw, 350px));
   flex: auto;
 }
 
