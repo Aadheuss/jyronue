@@ -5,6 +5,18 @@
   padding: 0.5em 0;
 }
 
+.replyTo {
+  color: #757575;
+  font-size: var(--small-little-font);
+  padding: 0;
+  margin: 0;
+}
+
+.replyToUsername {
+  composes: replyTo;
+  color: var(--accent-color-1);
+}
+
 .replyBoxForm {
   display: flex;
   align-items: center;

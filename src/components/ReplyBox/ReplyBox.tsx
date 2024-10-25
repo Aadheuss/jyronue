@@ -6,6 +6,7 @@ import { FC, useEffect, useState } from "react";
 import { CommentValue } from "../../config/typeValues";
 
 interface Props {
+  replyToUsername: string;
   replyToId: string;
   comment: CommentValue;
   commentId: string;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const ReplyBox: FC<Props> = ({
+  replyToUsername,
   replyToId,
   comment,
   commentId,
@@ -118,6 +120,10 @@ const ReplyBox: FC<Props> = ({
 
   return (
     <div className={styles.replyBox} onSubmit={handleSubmit(onSubmit)}>
+      <p className={styles.replyTo}>
+        To
+        <span className={styles.replyToUsername}> {`@${replyToUsername}`}</span>
+      </p>
       <form className={styles.replyBoxForm} method="post">
         <div className={styles.inputContainer}>
           <label

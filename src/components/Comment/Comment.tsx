@@ -91,6 +91,7 @@ const Comment: FC<Props> = ({
         )}
         {openReplyId === comment.id && (
           <ReplyBox
+            replyToUsername={comment.author.username}
             replyToId={comment.authorid}
             commentId={comment.id}
             comment={comment}
