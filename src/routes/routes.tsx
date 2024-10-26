@@ -31,7 +31,7 @@ const routes = [
         element: <PostDetailsPage />,
       },
       {
-        path: "/profile/:usernam",
+        path: "/profile/:username",
         element: <ProfilePage />,
       },
     ],

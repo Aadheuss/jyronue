@@ -22,7 +22,10 @@
 }
 
 .banner {
-  background-color: white;
+  background-image: linear-gradient(
+    var(--main-color),
+    var(--main-accent-color)
+  );
   height: max(150px, 10vh);
 }
 
@@ -107,6 +110,17 @@
   font-size: var(--medium-little-font);
   padding: 0.25em 0.75em;
   height: min-content;
+}
+
+.editButton {
+  composes: followButton;
+  color: var(--accent-color-1);
+  background-color: transparent;
+  border: 1px solid var(--accent-color-1);
+}
+
+.editButton:hover {
+  background-color: transparent;
 }
 
 .bottomItem {
