@@ -1,0 +1,141 @@
+.mainWrapper {
+  flex: auto;
+}
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(
+    to right,
+    #000000,
+    var(--main-accent-color) 77%,
+    #666666
+  );
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(20, 20, 20, 0.8);
+  width: min(100vw, calc(420px + 20vw));
+  height: min-content;
+}
+
+.banner {
+  background-color: white;
+  height: max(150px, 10vh);
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  height: min-content;
+}
+
+.profileImageContainer {
+  min-width: clamp(75px, calc(75px + calc(1.5vw + 1.5vh)), 200px);
+  position: relative;
+  padding: 3px 0;
+}
+
+.profileImage {
+  border: 5px solid rgb(20, 20, 20, 0.8);
+  left: 0;
+  top: calc(
+    ((clamp(75px, calc(75px + calc(1.5vw + 1.5vh)), 200px)) + 2rem + 6px) / -2
+  );
+  position: absolute;
+  border-radius: 50%;
+  width: clamp(75px, calc(75px + calc(1.5vw + 1.5vh)), 200px);
+  height: clamp(75px, calc(75px + calc(1.5vw + 1.5vh)), 200px);
+}
+
+.profileDetails {
+  font-family: "inter", system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.topItem {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.topItemChild {
+  flex: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileNames {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text {
+  text-align: start;
+  margin: 0;
+  padding: 0;
+}
+
+.displayName {
+  composes: text;
+  font-size: var(--medium-font);
+  font-weight: 700;
+}
+
+.username {
+  composes: text;
+  font-family: "ibm-plex-sans", system-ui, sans-serif;
+  font-size: var(--medium-little-font);
+  font-weight: 300;
+}
+
+.followButton {
+  font-size: var(--medium-little-font);
+  padding: 0.25em 0.75em;
+  height: min-content;
+}
+
+.bottomItem {
+  padding: 0 1rem;
+  gap: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100%;
+}
+
+.bio {
+  text-align: start;
+  composes: text;
+  font-size: var(--small-font);
+}
+
+.follows {
+  display: flex;
+  gap: 1rem;
+}
+
+.followText {
+  composes: text;
+  font-size: var(--medium-little-font);
+  font-family: "ibm-plex-sans", system-ui, sans-serif;
+}
+
+.followNumber {
+  color: var(--main-accent-color);
+}
