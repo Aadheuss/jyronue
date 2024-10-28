@@ -79,4 +79,19 @@ type UserProfileValue = {
   };
 };
 
-export type { CommentValue, ReplyValue, UpdateReplyValue, UserProfileValue };
+type PostGallery = {
+  id: string;
+  authorid: string;
+  thumbnail: string;
+  createdAt: string;
+  updatedAt: string;
+  caption: string;
+};
+
+export type {
+  CommentValue,
+  ReplyValue,
+  UpdateReplyValue,
+  UserProfileValue,
+  PostGallery,
+};

@@ -52,4 +52,30 @@ const fetchToggleLike = async ({
   }
 };
 
-export { fetchLikesBox, fetchToggleLike };
+const fetchData = async ({
+  link,
+  options,
+}: {
+  link: string;
+  options: {
+    method: "GET" | "POST";
+    credentials?: "include";
+  };
+}) => {
+  try {
+    const res = await fetch(link, options);
+    const status = res.status;
+    const data = await res.json();
+    const isError = data.error || data.errors;
+
+    return {
+      status,
+      data,
+      isError,
+    };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export { fetchLikesBox, fetchToggleLike, fetchData };
