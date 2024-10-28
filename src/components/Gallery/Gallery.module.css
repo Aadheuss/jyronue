@@ -1,0 +1,19 @@
+.gallery {
+  padding: clamp(8px, calc(0.75rem + 0.25vw + 0.25vh), 3rem);
+  margin: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(100px, 16%), 1fr));
+  gap: calc(0.2vh + 0.2vw + 4px);
+}
+
+.listItem {
+  border-radius: 8px;
+}
+
+.img {
+  border-radius: 8px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}

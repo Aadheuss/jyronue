@@ -7,13 +7,14 @@ import { PostGallery, UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
 import { fetchData } from "../../utils/fetchFunctions";
+import Gallery from "../../components/Gallery/Gallery";
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
   const { username } = useParams();
   const [notFound, setNotFound] = useState<boolean>(false);
   const [profile, setProfile] = useState<null | UserProfileValue>(null);
-  const [posts, setPosts] = useState<null | PostGallery>(null);
+  const [posts, setPosts] = useState<null | PostGallery[]>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -44,7 +45,7 @@ const ProfilePage = () => {
           console.error(userPosts?.data.error, userPosts?.data.errors);
         } else {
           setProfile(userProfile?.data.profile);
-          setPosts(userPosts?.data.posts);
+          setPosts(userPosts?.data.userPosts);
           console.log(userPosts?.data);
         }
       }
@@ -139,6 +140,7 @@ const ProfilePage = () => {
                 </div>
               </>
             )}
+            {posts && <Gallery posts={posts} />}
           </>
         )}
       </main>
