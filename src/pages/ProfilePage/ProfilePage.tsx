@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -78,7 +79,7 @@ const ProfilePage = () => {
                           <div className={styles.profileImageContainer}>
                             <img
                               className={styles.profileImage}
-                              src={profile.profileImage.pictureUrl || logo}
+                              src={profile.profileImage.pictureUrl || avatar}
                               alt="Profile Image"
                             ></img>
                           </div>
