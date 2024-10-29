@@ -2,21 +2,20 @@ import { FC, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface Props {
-  isOpen: boolean;
+  isOpen?: boolean;
   id: string;
   name: string;
-  label: string;
   placeholder: string;
-  autoFocus: boolean;
+  autoFocus?: boolean;
   rows: number;
-  rules: {
+  rules?: {
     required?: string;
     maxLength?: {
       value: number;
       message: string;
     };
   };
-  limited: boolean;
+  limited?: boolean;
   parentStyles: CSSModuleClasses;
 }
 
@@ -24,15 +23,13 @@ const TextArea: FC<Props> = ({
   isOpen,
   id,
   name,
-  label,
   placeholder,
   rules,
-  autoFocus,
-  limited,
+  autoFocus = false,
+  limited = false,
   parentStyles,
 }) => {
   const [input, setInput] = useState<string>("");
-  const { required, maxLength } = rules;
   const { register } = useFormContext();
 
   useEffect(() => {
@@ -59,35 +56,28 @@ const TextArea: FC<Props> = ({
 
   return (
     <>
-      <div className={parentStyles.inputContainer}>
-        <label className={parentStyles.textareaLabel} htmlFor={id}>
-          {label}
-        </label>
-        <textarea
-          className={parentStyles.textarea}
-          id={id}
-          placeholder={placeholder}
-          onInput={(e) => {
-            if (limited) {
-              updateInput(e);
-            }
-          }}
-          rows={5}
-          autoFocus={autoFocus}
-          value={input}
-          {...register(name, {
-            required: required,
-            maxLength: maxLength,
-          })}
-        ></textarea>
-      </div>
+      <textarea
+        className={parentStyles.textarea}
+        id={id}
+        placeholder={placeholder}
+        onInput={(e) => {
+          updateInput(e);
+        }}
+        rows={5}
+        autoFocus={autoFocus}
+        value={input}
+        {...register(name, rules)}
+      ></textarea>
+
       {limited && (
         <div className={parentStyles.textareaLimit}>
           <span
             className={
-              rules.maxLength
-                ? input.length > rules.maxLength?.value
-                  ? parentStyles.error
+              rules
+                ? rules.maxLength
+                  ? input.length > rules.maxLength?.value
+                    ? parentStyles.error
+                    : ""
                   : ""
                 : ""
             }
