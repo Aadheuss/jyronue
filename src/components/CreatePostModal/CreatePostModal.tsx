@@ -3,8 +3,8 @@ import ImagePreview from "../ImagePreview/ImagePreview";
 import styles from "./CreatePostModal.module.css";
 import React, { FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { CreatePostFormValues } from "../../config/formValues";
-import TextArea from "../TextArea/TextArea";
 import { useNavigate } from "react-router-dom";
+import InputContainer from "../InputContainer/InputContainer";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -192,15 +192,17 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
             {errors.caption && (
               <span className={styles.error}>{errors.caption.message}</span>
             )}
-            <TextArea
+            <InputContainer
               isOpen={isOpen}
+              type="textarea"
               id="caption"
               name="caption"
               label="Caption"
+              labelType="HIDDEN"
               placeholder="Tell a story about your post"
               rows={5}
               autoFocus={true}
-              rules={{
+              validation={{
                 required: "Caption is required",
                 maxLength: {
                   message: "Caption cannot be more than 2048 characters",
