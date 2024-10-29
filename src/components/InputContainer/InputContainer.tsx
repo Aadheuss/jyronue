@@ -4,24 +4,32 @@ import {
   checkAutofilled,
   registerAutofilledInput,
   isInputEmpty,
+  isPlaceholderShown,
 } from "../../utils/domUtils";
 import { useFormContext } from "react-hook-form";
 import { errorValue } from "../../config/formValues";
+import TextArea from "../TextArea/TextArea";
 
-type InputTypes = "password" | "text";
+type InputTypes = "password" | "text" | "textarea";
 
 interface Props {
-  form: {
+  isOpen?: boolean;
+  form?: {
     focus: boolean;
     setFocus: React.Dispatch<React.SetStateAction<boolean>>;
     setError?: React.Dispatch<React.SetStateAction<errorValue | null>>;
     setErrorList?: React.Dispatch<React.SetStateAction<errorValue[] | null>>;
   };
   id: string;
+  name?: string;
   type?: InputTypes;
-  autoComplete: string;
+  rows?: number;
+  autoComplete?: string;
+  autoFocus?: boolean;
   label: string;
-  validation: {
+  labelType?: "DEFAULT" | "PLACEHOLDER" | "FLOATING" | "HIDDEN";
+  placeholder?: string;
+  validation?: {
     required?: string;
     minLength?: {
       value: number;
@@ -36,29 +44,39 @@ interface Props {
       message: string;
     };
   };
+  parentStyles?: CSSModuleClasses;
+  withErrors?: boolean;
+  limited?: boolean;
 }
 
 const InputContainer: FC<Props> = ({
+  isOpen,
   id,
+  name,
   type = "text",
-  autoComplete,
+  rows,
+  autoComplete = "off",
+  autoFocus,
   label,
+  placeholder,
   validation,
   form,
+  parentStyles,
+  labelType = "DEFAULT",
+  withErrors = false,
+  limited = false,
 }) => {
   const [input, setInput] = useState(false);
   const [visibility, setVisibility] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const { register } = useFormContext();
-  const { required, minLength, maxLength, pattern } = validation;
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isAutofilled, setIsAutofilled] = useState(false);
-  const { ref, ...rest } = register(id, {
-    required: required,
-    minLength: minLength,
-    maxLength: maxLength,
-    pattern: pattern,
-  });
+  const { ref, ...rest } = register(name ? name : id, validation);
+  const currentStyles = parentStyles ? parentStyles : styles;
+  const [placeholderShown, setPlaceholderShown] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     // Check for prefilled input on load periodically
@@ -67,6 +85,7 @@ const InputContainer: FC<Props> = ({
       registerAutofilledInput(inputRef);
       setInput(isInputEmpty({ inputRef }));
       checkAutofilled(inputRef, setIsAutofilled);
+      setPlaceholderShown(isPlaceholderShown(inputRef));
     };
 
     setTimeout(registerAutofill, 0);
@@ -76,55 +95,87 @@ const InputContainer: FC<Props> = ({
   }, []);
 
   return (
-    <div className={styles.inputContainer}>
+    <div className={currentStyles.inputContainer}>
       <label
         className={
-          input || isFocused || form.focus || isAutofilled
-            ? styles.hiddenLabel
-            : styles.label
+          labelType === "HIDDEN"
+            ? currentStyles.hiddenLabel
+            : labelType !== "DEFAULT"
+            ? isAutofilled || !placeholderShown
+              ? currentStyles.hiddenLabel
+              : currentStyles.label
+            : currentStyles.label
         }
         htmlFor={id}
       >
         {label}
       </label>
-      <input
-        id={id}
-        className={styles.input}
-        type={type !== "password" ? type : visibility ? "text" : type}
-        autoComplete={autoComplete}
-        onInput={(e) => {
-          setInput(isInputEmpty({ e }));
-          if (form.setError) {
-            form.setError(null);
-          }
+      {withErrors && errors[name ? name : id] && (
+        <span className={currentStyles.errorTxt}>
+          {errors[name ? name : id]?.message as string}
+        </span>
+      )}
+      {type === "textarea" ? (
+        <TextArea
+          isOpen={isOpen}
+          id={id}
+          name={name || id}
+          placeholder={placeholder || label}
+          rows={rows || 3}
+          rules={validation}
+          autoFocus={autoFocus}
+          parentStyles={currentStyles}
+          limited={limited}
+        />
+      ) : (
+        <input
+          id={id}
+          className={currentStyles.input}
+          type={type !== "password" ? type : visibility ? "text" : type}
+          autoComplete={autoComplete}
+          onInput={(e) => {
+            setInput(isInputEmpty({ e }));
+            if (form?.setError) {
+              form.setError(null);
+            }
 
-          if (form.setErrorList) {
-            form.setErrorList(null);
+            if (form?.setErrorList) {
+              form.setErrorList(null);
+            }
+
+            setPlaceholderShown(isPlaceholderShown(inputRef));
+          }}
+          {...rest}
+          ref={(e) => {
+            ref(e);
+            inputRef.current = e;
+          }}
+          name={id}
+          placeholder={
+            labelType === "DEFAULT"
+              ? placeholder
+                ? placeholder
+                : label
+              : !input
+              ? ""
+              : placeholder
+              ? placeholder
+              : label
           }
-        }}
-        {...rest}
-        ref={(e) => {
-          ref(e);
-          inputRef.current = e;
-        }}
-        onFocus={() => {
-          setIsFocused(true);
-          form.setFocus(true);
-        }}
-        onBlur={() => {
-          setIsFocused(false);
-          form.setFocus(false);
-        }}
-        name={id}
-        placeholder={isFocused || input || form.focus ? label : ""}
-      />
+        />
+      )}
+
       {type === "password" && input && (
         <button
           type="button"
-          className={styles.visibilityBtn}
+          className={currentStyles.visibilityBtn}
           onClick={() => setVisibility(!visibility)}
         >
-          <span className={visibility ? styles.visible : styles.hidden}></span>
+          <span
+            className={
+              visibility ? currentStyles.visible : currentStyles.hidden
+            }
+          ></span>
         </button>
       )}
     </div>

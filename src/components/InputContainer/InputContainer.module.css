@@ -80,3 +80,9 @@
   -ms-transition: background-image 300ms ease-in;
   transition: background-image 300ms ease-in;
 }
+
+.errorTxt {
+  color: var(--invalid-color);
+  font-size: var(--small-font);
+  align-self: flex-start;
+}

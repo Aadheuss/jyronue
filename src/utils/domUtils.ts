@@ -50,4 +50,22 @@ const registerAutofilledInput = (
   }
 };
 
-export { isInputEmpty, checkAutofilled, registerAutofilledInput };
+const isPlaceholderShown = (
+  inputRef: React.MutableRefObject<null | HTMLInputElement>
+): boolean => {
+  const current = inputRef.current;
+  let placeholderShown;
+
+  if (current) {
+    placeholderShown = current.matches("*:placeholder-shown");
+  }
+
+  return placeholderShown ? placeholderShown : false;
+};
+
+export {
+  isInputEmpty,
+  checkAutofilled,
+  registerAutofilledInput,
+  isPlaceholderShown,
+};
