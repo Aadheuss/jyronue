@@ -6,6 +6,7 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import PostDetailsPage from "../pages/PostDetailsPage/PostDetailsPage";
 import HomePage from "../pages/HomePage/HomePage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import SettingPage from "../pages/SettingPage/SettingPage";
 
 const routes = [
   {
@@ -33,6 +34,10 @@ const routes = [
       {
         path: "/profile/:username",
         element: <ProfilePage />,
+      },
+      {
+        path: "/setting",
+        element: <SettingPage />,
       },
     ],
   },

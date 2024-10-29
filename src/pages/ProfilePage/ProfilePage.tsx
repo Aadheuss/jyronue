@@ -2,7 +2,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
 import logo from "../../assets/images/mr-karl-unsplash.jpg";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PostGallery, UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
@@ -15,6 +15,7 @@ const ProfilePage = () => {
   const [notFound, setNotFound] = useState<boolean>(false);
   const [profile, setProfile] = useState<null | UserProfileValue>(null);
   const [posts, setPosts] = useState<null | PostGallery[]>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -103,7 +104,10 @@ const ProfilePage = () => {
 
                           {user ? (
                             user.id === profile.id ? (
-                              <button className={styles.editButton}>
+                              <button
+                                className={styles.editButton}
+                                onClick={() => navigate("/setting")}
+                              >
                                 Edit profile
                               </button>
                             ) : (

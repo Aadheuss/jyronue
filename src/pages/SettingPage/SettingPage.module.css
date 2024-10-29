@@ -1,0 +1,172 @@
+.mainWrapper {
+  background-color: #151515;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.settingForm {
+  padding: calc(1rem + 0.5vh + 0.5vw);
+  display: flex;
+  flex-direction: column;
+  gap: calc(1rem + 0.5vh + 0.5vw);
+  border-radius: 8px;
+  width: clamp(300px, calc(300px + calc(12vw + 12vh)), 1080px);
+  max-height: calc(
+    100dvh - var(--nav-height) - calc(calc(1rem + 0.5vh + 0.5vw) * 4)
+  );
+  background-color: #000000;
+  overflow-y: auto;
+}
+
+.settingForm::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.settingForm::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.settingForm::-webkit-scrollbar-thumb {
+  background: #757575;
+}
+
+.settingForm::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
+}
+
+.formHeading {
+  margin: 0;
+  padding: 0;
+  font-size: var(--medium-large-font);
+  align-self: flex-start;
+}
+
+.imageContainer {
+  background-color: #000000;
+}
+
+.bannerContainer {
+  background-image: linear-gradient(
+    var(--main-color),
+    var(--main-accent-color)
+  );
+  height: calc(clamp(300px, calc(300px + calc(12vw + 12vh)), 1080px) / 4);
+}
+
+.img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.avatarContainer {
+  position: relative;
+  height: calc(clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem) / 2);
+}
+
+.avatar {
+  composes: img;
+  position: absolute;
+  left: calc(0.5rem + 0.1vw + 0.1vh);
+  top: calc(clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem) / -2);
+  background-color: var(--main-color-3);
+  border-radius: 50%;
+  width: clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem);
+  height: clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem);
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.label {
+  color: var(--main-color-2);
+  left: 0.25em;
+}
+
+.input {
+  box-sizing: border-box;
+  color: var(--main-color-3);
+  width: 100%;
+  border-radius: 4px;
+  padding: 0.5em;
+  background-color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.input::placeholder {
+  font-family: inherit;
+  color: #757575;
+}
+
+.input:hover {
+  background-color: #0c0c0c;
+}
+
+.input:focus {
+  background-color: #0c0c0c;
+  outline: 1px solid var(--accent-color-1);
+  border: 1px solid var(--accent-color-1);
+}
+
+.textarea {
+  composes: input;
+  resize: none;
+}
+
+.textarea::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.textarea::-webkit-scrollbar-track {
+  background-color: #141414;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #757575;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+  background-color: var(--main-accent-color);
+}
+
+.textarea::-webkit-input-placeholder {
+  -webkit-text-fill-color: initial;
+}
+
+.saveButton {
+  width: min-content;
+  height: min-content;
+  background-color: inherit;
+  border-color: var(--accent-color-1);
+  padding: 0.1em 1em;
+  transition: all 250ms ease-out;
+}
+
+.saveButton:hover {
+  transform: scale(1.025);
+  transition: all 250ms ease-in;
+  box-shadow: 0 0 3px 0 var(--accent-color-2);
+  background-color: #0c0c0c;
+}
+
+.errorTxt {
+  color: var(--invalid-color);
+  font-size: var(--small-font);
+  align-self: flex-start;
+}

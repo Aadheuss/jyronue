@@ -17,4 +17,17 @@ type CommentFormValue = {
   content: string;
 };
 
-export type { formValues, CreatePostFormValues, errorValue, CommentFormValue };
+type SettingFormValues = {
+  banner: File;
+  avatar: File;
+  displayname: string;
+  bio: string;
+};
+
+export type {
+  formValues,
+  CreatePostFormValues,
+  errorValue,
+  CommentFormValue,
+  SettingFormValues,
+};
