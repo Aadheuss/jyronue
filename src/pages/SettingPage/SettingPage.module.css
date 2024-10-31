@@ -64,6 +64,7 @@
 }
 
 .bannerContainer {
+  position: relative;
   background-image: linear-gradient(
     var(--main-color),
     var(--main-accent-color)
@@ -93,6 +94,8 @@
 
 .avatar {
   composes: img;
+  border: 0.25em solid #000000;
+  background-color: #000000;
   position: absolute;
   left: calc(0.5rem + 0.1vw + 0.1vh);
   top: calc(clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem) / -2);
@@ -103,17 +106,18 @@
 }
 
 .fileImgButton {
+  border-radius: 50%;
   background-image: url("../../assets/images/add-icon.svg");
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.5);
   background-position: center;
-  background-size: 1.75em 1.75em;
+  background-size: 1.5em 1.5em;
   background-repeat: no-repeat;
   position: absolute;
   right: 1em;
   bottom: 0.75em;
   padding: 0;
-  width: 1.75em;
-  height: 1.75em;
+  width: 2em;
+  height: 2em;
   transition: all 250ms ease-out;
 }
 
@@ -213,4 +217,13 @@
   color: var(--invalid-color);
   font-size: var(--small-font);
   align-self: flex-start;
+  text-align: start;
+}
+
+.bannerErrorTxt {
+  composes: errorTxt;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
 }

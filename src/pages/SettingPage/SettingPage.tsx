@@ -5,17 +5,95 @@ import bannerImage from "../../assets/images/mr-karl-unsplash.jpg";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { SettingFormValues } from "../../config/formValues";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { convertFile } from "../../utils/fileHelper";
+import Input from "../../components/Input/Input";
+
+type filePreview = null | string;
 
 const SettingPage = () => {
   const methods = useForm<SettingFormValues>();
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
   const avatarInputRef = useRef<null | HTMLInputElement>(null);
   const bannerInputRef = useRef<null | HTMLInputElement>(null);
   const [avatarImg, setAvatarImg] = useState<null | File>(null);
+  const [avatarPreview, setAvatarPreview] = useState<filePreview>(null);
   const [bannerImg, setBannerImg] = useState<null | File>(null);
+  const [bannerPreview, setBannerPreview] = useState<filePreview>(null);
 
-  const selectImage = (e: React.FormEvent<HTMLInputElement>) => {};
+  useEffect(() => {
+    const updatePreviews = async () => {
+      const updatePreview = async (
+        file: null | File
+      ): Promise<string | null> => {
+        if (file === null) {
+          return null;
+        }
+
+        try {
+          const image: string = await convertFile(file);
+          return image;
+        } catch (err) {
+          console.error(err);
+          return null;
+        }
+      };
+
+      const [newAvatarPreview, newBannerPreview]: filePreview[] =
+        await Promise.all([updatePreview(avatarImg), updatePreview(bannerImg)]);
+
+      setAvatarPreview(newAvatarPreview);
+      setBannerPreview(newBannerPreview);
+    };
+
+    updatePreviews();
+
+    return () => {
+      setAvatarPreview(null);
+    };
+  }, [avatarImg, bannerImg]);
+
+  const selectImage = (
+    e: React.FormEvent<HTMLInputElement>,
+    setImage: React.Dispatch<React.SetStateAction<null | File>>
+  ) => {
+    const fileInput = e.target as HTMLInputElement;
+
+    if (fileInput) {
+      const file = fileInput.files ? fileInput.files[0] : null;
+      const acceptedMimetpe = new RegExp(/^(image\/(jpeg|png))$/, "i");
+      const isAccepted = file ? acceptedMimetpe.test(file.type) : false;
+
+      if (isAccepted) {
+        setImage(file);
+      }
+    }
+  };
+
+  const createFileValidationFn = (
+    mimetype: string[],
+    msg: string
+  ): ((value: string | FileList) => string | boolean) => {
+    const validateFile = (value: string | FileList) => {
+      const acceptedMimetype = mimetype;
+      const fileList = value as FileList;
+      const file = FileList ? fileList[0] : null;
+
+      if (file) {
+        if (acceptedMimetype.includes(file.type)) {
+          return true;
+        }
+        return msg;
+      }
+
+      return true;
+    };
+
+    return validateFile;
+  };
 
   const onSubmit: SubmitHandler<SettingFormValues> = async (data) => {
     console.log(data);
@@ -36,17 +114,34 @@ const SettingPage = () => {
             >
               <div className={styles.imageContainer}>
                 <div className={styles.bannerContainer}>
+                  {errors.banner && (
+                    <span className={styles.bannerErrorTxt}>
+                      {errors.banner.message}
+                    </span>
+                  )}
                   <img
                     className={styles.img}
-                    src={bannerImage}
+                    src={bannerPreview || bannerImage}
                     alt="Banner image"
                   />
+                  <button
+                    className={styles.fileImgButton}
+                    type="button"
+                    aria-label="Select new banner image"
+                    onClick={() => {
+                      const current = bannerInputRef.current;
+
+                      if (current) {
+                        current.click();
+                      }
+                    }}
+                  ></button>
                 </div>
                 <div className={styles.avatarContainer}>
                   <div className={styles.avatarItem}>
                     <img
                       className={styles.avatar}
-                      src={avatar}
+                      src={avatarPreview || avatar}
                       alt="Avatar image"
                     />
                     <button
@@ -64,17 +159,45 @@ const SettingPage = () => {
                   </div>
                 </div>
               </div>
-              <input
-                className={styles.fileInput}
-                ref={avatarInputRef}
+              {errors.avatar && (
+                <span className={styles.errorTxt}>{errors.avatar.message}</span>
+              )}
+              <Input
+                parentRef={bannerInputRef}
+                id="banner"
+                name="banner"
                 type="file"
+                accept="image/png, image/jpeg"
+                validation={{
+                  validate: createFileValidationFn(
+                    ["image/jpeg", "image/png"],
+                    "Banner image can only accept jpeg or png file"
+                  ),
+                }}
+                onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                  e.preventDefault();
+                  selectImage(e, setBannerImg);
+                }}
+                styles={styles}
+              />
+              <Input
+                parentRef={avatarInputRef}
                 id="avatar"
                 name="avatar"
+                type="file"
                 accept="image/png, image/jpeg"
-                onInput={(e) => {
-                  selectImage(e);
+                validation={{
+                  validate: createFileValidationFn(
+                    ["image/jpeg", "image/png"],
+                    "Avatar image can only accept jpeg or png file"
+                  ),
                 }}
-              ></input>
+                onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                  e.preventDefault();
+                  selectImage(e, setAvatarImg);
+                }}
+                styles={styles}
+              />
 
               <InputContainer
                 id="displayname"
