@@ -5,8 +5,8 @@ type User = {
 };
 
 type UserContextValue = {
-  user: null | User;
-  setUser: React.Dispatch<React.SetStateAction<null | User>>;
+  user: null | User | false;
+  setUser: React.Dispatch<React.SetStateAction<null | User | false>>;
 };
 
 const UserContext = createContext<UserContextValue>({

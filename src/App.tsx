@@ -9,7 +9,7 @@ type User = {
 };
 
 function App() {
-  const [user, setUser] = useState<null | User>(null);
+  const [user, setUser] = useState<null | User | false>(null);
 
   useEffect(() => {
     const configureUserState = async () => {
@@ -17,6 +17,8 @@ function App() {
 
       if (user) {
         setUser(user);
+      } else {
+        setUser(false);
       }
     };
 
