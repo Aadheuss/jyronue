@@ -5,6 +5,7 @@ import React, { FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { CreatePostFormValues } from "../../config/formValues";
 import { useNavigate } from "react-router-dom";
 import InputContainer from "../InputContainer/InputContainer";
+import { convertFile } from "../../utils/fileHelper";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -80,21 +81,6 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
       setFIlesError([]);
       current.close();
     }
-  };
-
-  const convertFile: (file: File) => Promise<string> = async (file: File) => {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-
-      reader.onerror = () => {
-        reject("An error has occured, cannot preview the image");
-      };
-    });
   };
 
   useEffect(() => {

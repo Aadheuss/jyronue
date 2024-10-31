@@ -83,6 +83,14 @@
   height: calc(clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem) / 2);
 }
 
+.avatarItem {
+  position: relative;
+  width: clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem);
+  height: 100%;
+  padding: 0 calc(0.5rem + 0.1vw + 0.1vh);
+  display: flex;
+}
+
 .avatar {
   composes: img;
   position: absolute;
@@ -92,6 +100,27 @@
   border-radius: 50%;
   width: clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem);
   height: clamp(50px, calc(75px + calc(1vw + 1vw)), 9rem);
+}
+
+.fileImgButton {
+  background-image: url("../../assets/images/add-icon.svg");
+  background-color: rgba(0, 0, 0, 0.75);
+  background-position: center;
+  background-size: 1.75em 1.75em;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 1em;
+  bottom: 0.75em;
+  padding: 0;
+  width: 1.75em;
+  height: 1.75em;
+  transition: all 250ms ease-out;
+}
+
+.fileImgButton:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.75);
+  transition: all 250ms ease-in;
 }
 
 .itemContainer {

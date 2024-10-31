@@ -5,10 +5,17 @@ import bannerImage from "../../assets/images/mr-karl-unsplash.jpg";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { SettingFormValues } from "../../config/formValues";
+import { useRef, useState } from "react";
 
 const SettingPage = () => {
   const methods = useForm<SettingFormValues>();
   const { handleSubmit } = methods;
+  const avatarInputRef = useRef<null | HTMLInputElement>(null);
+  const bannerInputRef = useRef<null | HTMLInputElement>(null);
+  const [avatarImg, setAvatarImg] = useState<null | File>(null);
+  const [bannerImg, setBannerImg] = useState<null | File>(null);
+
+  const selectImage = (e: React.FormEvent<HTMLInputElement>) => {};
 
   const onSubmit: SubmitHandler<SettingFormValues> = async (data) => {
     console.log(data);
@@ -36,13 +43,38 @@ const SettingPage = () => {
                   />
                 </div>
                 <div className={styles.avatarContainer}>
-                  <img
-                    className={styles.avatar}
-                    src={avatar}
-                    alt="Avatar image"
-                  />
+                  <div className={styles.avatarItem}>
+                    <img
+                      className={styles.avatar}
+                      src={avatar}
+                      alt="Avatar image"
+                    />
+                    <button
+                      className={styles.fileImgButton}
+                      type="button"
+                      aria-label="Select new avatar image"
+                      onClick={() => {
+                        const current = avatarInputRef.current;
+
+                        if (current) {
+                          current.click();
+                        }
+                      }}
+                    ></button>
+                  </div>
                 </div>
               </div>
+              <input
+                className={styles.fileInput}
+                ref={avatarInputRef}
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept="image/png, image/jpeg"
+                onInput={(e) => {
+                  selectImage(e);
+                }}
+              ></input>
 
               <InputContainer
                 id="displayname"
