@@ -18,64 +18,66 @@ const SettingPage = () => {
     <>
       <NavBar />
       <main className={styles.mainWrapper}>
-        <FormProvider {...methods}>
-          <form
-            className={styles.settingForm}
-            method="post"
-            encType="multipart/form-data"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <h2 className={styles.formHeading}>Edit profile</h2>
-            <div className={styles.imageContainer}>
-              <div className={styles.bannerContainer}>
-                <img
-                  className={styles.img}
-                  src={bannerImage}
-                  alt="Banner image"
-                />
+        <div className={styles.formWrapper}>
+          <h2 className={styles.formHeading}>Edit profile</h2>
+          <FormProvider {...methods}>
+            <form
+              className={styles.settingForm}
+              method="post"
+              encType="multipart/form-data"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className={styles.imageContainer}>
+                <div className={styles.bannerContainer}>
+                  <img
+                    className={styles.img}
+                    src={bannerImage}
+                    alt="Banner image"
+                  />
+                </div>
+                <div className={styles.avatarContainer}>
+                  <img
+                    className={styles.avatar}
+                    src={avatar}
+                    alt="Avatar image"
+                  />
+                </div>
               </div>
-              <div className={styles.avatarContainer}>
-                <img
-                  className={styles.avatar}
-                  src={avatar}
-                  alt="Avatar image"
-                />
-              </div>
-            </div>
 
-            <InputContainer
-              id="displayname"
-              autoComplete="off"
-              label="Display name"
-              parentStyles={styles}
-              validation={{
-                required: "Display name is required",
-                maxLength: {
-                  value: 32,
-                  message: "Display name cannot exceed 32 characters",
-                },
-              }}
-              withErrors={true}
-            />
+              <InputContainer
+                id="displayname"
+                autoComplete="off"
+                label="Display name"
+                parentStyles={styles}
+                validation={{
+                  required: "Display name is required",
+                  maxLength: {
+                    value: 32,
+                    message: "Display name cannot exceed 32 characters",
+                  },
+                }}
+                withErrors={true}
+              />
 
-            <InputContainer
-              type="textarea"
-              id="bio"
-              autoComplete="off"
-              label="Bio"
-              parentStyles={styles}
-              validation={{
-                maxLength: {
-                  value: 255,
-                  message: "Bio cannot exceed 255 characters",
-                },
-              }}
-              withErrors={true}
-            />
+              <InputContainer
+                type="textarea"
+                id="bio"
+                autoComplete="off"
+                label="Bio"
+                parentStyles={styles}
+                validation={{
+                  maxLength: {
+                    value: 255,
+                    message: "Bio cannot exceed 255 characters",
+                  },
+                }}
+                withErrors={true}
+              />
 
-            <button className={styles.saveButton}>Save</button>
-          </form>
-        </FormProvider>
+              <button className={styles.saveButton}>Save</button>
+            </form>
+          </FormProvider>
+        </div>
       </main>
     </>
   );

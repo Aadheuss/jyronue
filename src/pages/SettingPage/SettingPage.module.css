@@ -7,41 +7,56 @@
   align-items: center;
 }
 
-.settingForm {
-  padding: calc(1rem + 0.5vh + 0.5vw);
-  display: flex;
-  flex-direction: column;
-  gap: calc(1rem + 0.5vh + 0.5vw);
+.formWrapper {
+  position: relative;
+  background-color: #000000;
   border-radius: 8px;
-  width: clamp(300px, calc(300px + calc(12vw + 12vh)), 1080px);
+  width: min(92vw, clamp(300px, calc(300px + calc(12vw + 12vh)), 1080px));
   max-height: calc(
     100dvh - var(--nav-height) - calc(calc(1rem + 0.5vh + 0.5vw) * 4)
   );
-  background-color: #000000;
   overflow-y: auto;
 }
 
-.settingForm::-webkit-scrollbar {
+.formWrapper::-webkit-scrollbar {
   width: 0.5vw;
 }
 
-.settingForm::-webkit-scrollbar-track {
+.formWrapper::-webkit-scrollbar-track {
   background: var(#141414);
 }
 
-.settingForm::-webkit-scrollbar-thumb {
+.formWrapper::-webkit-scrollbar-thumb {
   background: #757575;
 }
 
-.settingForm::-webkit-scrollbar-thumb:hover {
+.formWrapper::-webkit-scrollbar-thumb:hover {
   background: var(--main-accent-color);
 }
 
+.settingForm {
+  border-radius: inherit;
+  background-color: inherit;
+  padding: calc(1rem + 0.5vh + 0.5vw);
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(1rem + 0.5vh + 0.5vw);
+}
+
 .formHeading {
+  box-sizing: border-box;
+  z-index: 3;
+  padding: calc(0.5rem + 0.25vh + 0.25vw) calc(1rem + 0.5vh + 0.5vw);
+  border-radius: inherit;
+  text-align: start;
+  position: sticky;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  width: 100%;
   margin: 0;
-  padding: 0;
   font-size: var(--medium-large-font);
-  align-self: flex-start;
 }
 
 .imageContainer {
