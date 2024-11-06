@@ -18,8 +18,8 @@ type CommentFormValue = {
 };
 
 type SettingFormValues = {
-  banner: File;
-  avatar: File;
+  banner: FileList;
+  avatar: FileList;
   displayname: string;
   bio: string;
 };
