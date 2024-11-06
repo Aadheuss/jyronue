@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useRef, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./InputContainer.module.css";
 import {
   checkAutofilled,
@@ -47,6 +47,7 @@ interface Props {
   parentStyles?: CSSModuleClasses;
   withErrors?: boolean;
   limited?: boolean;
+  baseInput?: string;
 }
 
 const InputContainer: FC<Props> = ({
@@ -65,8 +66,10 @@ const InputContainer: FC<Props> = ({
   labelType = "DEFAULT",
   withErrors = false,
   limited = false,
+  baseInput,
 }) => {
-  const [input, setInput] = useState(false);
+  const [input, setInput] = useState<string>("");
+  const [isEmpty, setIsEmpty] = useState<boolean>();
   const [visibility, setVisibility] = useState(false);
   const {
     register,
@@ -78,12 +81,20 @@ const InputContainer: FC<Props> = ({
   const currentStyles = parentStyles ? parentStyles : styles;
   const [placeholderShown, setPlaceholderShown] = useState<boolean>(false);
 
+  useEffect(() => {
+    setInput(baseInput || "");
+
+    return () => {
+      setInput("");
+    };
+  }, [baseInput]);
+
   useLayoutEffect(() => {
     // Check for prefilled input on load periodically
     // The time when it's autofilled is not very stable, so check few times
     const registerAutofill = () => {
       registerAutofilledInput(inputRef);
-      setInput(isInputEmpty({ inputRef }));
+      setIsEmpty(isInputEmpty({ inputRef }));
       checkAutofilled(inputRef, setIsAutofilled);
       setPlaceholderShown(isPlaceholderShown(inputRef));
     };
@@ -133,8 +144,11 @@ const InputContainer: FC<Props> = ({
           className={currentStyles.input}
           type={type !== "password" ? type : visibility ? "text" : type}
           autoComplete={autoComplete}
+          value={input}
           onInput={(e) => {
-            setInput(isInputEmpty({ e }));
+            const target = e.target as HTMLInputElement;
+            setInput(target.value);
+            setIsEmpty(isInputEmpty({ e }));
             if (form?.setError) {
               form.setError(null);
             }
@@ -156,7 +170,7 @@ const InputContainer: FC<Props> = ({
               ? placeholder
                 ? placeholder
                 : label
-              : !input
+              : isEmpty
               ? ""
               : placeholder
               ? placeholder
@@ -165,7 +179,7 @@ const InputContainer: FC<Props> = ({
         />
       )}
 
-      {type === "password" && input && (
+      {type === "password" && !isEmpty && (
         <button
           type="button"
           className={currentStyles.visibilityBtn}

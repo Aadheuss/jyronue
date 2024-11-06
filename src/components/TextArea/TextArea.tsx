@@ -17,6 +17,7 @@ interface Props {
   };
   limited?: boolean;
   parentStyles: CSSModuleClasses;
+  baseInput: string;
 }
 
 const TextArea: FC<Props> = ({
@@ -28,6 +29,7 @@ const TextArea: FC<Props> = ({
   autoFocus = false,
   limited = false,
   parentStyles,
+  baseInput,
 }) => {
   const [input, setInput] = useState<string>("");
   const { register } = useFormContext();
@@ -39,10 +41,11 @@ const TextArea: FC<Props> = ({
       }
     };
 
+    setInput(baseInput || "");
     resetInput();
 
     return () => setInput("");
-  }, [isOpen]);
+  }, [isOpen, baseInput]);
 
   const updateInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
