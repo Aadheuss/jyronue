@@ -22,7 +22,7 @@ const ProfilePage = () => {
       if (username) {
         const [userProfile, userPosts] = await Promise.all([
           fetchData({
-            link: `http://localhost:3000/user/${username}/profile`,
+            link: `http://localhost:3000/user/profile?username=${username}`,
             options: {
               method: "GET",
               credentials: "include",
