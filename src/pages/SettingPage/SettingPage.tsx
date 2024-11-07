@@ -11,6 +11,7 @@ import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../utils/fetchFunctions";
 import { UserProfileValue } from "../../config/typeValues";
+import { unescapeInput } from "../../utils/htmlDecoder";
 
 type filePreview = null | string;
 
@@ -302,7 +303,9 @@ const SettingPage = () => {
                   },
                 }}
                 withErrors={true}
-                baseInput={profile?.bio || undefined}
+                baseInput={
+                  profile?.bio ? unescapeInput(profile.bio) : undefined
+                }
               />
 
               <button className={styles.saveButton}>Save</button>

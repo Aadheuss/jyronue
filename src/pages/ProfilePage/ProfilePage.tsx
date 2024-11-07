@@ -7,6 +7,7 @@ import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
 import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
+import { unescapeInput } from "../../utils/htmlDecoder";
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -118,7 +119,9 @@ const ProfilePage = () => {
                         </div>
 
                         <div className={styles.bottomItem}>
-                          <p className={styles.bio}>{profile.bio || ""}</p>
+                          <p className={styles.bio}>
+                            {profile.bio ? unescapeInput(profile.bio) : ""}
+                          </p>
                           <div className={styles.follows}>
                             <p className={styles.followText}>
                               <span className={styles.followNumber}>
