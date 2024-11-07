@@ -25,6 +25,7 @@ const TextArea: FC<Props> = ({
   id,
   name,
   placeholder,
+  rows,
   rules,
   autoFocus = false,
   limited = false,
@@ -66,7 +67,7 @@ const TextArea: FC<Props> = ({
         onInput={(e) => {
           updateInput(e);
         }}
-        rows={5}
+        rows={rows || 5}
         autoFocus={autoFocus}
         value={input}
         {...register(name, rules)}
