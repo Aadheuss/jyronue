@@ -1,6 +1,5 @@
 import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
-import logo from "../../assets/images/mr-karl-unsplash.jpg";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostGallery, UserProfileValue } from "../../config/typeValues";
