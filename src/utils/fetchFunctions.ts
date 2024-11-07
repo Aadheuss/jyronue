@@ -60,6 +60,7 @@ const fetchData = async ({
   options: {
     method: "GET" | "POST";
     credentials?: "include";
+    body?: FormData | URLSearchParams;
   };
 }) => {
   try {
