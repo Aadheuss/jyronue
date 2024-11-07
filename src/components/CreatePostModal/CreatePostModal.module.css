@@ -43,7 +43,7 @@
 
 @keyframes show {
   from {
-    transform: translateY(-200%) scale(0.5);
+    transform: translateY(-300%) scale(0.5);
   }
 
   to {
@@ -59,7 +59,7 @@
 
   to {
     display: none;
-    transform: translateY(-200%) scale(0.5);
+    transform: translateY(-300%) scale(0.5);
   }
 }
 
