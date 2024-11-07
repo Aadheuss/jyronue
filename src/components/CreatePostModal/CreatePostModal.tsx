@@ -186,7 +186,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
               label="Caption"
               labelType="HIDDEN"
               placeholder="Tell a story about your post"
-              rows={5}
+              rows={9}
               autoFocus={true}
               validation={{
                 required: "Caption is required",

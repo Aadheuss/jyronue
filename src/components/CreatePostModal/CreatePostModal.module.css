@@ -5,7 +5,7 @@
   bottom: 0;
   padding: 2rem;
   color: var(--main-color-2);
-  width: 500px;
+  width: min(calc(4rem + 72ch), calc(90vw - 4rem));
   border: none;
   border-radius: 4px;
   background-color: #000000;
@@ -105,7 +105,7 @@
 
 .textarea {
   font-family: "inter", system-ui, sans-serif;
-  font-size: var(--medium-little-font);
+  font-size: var(--medium-font);
   width: 100%;
   background-color: inherit;
   padding: 0;
@@ -161,7 +161,7 @@
 }
 
 .fileButton {
-  font-size: var(--small-little-font);
+  font-size: var(--medium-little-font);
   position: relative;
   border-radius: 50%;
   width: 2em;
@@ -194,7 +194,7 @@
 .fileInput {
   position: absolute;
   left: 0;
-  font-size: var(--small-little-font);
+  font-size: var(--medium-font);
   width: 2em;
   height: 2em;
 }
@@ -213,7 +213,7 @@
 .error {
   align-self: flex-start;
   color: var(--invalid-color);
-  font-size: var(--small-little-font);
+  font-size: var(--medium-little-font);
 }
 
 .filesError {
