@@ -92,6 +92,7 @@ const LoginPage = () => {
                     setFocus,
                     setError,
                   }}
+                  labelType="HIDDEN"
                   id="username"
                   autoComplete="username"
                   label="Username"
@@ -124,6 +125,7 @@ const LoginPage = () => {
                     setFocus,
                     setError,
                   }}
+                  labelType="HIDDEN"
                   id="password"
                   type="password"
                   autoComplete="current-password"

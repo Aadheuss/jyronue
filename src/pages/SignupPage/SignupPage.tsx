@@ -84,6 +84,7 @@ const SignupPage = () => {
                     setFocus,
                     setErrorList,
                   }}
+                  labelType="HIDDEN"
                   id="username"
                   autoComplete="username"
                   label="Username"
@@ -123,6 +124,7 @@ const SignupPage = () => {
                     setFocus,
                     setErrorList,
                   }}
+                  labelType="HIDDEN"
                   id="password"
                   type="password"
                   autoComplete="new-password"
