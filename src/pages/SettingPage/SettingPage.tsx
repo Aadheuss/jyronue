@@ -127,22 +127,20 @@ const SettingPage = () => {
   };
 
   const onSubmit: SubmitHandler<SettingFormValues> = async (data) => {
-    const avatar = data.avatar ? data.avatar[0] : null;
-    const banner = data.banner ? data.banner[0] : null;
     const formData = new FormData();
     formData.append("displayname", data.displayname);
     formData.append("bio", data.bio);
-    if (avatar) {
-      formData.append("avatar", avatar);
+    if (avatarImg) {
+      formData.append("avatar", avatarImg);
     }
 
-    if (banner) {
-      formData.append("banner", banner);
+    if (bannerImg) {
+      formData.append("banner", bannerImg);
     }
 
     console.log({
-      avatar,
-      banner,
+      avatarImg,
+      bannerImg,
       displayname: data.displayname,
       bio: data.bio,
     });
