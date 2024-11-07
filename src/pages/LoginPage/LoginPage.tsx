@@ -27,7 +27,7 @@ const LoginPage = () => {
     };
 
     isLoggedIn();
-  }, [user]);
+  }, [user, navigate]);
 
   const onSubmit: SubmitHandler<formValues> = async (data) => {
     const formData = new URLSearchParams();
