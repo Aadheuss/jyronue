@@ -74,6 +74,7 @@ const InputContainer: FC<Props> = ({
   const {
     register,
     formState: { errors },
+    setValue,
   } = useFormContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isAutofilled, setIsAutofilled] = useState(false);
@@ -83,11 +84,12 @@ const InputContainer: FC<Props> = ({
 
   useEffect(() => {
     setInput(baseInput || "");
+    setValue(name || id, baseInput || "");
 
     return () => {
       setInput("");
     };
-  }, [baseInput]);
+  }, [baseInput, name, id, setValue]);
 
   useLayoutEffect(() => {
     // Check for prefilled input on load periodically
@@ -137,6 +139,7 @@ const InputContainer: FC<Props> = ({
           autoFocus={autoFocus}
           parentStyles={currentStyles}
           limited={limited}
+          baseInput={baseInput || ""}
         />
       ) : (
         <input

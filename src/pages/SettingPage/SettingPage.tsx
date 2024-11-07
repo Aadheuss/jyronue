@@ -1,17 +1,21 @@
 import styles from "./SettingPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
 import avatar from "../../assets/images/avatar_icon.svg";
-import bannerImage from "../../assets/images/mr-karl-unsplash.jpg";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { SettingFormValues } from "../../config/formValues";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { convertFile } from "../../utils/fileHelper";
 import Input from "../../components/Input/Input";
+import { UserContext } from "../../context/context";
+import { useNavigate } from "react-router-dom";
+import { fetchData } from "../../utils/fetchFunctions";
+import { UserProfileValue } from "../../config/typeValues";
 
 type filePreview = null | string;
 
 const SettingPage = () => {
+  const { user } = useContext(UserContext);
   const methods = useForm<SettingFormValues>();
   const {
     handleSubmit,
@@ -23,8 +27,32 @@ const SettingPage = () => {
   const [avatarPreview, setAvatarPreview] = useState<filePreview>(null);
   const [bannerImg, setBannerImg] = useState<null | File>(null);
   const [bannerPreview, setBannerPreview] = useState<filePreview>(null);
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState<null | UserProfileValue>(null);
 
   useEffect(() => {
+    if (user === false) {
+      navigate("/");
+    }
+
+    const fetchUserProfile = async () => {
+      if (user) {
+        const userProfile = await fetchData({
+          link: `http://localhost:3000/user/profile?id=${user.id}`,
+          options: {
+            method: "GET",
+            credentials: "include",
+          },
+        });
+
+        if (userProfile?.isError) {
+          console.error(userProfile?.data.error, userProfile?.data.errors);
+        } else {
+          setProfile(userProfile?.data.profile);
+        }
+      }
+    };
+
     const updatePreviews = async () => {
       const updatePreview = async (
         file: null | File
@@ -45,6 +73,7 @@ const SettingPage = () => {
       const [newAvatarPreview, newBannerPreview]: filePreview[] =
         await Promise.all([updatePreview(avatarImg), updatePreview(bannerImg)]);
 
+      fetchUserProfile();
       setAvatarPreview(newAvatarPreview);
       setBannerPreview(newBannerPreview);
     };
@@ -54,7 +83,7 @@ const SettingPage = () => {
     return () => {
       setAvatarPreview(null);
     };
-  }, [avatarImg, bannerImg]);
+  }, [avatarImg, bannerImg, user, navigate]);
 
   const selectImage = (
     e: React.FormEvent<HTMLInputElement>,
@@ -69,6 +98,8 @@ const SettingPage = () => {
 
       if (isAccepted) {
         setImage(file);
+      } else {
+        fileInput.value = "";
       }
     }
   };
@@ -96,7 +127,40 @@ const SettingPage = () => {
   };
 
   const onSubmit: SubmitHandler<SettingFormValues> = async (data) => {
-    console.log(data);
+    const avatar = data.avatar ? data.avatar[0] : null;
+    const banner = data.banner ? data.banner[0] : null;
+    const formData = new FormData();
+    formData.append("displayname", data.displayname);
+    formData.append("bio", data.bio);
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+
+    if (banner) {
+      formData.append("banner", banner);
+    }
+
+    console.log({
+      avatar,
+      banner,
+      displayname: data.displayname,
+      bio: data.bio,
+    });
+
+    const userProfile = await fetchData({
+      link: `http://localhost:3000/user/profile`,
+      options: {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      },
+    });
+
+    if (userProfile?.isError) {
+      console.error(userProfile?.data.error, userProfile?.data.errors);
+    } else {
+      navigate(`/profile/${userProfile?.data.profile.username}`);
+    }
   };
 
   return (
@@ -119,11 +183,19 @@ const SettingPage = () => {
                       {errors.banner.message}
                     </span>
                   )}
-                  <img
-                    className={styles.img}
-                    src={bannerPreview || bannerImage}
-                    alt="Banner image"
-                  />
+                  {profile &&
+                    (profile.profileImage.bannerUrl || bannerPreview) && (
+                      <img
+                        className={styles.img}
+                        src={
+                          bannerPreview ||
+                          profile.profileImage.bannerUrl ||
+                          undefined
+                        }
+                        alt="Banner image"
+                      />
+                    )}
+
                   <button
                     className={styles.fileImgButton}
                     type="button"
@@ -141,7 +213,11 @@ const SettingPage = () => {
                   <div className={styles.avatarItem}>
                     <img
                       className={styles.avatar}
-                      src={avatarPreview || avatar}
+                      src={
+                        avatarPreview ||
+                        profile?.profileImage.pictureUrl ||
+                        avatar
+                      }
                       alt="Avatar image"
                     />
                     <button
@@ -212,6 +288,7 @@ const SettingPage = () => {
                   },
                 }}
                 withErrors={true}
+                baseInput={profile?.displayName}
               />
 
               <InputContainer
@@ -227,6 +304,7 @@ const SettingPage = () => {
                   },
                 }}
                 withErrors={true}
+                baseInput={profile?.bio || undefined}
               />
 
               <button className={styles.saveButton}>Save</button>
