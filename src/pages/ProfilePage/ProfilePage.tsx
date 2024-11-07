@@ -75,7 +75,7 @@ const ProfilePage = () => {
                       {profile.profileImage.bannerUrl && (
                         <img
                           className={styles.bannerImage}
-                          src={logo}
+                          src={profile.profileImage.bannerUrl}
                           alt="Profile banner"
                         ></img>
                       )}{" "}
