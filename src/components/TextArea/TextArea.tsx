@@ -36,7 +36,7 @@ const TextArea: FC<Props> = ({
 
   useEffect(() => {
     const resetInput = () => {
-      if (!isOpen) {
+      if (!isOpen && isOpen !== undefined) {
         setInput("");
       }
     };
