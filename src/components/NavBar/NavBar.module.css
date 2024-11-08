@@ -92,11 +92,10 @@
   display: flex;
   align-items: center;
   position: relative;
-  font-weight: 600;
 }
 
-.exploreLink::after {
-  margin-left: 0.5em;
+.exploreLink::before {
+  margin-right: 0.5em;
   content: " ";
   height: 1.15em;
   width: 1.15em;
