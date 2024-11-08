@@ -32,9 +32,17 @@ const NavBar = () => {
   return (
     <>
       <nav className={styles.navBar}>
-        <Link className={styles.link} to="/">
-          <img className={styles.logo} src={logo} alt="Jyronue-logo" />
-        </Link>
+        <div className={styles.itemContainer}>
+          <Link className={styles.link} to="/">
+            <img className={styles.logo} src={logo} alt="Jyronue-logo" />
+          </Link>
+          <div className={styles.navItem}>
+            <Link className={styles.exploreLink} to="/explore">
+              Explore
+            </Link>
+          </div>
+        </div>
+
         <ul className={styles.navList}>
           {user ? (
             <>

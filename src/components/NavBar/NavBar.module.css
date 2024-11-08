@@ -4,16 +4,16 @@
   justify-content: space-between;
   background-color: var(--main-color);
   padding: 1rem;
+  gap: 1rem;
 }
 
 .navList {
   margin: 0;
   padding: 0;
-  padding-right: 1rem;
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: min(1em, 2vw);
 }
 
 .navItem {
@@ -43,6 +43,7 @@
 
 .logoutButton {
   composes: link;
+  padding: min(0.25em, 0.5vw) min(2vw, 1em);
   background-color: inherit;
 }
 
@@ -79,4 +80,27 @@
   background-image: url("../../assets//images//add-icon.svg");
   background-repeat: no-repeat;
   background-size: 1em 1em;
+}
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.exploreLink {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-weight: 600;
+}
+
+.exploreLink::after {
+  margin-left: 0.5em;
+  content: " ";
+  height: 1.15em;
+  width: 1.15em;
+  background-image: url("../../assets/images/explore_icon.svg");
+  background-size: 1.15em 1.15em;
+  background-repeat: no-repeat;
 }
