@@ -59,6 +59,39 @@ const ProfilePage = () => {
     };
   }, [username]);
 
+  const toggleFollow = async () => {
+    const type = profile?.isFollowing ? "unfollow" : "follow";
+
+    const formData = new URLSearchParams();
+    formData.append("username", username as string);
+
+    const follows = await fetchData({
+      link: `http://localhost:3000/user/${type}`,
+      options: {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      },
+    });
+
+    if (follows?.isError || follows?.isError) {
+      console.error(follows?.data.error, follows?.data.errors);
+    } else {
+      if (profile) {
+        const followedBy = profile?._count.followedBy;
+
+        setProfile({
+          ...profile,
+          isFollowing: !profile.isFollowing,
+          _count: {
+            ...profile._count,
+            followedBy: type === "follow" ? followedBy + 1 : followedBy - 1,
+          },
+        });
+      }
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -111,7 +144,10 @@ const ProfilePage = () => {
                                 Edit profile
                               </button>
                             ) : (
-                              <button className={styles.followButton}>
+                              <button
+                                className={styles.followButton}
+                                onClick={toggleFollow}
+                              >
                                 {profile.isFollowing ? "unfollow" : "follow"}
                               </button>
                             )
