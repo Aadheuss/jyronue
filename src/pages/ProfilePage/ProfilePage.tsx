@@ -112,7 +112,7 @@ const ProfilePage = () => {
                               </button>
                             ) : (
                               <button className={styles.followButton}>
-                                Follow
+                                {profile.isFollowing ? "unfollow" : "follow"}
                               </button>
                             )
                           ) : null}

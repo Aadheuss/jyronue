@@ -77,6 +77,7 @@ type UserProfileValue = {
     followedBy: number;
     following: number;
   };
+  isFollowing: boolean;
 };
 
 type PostGallery = {
