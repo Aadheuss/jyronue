@@ -4,7 +4,7 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(
-    auto-fit,
+    auto-fill,
     minmax(min(30%, calc(100px + 8%)), 1fr)
   );
   gap: calc(0.2vh + 0.2vw + 4px);
