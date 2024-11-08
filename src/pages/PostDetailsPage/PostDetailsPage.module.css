@@ -138,3 +138,16 @@
   font-weight: 500;
   color: var(--main-accent-color);
 }
+
+@media screen and (max-width: 768px) {
+  .mainWrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh 1fr;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .mainWrapper {
+    grid-template-rows: 35vh 1fr;
+  }
+}
