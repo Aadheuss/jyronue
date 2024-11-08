@@ -179,3 +179,28 @@
 .followNumber {
   color: var(--main-accent-color);
 }
+.notFoundContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: auto;
+  height: calc(100dvh - var(--nav-height));
+}
+
+.notFoundText {
+  composes: text;
+  font-family: "inter", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--medium-font);
+}
+
+.link {
+  flex: 0;
+  margin-top: 1rem;
+  border-bottom: 1px solid var(--main-color-2);
+}
+
+.link:hover {
+  border-bottom-color: var(--warning-color);
+}

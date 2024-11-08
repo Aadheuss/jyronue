@@ -1,7 +1,7 @@
 import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PostGallery, UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
@@ -97,7 +97,14 @@ const ProfilePage = () => {
       <NavBar />
       <main className={styles.mainWrapper}>
         {notFound ? (
-          <p className={styles.text}>This user profile doesn't exist</p>
+          <div className={styles.notFoundContainer}>
+            <p className={styles.notFoundText}>
+              This user profile doesn't exist
+            </p>
+            <Link className={styles.link} to="/">
+              Go back to Homepage
+            </Link>
+          </div>
         ) : (
           <>
             {profile && (
