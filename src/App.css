@@ -8,4 +8,22 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  max-height: 100dvh;
+  overflow-y: auto;
+}
+
+#root::-webkit-scrollbar {
+  width: calc(8px + 0.25vw);
+}
+
+#root::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+#root::-webkit-scrollbar-thumb {
+  background: #757575;
+}
+
+#root::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
 }
