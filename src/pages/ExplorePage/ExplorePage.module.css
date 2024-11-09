@@ -1,0 +1,47 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  max-height: calc(100dvh - var(--nav-height) - 3em);
+  padding-bottom: 3em;
+  overflow-y: auto;
+}
+
+.mainContent::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.mainContent::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.mainContent::-webkit-scrollbar-thumb {
+  background: var(--main-color-3);
+}
+
+.mainContent::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
+}
+
+.heading {
+  text-align: start;
+  font-size: var(--big-small-font);
+  color: var(--main-color-3);
+  padding: 0 clamp(8px, calc(0.75rem + 0.25vw + 0.25vh), 3rem);
+  margin-bottom: 0;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.text {
+  font-size: var(--medium-little-font);
+  color: var(--main-color-3s);
+  margin: 0;
+  padding: 0;
+}

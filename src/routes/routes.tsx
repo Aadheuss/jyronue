@@ -7,6 +7,7 @@ import PostDetailsPage from "../pages/PostDetailsPage/PostDetailsPage";
 import HomePage from "../pages/HomePage/HomePage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import SettingPage from "../pages/SettingPage/SettingPage";
+import ExplorePage from "../pages/ExplorePage/ExplorePage";
 
 const routes = [
   {
@@ -38,6 +39,10 @@ const routes = [
       {
         path: "/setting",
         element: <SettingPage />,
+      },
+      {
+        path: "/explore",
+        element: <ExplorePage />,
       },
     ],
   },
