@@ -1,15 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import styles from "./CommentList.module.css";
 import { useParams } from "react-router-dom";
 import CommentBox from "../CommentBox/CommentBox";
 import { CommentValue } from "../../config/typeValues";
 import Comment from "../Comment/Comment";
+import { UserContext } from "../../context/context";
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
 }
 
 const CommentList: FC<Props> = ({ commentInputRef }) => {
+  const { user } = useContext(UserContext);
   const { postid } = useParams();
   const [comments, setComments] = useState<CommentValue[]>([]);
   const [openReplyId, setOpenReplyId] = useState<string>("");
@@ -83,10 +85,13 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
 
   return (
     <div className={styles.comments}>
-      <CommentBox
-        updateComments={updateComments}
-        commentInputRef={commentInputRef}
-      />
+      {user && (
+        <CommentBox
+          updateComments={updateComments}
+          commentInputRef={commentInputRef}
+        />
+      )}
+
       <p className={styles.commentHeading}>Comments</p>
       <ul className={styles.commentList}>
         {comments && comments.length > 0 ? (

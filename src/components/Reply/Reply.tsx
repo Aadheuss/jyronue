@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Reply.module.css";
 import { CommentValue, ReplyValue } from "../../config/typeValues";
-import { FC, useRef } from "react";
+import { FC, useContext, useRef } from "react";
 import LikeButton from "../LikeButton/LikeButton";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyBox from "../ReplyBox/ReplyBox";
+import { UserContext } from "../../context/context";
 
 interface Props {
   comment: CommentValue;
@@ -34,7 +35,9 @@ const Reply: FC<Props> = ({
   openReplyId,
   setOpenReplyId,
 }) => {
+  const { user } = useContext(UserContext);
   const replyInputRef = useRef<null | HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const openReplyForm = ({ id }: { id: string }) => {
     setOpenReplyId(id);
@@ -87,7 +90,12 @@ const Reply: FC<Props> = ({
             />
             <button
               className={styles.replyButton}
-              onClick={() => openReplyForm({ id: reply.id })}
+              onClick={() => {
+                if (user === false) {
+                  navigate("/login");
+                }
+                openReplyForm({ id: reply.id });
+              }}
             ></button>
           </div>
         </div>

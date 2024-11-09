@@ -144,7 +144,13 @@ const PostDetailsPage = () => {
                 />
                 <button
                   className={styles.reply}
-                  onClick={focusCommentInput}
+                  onClick={() => {
+                    if (user === false) {
+                      navigate("/login");
+                    }
+
+                    focusCommentInput();
+                  }}
                 ></button>
               </div>
               <p className={styles.likeInfo}>
