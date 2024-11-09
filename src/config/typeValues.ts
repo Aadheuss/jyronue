@@ -89,10 +89,44 @@ type PostGallery = {
   caption: string;
 };
 
+type content = {
+  id: string;
+  postId: string;
+  url: string;
+};
+
+type PostValue = {
+  id: string;
+  authorid: string;
+  createdAt: string;
+  updatedAt: string;
+  caption: string;
+  content: content[];
+  author: {
+    displayName: string;
+    username: string;
+    profileImage: {
+      pictureUrl: string;
+    };
+  };
+  likesBox: {
+    id: string;
+    _count: {
+      likes: number;
+    };
+  };
+  _count: {
+    comments: number;
+    replies: number;
+  };
+  userLikeStatus: boolean;
+};
+
 export type {
   CommentValue,
   ReplyValue,
   UpdateReplyValue,
   UserProfileValue,
   PostGallery,
+  PostValue,
 };

@@ -7,39 +7,7 @@ import PostImages from "../../components/PostImages/PostImages";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import { UserContext } from "../../context/context";
-
-type content = {
-  id: string;
-  postId: string;
-  url: string;
-};
-
-type PostValue = {
-  id: string;
-  authorid: string;
-  createdAt: string;
-  updatedAt: string;
-  caption: string;
-  content: content[];
-  author: {
-    displayName: string;
-    username: string;
-    profileImage: {
-      pictureUrl: string;
-    };
-  };
-  likesBox: {
-    id: string;
-    _count: {
-      likes: number;
-    };
-  };
-  _count: {
-    comments: number;
-    replies: number;
-  };
-  userLikeStatus: boolean;
-};
+import { PostValue } from "../../config/typeValues";
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
