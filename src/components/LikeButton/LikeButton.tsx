@@ -87,6 +87,8 @@ const LikeButton: FC<Props> = ({
             : size === "SMALL"
             ? styles.likeSmall
             : styles.like
+          : size === "SMALL"
+          ? styles.likeSmall
           : styles.like
       }
       onMouseDown={(e) => {
