@@ -5,6 +5,7 @@ import { fetchLikesBox, fetchToggleLike } from "../../utils/fetchFunctions";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
+  // The id of the thing to like
   id: string | undefined;
   type: "post" | "comment" | "reply";
   likesBox: {
