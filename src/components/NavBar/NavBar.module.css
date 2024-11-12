@@ -139,6 +139,7 @@
 }
 
 .menu {
+  border-top: 1px solid var(--main-accent-color);
   width: min(calc(150px + 10vw), 75vw);
   z-index: 1;
   position: absolute;
@@ -166,6 +167,12 @@
   border-bottom: 1px solid var(--accent-color-1);
 }
 
-.text {
-  text-align: start;
+.menuChild {
+  background-color: inherit;
+  color: var(--main-color-3);
+  font-size: var(--medium-little-font);
+  flex: auto;
+  padding: 0;
+  border-radius: 0;
+  text-align: left;
 }

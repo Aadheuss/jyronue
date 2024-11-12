@@ -75,20 +75,20 @@ const NavBar = () => {
               <ul className={isMenuOpen ? styles.menu : styles.hidden}>
                 <li className={styles.menuItem}>
                   <Link
-                    className={styles.text}
+                    className={styles.menuChild}
                     to={`/profile/${user.username}`}
                   >
                     Your Profile
                   </Link>
                 </li>
                 <li className={styles.menuItem}>
-                  <Link className={styles.text} to={`/`}>
+                  <Link className={styles.menuChild} to={`/`}>
                     Home
                   </Link>
                 </li>
                 <li className={styles.menuItem}>
                   <button
-                    className={styles.logoutButton}
+                    className={styles.menuChild}
                     type="button"
                     onClick={logout}
                   >
