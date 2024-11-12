@@ -126,7 +126,7 @@ type UserValue = {
   id: string;
   username: string;
   profileImage: {
-    pictureUrl: string;
+    pictureUrl: string | null;
   };
 };
 

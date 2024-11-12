@@ -131,6 +131,7 @@
 }
 
 .avatar {
+  background-color: var(--main-color-3);
   border-radius: inherit;
   padding: 0;
   width: var(--logo);

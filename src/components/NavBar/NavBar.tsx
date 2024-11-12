@@ -4,6 +4,7 @@ import logo from "../../assets/images/jyronue-logo.svg";
 import { FC, useContext, useState } from "react";
 import { UserContext } from "../../context/context";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 interface Props {
   activeNavButton?: null | number;
@@ -75,7 +76,7 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
                 >
                   <img
                     className={styles.avatar}
-                    src={user.profileImage.pictureUrl}
+                    src={user.profileImage.pictureUrl || avatar}
                     alt="Your avatar image"
                   ></img>
                 </button>
