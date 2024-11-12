@@ -5,6 +5,7 @@
   width: 100%;
   background-image: url("../../assets/images/mr-karl-unsplash.jpg");
   background-size: cover;
+  background-position: center;
 }
 
 .h1 {
