@@ -27,7 +27,7 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
       if (resData.error) {
         console.log(resData.error);
       } else {
-        setUser(null);
+        setUser(false);
       }
     } catch (err) {
       console.log(err);
