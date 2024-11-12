@@ -10,13 +10,13 @@ import Input from "../../components/Input/Input";
 import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../utils/fetchFunctions";
-import { UserProfileValue } from "../../config/typeValues";
+import { UserProfileValue, UserValue } from "../../config/typeValues";
 import { unescapeInput } from "../../utils/htmlDecoder";
 
 type filePreview = null | string;
 
 const SettingPage = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const methods = useForm<SettingFormValues>();
   const {
     handleSubmit,
@@ -158,6 +158,17 @@ const SettingPage = () => {
     if (userProfile?.isError) {
       console.error(userProfile?.data.error, userProfile?.data.errors);
     } else {
+      const pictureUrl = userProfile
+        ? userProfile.data.profile.profileImage.pictureUrl
+        : null;
+
+      setUser({
+        ...user,
+        profileImage: {
+          pictureUrl,
+        },
+      } as UserValue);
+
       navigate(`/profile/${userProfile?.data.profile.username}`);
     }
   };
