@@ -151,6 +151,7 @@ const InputContainer: FC<Props> = ({
           onInput={(e) => {
             const target = e.target as HTMLInputElement;
             setInput(target.value);
+
             setIsEmpty(isInputEmpty({ e }));
             if (form?.setError) {
               form.setError(null);
@@ -173,7 +174,7 @@ const InputContainer: FC<Props> = ({
               ? placeholder
                 ? placeholder
                 : label
-              : isEmpty
+              : !isEmpty
               ? ""
               : placeholder
               ? placeholder
@@ -186,7 +187,13 @@ const InputContainer: FC<Props> = ({
         <button
           type="button"
           className={currentStyles.visibilityBtn}
-          onClick={() => setVisibility(!visibility)}
+          onClick={() => {
+            if (input.length > 0) {
+              setVisibility(true);
+            } else {
+              setVisibility(false);
+            }
+          }}
         >
           <span
             className={

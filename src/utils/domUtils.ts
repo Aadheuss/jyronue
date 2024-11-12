@@ -18,7 +18,7 @@ const isInputEmpty = ({ e, inputRef }: isInputEmptyArgs): boolean => {
     return false;
   }
 
-  return element.value.length > 0;
+  return element.value.length < 1;
 };
 
 const checkAutofilled = (
