@@ -89,7 +89,7 @@ type PostGallery = {
   caption: string;
 };
 
-type content = {
+type Content = {
   id: string;
   postId: string;
   url: string;
@@ -101,7 +101,7 @@ type PostValue = {
   createdAt: string;
   updatedAt: string;
   caption: string;
-  content: content[];
+  content: Content[];
   author: {
     displayName: string;
     username: string;
@@ -129,4 +129,5 @@ export type {
   UserProfileValue,
   PostGallery,
   PostValue,
+  Content,
 };
