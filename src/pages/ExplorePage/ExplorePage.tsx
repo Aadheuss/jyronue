@@ -35,7 +35,7 @@ const ExplorePage = () => {
   }, []);
   return (
     <>
-      <NavBar />
+      <NavBar activeNavButton={1} />
       <main className={styles.mainWrapper}>
         <div className={styles.mainContent}>
           <h2 className={styles.heading}>Explore latest posts</h2>

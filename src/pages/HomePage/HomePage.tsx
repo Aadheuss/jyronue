@@ -60,7 +60,7 @@ const HomePage = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar activeNavButton={3} />
       <main className={styles.mainWrapper}>
         <ul className={styles.postList}>
           {posts &&

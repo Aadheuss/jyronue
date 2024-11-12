@@ -94,7 +94,9 @@ const ProfilePage = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar
+        activeNavButton={user ? (username === user.username ? 2 : null) : null}
+      />
       <main className={styles.mainWrapper}>
         {notFound ? (
           <div className={styles.notFoundContainer}>

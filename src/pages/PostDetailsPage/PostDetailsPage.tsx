@@ -70,7 +70,7 @@ const PostDetailsPage = () => {
   return (
     <>
       <header>
-        <NavBar />
+        <NavBar activeNavButton={null} />
       </header>
       <main className={styles.mainWrapper}>
         <PostImages images={post ? post.content : null} />

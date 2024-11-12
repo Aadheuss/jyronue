@@ -69,6 +69,7 @@
   --main-accent-color: #798ea4;
   --accent-color-1: #3bc1e7;
   --accent-color-2: #3ce8af;
+  --accent-color-3: #3c56e8;
   --invalid-color: #ff1717;
   --warning-color: #e8903c;
   --logo: clamp(35px, calc(1.75rem + calc(0.6vh + 0.6vw)), 5rem);

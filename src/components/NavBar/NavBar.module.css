@@ -27,6 +27,15 @@
   transition: border 500ms ease-out;
 }
 
+.activeNavItem {
+  composes: navItem;
+  border-bottom-color: var(--accent-color-2);
+}
+
+.activeNavItem:hover {
+  border-bottom-color: var(--accent-color-3);
+}
+
 .link {
   display: flex;
   justify-items: center;
@@ -161,6 +170,7 @@
   width: 100%;
   flex: auto;
   border-bottom: 1px solid transparent;
+  border-radius: 4px;
 }
 
 .menuItem:hover {
@@ -172,7 +182,16 @@
   color: var(--main-color-3);
   font-size: var(--medium-little-font);
   flex: auto;
-  padding: 0;
-  border-radius: 0;
+  padding: 0.15em;
   text-align: left;
+  border-radius: inherit;
+}
+
+.menuChild:hover {
+  background-color: inherit;
+}
+
+.activeMenuChild {
+  composes: menuChild;
+  background-color: "#212121";
 }

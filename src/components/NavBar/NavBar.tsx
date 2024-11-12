@@ -1,11 +1,15 @@
 import styles from "./NavBar.module.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/jyronue-logo.svg";
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { UserContext } from "../../context/context";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 
-const NavBar = () => {
+interface Props {
+  activeNavButton?: null | number;
+}
+
+const NavBar: FC<Props> = ({ activeNavButton = null }) => {
   const { user, setUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState<null | (() => void)>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -37,7 +41,11 @@ const NavBar = () => {
           <Link className={styles.link} to="/">
             <img className={styles.logo} src={logo} alt="Jyronue-logo" />
           </Link>
-          <div className={styles.navItem}>
+          <div
+            className={
+              activeNavButton === 1 ? styles.activeNavItem : styles.navItem
+            }
+          >
             <Link className={styles.exploreLink} to="/explore">
               Explore
             </Link>
@@ -75,14 +83,25 @@ const NavBar = () => {
               <ul className={isMenuOpen ? styles.menu : styles.hidden}>
                 <li className={styles.menuItem}>
                   <Link
-                    className={styles.menuChild}
+                    className={
+                      activeNavButton === 2
+                        ? styles.activeMenuChild
+                        : styles.menuChild
+                    }
                     to={`/profile/${user.username}`}
                   >
                     Your Profile
                   </Link>
                 </li>
                 <li className={styles.menuItem}>
-                  <Link className={styles.menuChild} to={`/`}>
+                  <Link
+                    className={
+                      activeNavButton === 3
+                        ? styles.activeMenuChild
+                        : styles.menuChild
+                    }
+                    to={`/`}
+                  >
                     Home
                   </Link>
                 </li>
