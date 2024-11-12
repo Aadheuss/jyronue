@@ -76,93 +76,95 @@ const LoginPage = () => {
 
   return (
     <div className={styles.loginPageWrapper}>
-      <main className={styles.main}>
-        <div className={styles.imgContainer}>
-          <img className={styles.logo} src={logo} alt="Jyronue-logo" />
-        </div>
-        <div className={styles.mainItem}>
-          <div className={styles.greeting}>
-            <h1 className={styles.h1}>Welcome to Jyronue</h1>
-            <p className={styles.text}>Log in to get started</p>
+      <div className={styles.mainWrapper}>
+        <main className={styles.main}>
+          <div className={styles.imgContainer}>
+            <img className={styles.logo} src={logo} alt="Jyronue-logo" />
           </div>
-          <FormProvider {...methods}>
-            <form
-              className={styles.loginForm}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className={styles.itemContainer}>
-                {errors.username && (
-                  <span className={styles.errorTxt}>
-                    {errors.username.message}
-                  </span>
-                )}
-                {error && error.field === "username" && (
-                  <span className={styles.errorTxt}>{error.msg}</span>
-                )}
-                <InputContainer
-                  form={{
-                    focus,
-                    setFocus,
-                    setError,
-                  }}
-                  labelType="HIDDEN"
-                  id="username"
-                  autoComplete="username"
-                  label="Username"
-                  validation={{
-                    required: "Username is required",
-                    maxLength: {
-                      value: 32,
-                      message: "Username cannot exceed 32 characters",
-                    },
-                    pattern: {
-                      value: /^[a-zA-Z0-9_]+$/,
-                      message:
-                        "Username must only contain letters, numbers and underscores",
-                    },
-                  }}
-                />
-              </div>
-              <div className={styles.itemContainer}>
-                {errors.password && (
-                  <span className={styles.errorTxt}>
-                    {errors.password.message}
-                  </span>
-                )}
-                {error && error.field === "password" && (
-                  <span className={styles.errorTxt}>{error.msg}</span>
-                )}
-                <InputContainer
-                  form={{
-                    focus,
-                    setFocus,
-                    setError,
-                  }}
-                  labelType="HIDDEN"
-                  id="password"
-                  type="password"
-                  autoComplete="current-password"
-                  label="Password"
-                  validation={{
-                    required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Password must be longer than 8 characters",
-                    },
-                    pattern: {
-                      value: /^\S[\s\S]+\S$/,
-                      message:
-                        "Password cannot start or end with white space characters",
-                    },
-                  }}
-                />
-              </div>
+          <div className={styles.mainItem}>
+            <div className={styles.greeting}>
+              <h1 className={styles.h1}>Welcome to Jyronue</h1>
+              <p className={styles.text}>Log in to get started</p>
+            </div>
+            <FormProvider {...methods}>
+              <form
+                className={styles.loginForm}
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <div className={styles.itemContainer}>
+                  {errors.username && (
+                    <span className={styles.errorTxt}>
+                      {errors.username.message}
+                    </span>
+                  )}
+                  {error && error.field === "username" && (
+                    <span className={styles.errorTxt}>{error.msg}</span>
+                  )}
+                  <InputContainer
+                    form={{
+                      focus,
+                      setFocus,
+                      setError,
+                    }}
+                    labelType="HIDDEN"
+                    id="username"
+                    autoComplete="username"
+                    label="Username"
+                    validation={{
+                      required: "Username is required",
+                      maxLength: {
+                        value: 32,
+                        message: "Username cannot exceed 32 characters",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9_]+$/,
+                        message:
+                          "Username must only contain letters, numbers and underscores",
+                      },
+                    }}
+                  />
+                </div>
+                <div className={styles.itemContainer}>
+                  {errors.password && (
+                    <span className={styles.errorTxt}>
+                      {errors.password.message}
+                    </span>
+                  )}
+                  {error && error.field === "password" && (
+                    <span className={styles.errorTxt}>{error.msg}</span>
+                  )}
+                  <InputContainer
+                    form={{
+                      focus,
+                      setFocus,
+                      setError,
+                    }}
+                    labelType="HIDDEN"
+                    id="password"
+                    type="password"
+                    autoComplete="current-password"
+                    label="Password"
+                    validation={{
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be longer than 8 characters",
+                      },
+                      pattern: {
+                        value: /^\S[\s\S]+\S$/,
+                        message:
+                          "Password cannot start or end with white space characters",
+                      },
+                    }}
+                  />
+                </div>
 
-              <button type="submit">Log up</button>
-            </form>
-          </FormProvider>
-        </div>
-      </main>
+                <button type="submit">Log up</button>
+              </form>
+            </FormProvider>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
