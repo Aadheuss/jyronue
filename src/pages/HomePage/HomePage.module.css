@@ -1,0 +1,38 @@
+.mainWrapper {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.mainWrapper::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+.mainWrapper::-webkit-scrollbar-track {
+  background: var(#141414);
+}
+
+.mainWrapper::-webkit-scrollbar-thumb {
+  background: var(--main-color-3);
+}
+
+.mainWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--main-accent-color);
+}
+
+.postList {
+  box-sizing: border-box;
+  list-style: none;
+  flex: auto;
+  padding: 0;
+  margin: 0;
+  width: min(100%, calc(20vw + 350px));
+  border: 1px solid rgb(255, 255, 255, 0.2);
+  border-bottom: none;
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

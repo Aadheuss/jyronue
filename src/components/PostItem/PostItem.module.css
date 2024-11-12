@@ -1,0 +1,151 @@
+.list {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  border-right: none;
+  border-left: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: min(calc(350px + 10vw), calc(90vw - 2rem));
+  font-size: var(--small-font);
+}
+
+.postItem {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.profileNames {
+  display: flex;
+  flex-direction: column;
+}
+
+.avatar {
+  width: var(--logo);
+  height: var(--logo);
+  border-radius: 50%;
+  transition: box-shadow 500ms ease-in;
+}
+
+.avatar:hover {
+  box-shadow: -1px 1px 1px 1px var(--accent-color-1),
+    0 0 10px var(--main-accent-color);
+  transition: box-shadow 500ms ease-out;
+}
+
+.text {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.displayName {
+  composes: text;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: box-shadow 500ms ease-in;
+}
+
+.displayName:hover {
+  border-bottom: 1px solid var(--main-color-2);
+  transition: border 500ms ease-in-out;
+}
+
+.username {
+  composes: text;
+  font-weight: 300;
+  font-size: var(--medium-little-font);
+  transition: box-shadow 500ms ease-in;
+}
+
+.username:hover {
+  color: var(--accent-color-1);
+  transition: color 500ms ease-out;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  padding: 0.75em 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: none;
+  border-right: none;
+}
+
+.interactionButtons {
+  display: flex;
+  gap: 1em;
+  flex: 1;
+}
+
+.countBox {
+  display: flex;
+  gap: 0.5em;
+}
+
+.count {
+  composes: text;
+  font-size: inherit;
+  color: var(--main-accent-color);
+}
+
+.countText {
+  composes: text;
+  font-size: var(--small-little-font);
+}
+
+.caption {
+  composes: text;
+  font-size: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seeMoreButton {
+  font-weight: 600;
+  padding: 0.15em 0.75em;
+  font-size: var(--small-little-font);
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.seeMoreButton:hover {
+  background-color: inherit;
+  border-bottom: 1px solid var(--accent-color-1);
+}
+
+.button {
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+  border-radius: 0;
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #000000;
+}
+
+.button:hover {
+  background-color: #000000;
+  transition: background-image 500ms ease-out;
+}
+
+.reply {
+  composes: button;
+  background-image: url("../../assets//images/comment_icon.svg");
+}
+
+.reply:hover {
+  background-image: url("../../assets//images/comment_icon_hover.svg");
+}
