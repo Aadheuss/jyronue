@@ -1,0 +1,67 @@
+.slideshowItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(
+    var(--main-accent-color),
+    var(--main-color)
+  );
+  width: min(calc(350px + 5vh + 5vw), calc(90vw - 2rem));
+  height: min(calc(350px + 5vh + 5vw), calc(90vw - 2rem));
+  border-radius: 4px;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+}
+
+.list {
+  width: 100%;
+  height: 100%;
+}
+
+.hiddenList {
+  composes: list;
+  position: absolute;
+  right: -100%;
+}
+
+.img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.hiddenImg {
+  composes: img;
+}
+
+.button {
+  padding: 0;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  width: 2em;
+  height: 2em;
+  background-position: center;
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  transition: all 250ms ease-out;
+}
+
+.button:hover {
+  transition: all 250ms ease-in;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: var(--accent-color-1);
+}
+
+.previousButton {
+  composes: button;
+  left: 0.25em;
+  background-image: url("../../assets/images/chevron_left_icon.svg");
+}
+
+.nextButton {
+  composes: button;
+  right: 0.25em;
+  background-image: url("../../assets/images/chevron_right_icon.svg");
+}
