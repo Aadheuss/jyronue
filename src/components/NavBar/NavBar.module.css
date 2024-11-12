@@ -5,6 +5,7 @@
   background-color: var(--main-color);
   padding: 1rem;
   gap: 1rem;
+  position: relative;
 }
 
 .navList {
@@ -43,7 +44,8 @@
 
 .logoutButton {
   composes: link;
-  padding: min(0.25em, 0.5vw) min(2vw, 1em);
+  text-align: left;
+  padding: 0;
   background-color: inherit;
 }
 
@@ -102,4 +104,68 @@
   background-image: url("../../assets/images/explore_icon.svg");
   background-size: 1.15em 1.15em;
   background-repeat: no-repeat;
+}
+
+.menuNavItem {
+  height: var(--logo);
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.userProfileAvatar {
+  border-radius: 50%;
+  border: none;
+  width: var(--logo);
+  height: var(--logo);
+  padding: 0;
+}
+
+.avatar {
+  border-radius: inherit;
+  padding: 0;
+  width: var(--logo);
+  height: auto;
+}
+
+.avatar:hover {
+  box-shadow: -1px 1px 1px 1px var(--accent-color-1),
+    0 0 10px var(--main-accent-color);
+  transition: box-shadow 500ms ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+.menu {
+  width: min(calc(150px + 10vw), 75vw);
+  z-index: 1;
+  position: absolute;
+  background-color: #151515;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0;
+  padding: 1rem 1.5rem;
+  list-style: none;
+  top: var(--nav-height);
+  align-items: left;
+  right: 0;
+}
+
+.menuItem {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  flex: auto;
+  border-bottom: 1px solid transparent;
+}
+
+.menuItem:hover {
+  border-bottom: 1px solid var(--accent-color-1);
+}
+
+.text {
+  text-align: start;
 }

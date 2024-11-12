@@ -8,6 +8,7 @@ import CreatePostModal from "../CreatePostModal/CreatePostModal";
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState<null | (() => void)>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const logout = async () => {
     try {
@@ -58,15 +59,43 @@ const NavBar = () => {
                   Create
                 </button>
               </li>
-              <li className={styles.navItem}>
+              <li className={styles.menuNavItem}>
                 <button
-                  className={styles.logoutButton}
+                  className={styles.userProfileAvatar}
                   type="button"
-                  onClick={logout}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
-                  Log out
+                  <img
+                    className={styles.avatar}
+                    src={user.profileImage.pictureUrl}
+                    alt="Your avatar image"
+                  ></img>
                 </button>
               </li>
+              <ul className={isMenuOpen ? styles.menu : styles.hidden}>
+                <li className={styles.menuItem}>
+                  <Link
+                    className={styles.text}
+                    to={`/profile/${user.username}`}
+                  >
+                    Your Profile
+                  </Link>
+                </li>
+                <li className={styles.menuItem}>
+                  <Link className={styles.text} to={`/`}>
+                    Home
+                  </Link>
+                </li>
+                <li className={styles.menuItem}>
+                  <button
+                    className={styles.logoutButton}
+                    type="button"
+                    onClick={logout}
+                  >
+                    Log out
+                  </button>
+                </li>
+              </ul>
             </>
           ) : (
             <>
