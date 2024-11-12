@@ -46,6 +46,7 @@ const ProfilePage = () => {
           console.error(userPosts?.data.error, userPosts?.data.errors);
         } else {
           setProfile(userProfile?.data.profile);
+
           setPosts(userPosts?.data.userPosts);
           console.log(userPosts?.data);
         }
@@ -126,13 +127,16 @@ const ProfilePage = () => {
                     <div className={styles.profileInfo}>
                       <div className={styles.profileDetails}>
                         <div className={styles.topItem}>
-                          <div className={styles.profileImageContainer}>
-                            <img
-                              className={styles.profileImage}
-                              src={profile.profileImage.pictureUrl || avatar}
-                              alt="Profile Image"
-                            ></img>
+                          <div className={styles.avatarItem}>
+                            <div className={styles.profileImageContainer}>
+                              <img
+                                className={styles.profileImage}
+                                src={profile.profileImage.pictureUrl || avatar}
+                                alt="Profile Image"
+                              ></img>
+                            </div>
                           </div>
+
                           <div className={styles.topItemChild}>
                             <div className={styles.profileNames}>
                               <p className={styles.displayName}>
