@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { errorValue } from "../../config/formValues";
 import { UserContext } from "../../context/context";
+import { fetchData } from "../../utils/fetchFunctions";
 
 const LoginPage = () => {
   const methods = useForm<formValues>();
@@ -51,8 +52,20 @@ const LoginPage = () => {
         console.log(resData.error);
         setError(resData.error);
       } else {
-        console.log(resData);
-        setUser(resData.user);
+        const userData = await fetchData({
+          link: `http://localhost:3000/user/profile?id=${resData.user.id}`,
+          options: {
+            method: "GET",
+            credentials: "include",
+          },
+        });
+
+        if (userData?.isError) {
+          console.error(userData.data.error, userData.data.error);
+        } else {
+          setUser(userData?.data.profile);
+        }
+
         navigate("/");
       }
     } catch (err) {
