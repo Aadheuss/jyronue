@@ -1,12 +1,16 @@
 import styles from "./HomePage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PostValue } from "../../config/typeValues";
 import { fetchData } from "../../utils/fetchFunctions";
 import PostItem from "../../components/PostItem/PostItem";
+import { UserContext } from "../../context/context";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const { user } = useContext(UserContext);
   const [posts, setPosts] = useState<null | PostValue[]>(null);
+  const navigate = useNavigate();
 
   const updateLikesBox = ({
     likesBox,
@@ -34,6 +38,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    if (user === false) {
+      navigate("/explore");
+    }
+
     const fetchFollowingPosts = async () => {
       const followingPosts = await fetchData({
         link: `http://localhost:3000/posts/following`,
@@ -56,7 +64,7 @@ const HomePage = () => {
     return () => {
       setPosts(null);
     };
-  }, []);
+  }, [user, navigate]);
 
   return (
     <>
