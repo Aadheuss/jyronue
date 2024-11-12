@@ -3,7 +3,7 @@ import logo from "../../assets/images/jyronue-logo.svg";
 import InputContainer from "../../components/InputContainer/InputContainer";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { formValues } from "../../config/formValues";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { errorValue } from "../../config/formValues";
 
@@ -149,6 +149,13 @@ const SignupPage = () => {
                 <button type="submit">Sign up</button>
               </form>
             </FormProvider>
+            <p className={styles.text}>
+              Already have an account?
+              <Link className={styles.link} to={"/login"}>
+                {" "}
+                Sign in here
+              </Link>
+            </p>
           </div>
         </main>
       </div>
