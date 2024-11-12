@@ -1,12 +1,9 @@
 import { createContext } from "react";
-
-type User = {
-  id: string;
-};
+import { UserValue } from "../config/typeValues";
 
 type UserContextValue = {
-  user: null | User | false;
-  setUser: React.Dispatch<React.SetStateAction<null | User | false>>;
+  user: null | UserValue | false;
+  setUser: React.Dispatch<React.SetStateAction<null | UserValue | false>>;
 };
 
 const UserContext = createContext<UserContextValue>({

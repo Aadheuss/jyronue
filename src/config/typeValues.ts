@@ -122,6 +122,14 @@ type PostValue = {
   userLikeStatus: boolean;
 };
 
+type UserValue = {
+  id: string;
+  username: string;
+  profileImage: {
+    pictureUrl: string;
+  };
+};
+
 export type {
   CommentValue,
   ReplyValue,
@@ -130,4 +138,5 @@ export type {
   PostGallery,
   PostValue,
   Content,
+  UserValue,
 };
