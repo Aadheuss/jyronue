@@ -6,6 +6,7 @@ import LikeButton from "../LikeButton/LikeButton";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyBox from "../ReplyBox/ReplyBox";
 import { UserContext } from "../../context/context";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 interface Props {
   comment: CommentValue;
@@ -48,7 +49,7 @@ const Reply: FC<Props> = ({
       <Link to={`/profile/${reply.author.username}`}>
         <img
           className={styles.replyUserProfile}
-          src={reply.author.profileImage.pictureUrl}
+          src={reply.author.profileImage.pictureUrl || avatar}
         ></img>
       </Link>
 

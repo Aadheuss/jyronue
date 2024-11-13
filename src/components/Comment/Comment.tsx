@@ -7,6 +7,7 @@ import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyList from "../ReplyList/ReplyList";
 import ReplyBox from "../ReplyBox/ReplyBox";
 import { UserContext } from "../../context/context";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 interface Props {
   comment: CommentValue;
@@ -48,7 +49,7 @@ const Comment: FC<Props> = ({
       <Link to={`/profile/${comment.author.username}`}>
         <img
           className={styles.commentUserProfile}
-          src={comment.author.profileImage.pictureUrl}
+          src={comment.author.profileImage.pictureUrl || avatar}
         ></img>
       </Link>
 

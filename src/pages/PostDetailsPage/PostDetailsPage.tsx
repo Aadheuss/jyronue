@@ -8,6 +8,7 @@ import { unescapeInput } from "../../utils/htmlDecoder";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import { UserContext } from "../../context/context";
 import { PostValue } from "../../config/typeValues";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
@@ -81,7 +82,7 @@ const PostDetailsPage = () => {
                 {" "}
                 <img
                   className={styles.postUserProfile}
-                  src={post?.author.profileImage.pictureUrl}
+                  src={post?.author.profileImage.pictureUrl || avatar}
                 ></img>
               </Link>
               <div className={styles.postProfileItem}>

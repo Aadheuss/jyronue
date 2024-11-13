@@ -31,6 +31,7 @@
   width: calc(25px + 1vw);
   height: calc(25px + 1vw);
   border-radius: 50%;
+  background-color: var(--main-color-3);
 }
 
 .commentUserProfile:hover {
