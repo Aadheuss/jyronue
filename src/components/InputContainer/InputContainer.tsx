@@ -188,11 +188,7 @@ const InputContainer: FC<Props> = ({
           type="button"
           className={currentStyles.visibilityBtn}
           onClick={() => {
-            if (input.length > 0) {
-              setVisibility(true);
-            } else {
-              setVisibility(false);
-            }
+            setVisibility(!visibility);
           }}
         >
           <span
