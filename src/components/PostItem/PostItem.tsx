@@ -5,6 +5,7 @@ import Slideshow from "../Slideshow/Slideshow";
 import { Link, useNavigate } from "react-router-dom";
 import LikeButton from "../LikeButton/LikeButton";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import avatar from "../../assets/images/avatar_icon.svg";
 
 interface Props {
   post: PostValue;
@@ -38,7 +39,7 @@ const PostItem: FC<Props> = ({ post, updateLikesBox }) => {
           <Link to={`/profile/${post.author.username}`}>
             <img
               className={styles.avatar}
-              src={post.author.profileImage.pictureUrl}
+              src={post.author.profileImage.pictureUrl || avatar}
             />
           </Link>
           <div className={styles.profileNames}>
