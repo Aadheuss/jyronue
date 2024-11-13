@@ -128,7 +128,13 @@ const ProfilePage = () => {
                       <div className={styles.profileDetails}>
                         <div className={styles.topItem}>
                           <div className={styles.avatarItem}>
-                            <div className={styles.profileImageContainer}>
+                            <div
+                              className={
+                                profile.profileImage.pictureUrl
+                                  ? styles.profileImageContainer
+                                  : styles.profileImageContainerNull
+                              }
+                            >
                               <img
                                 className={styles.profileImage}
                                 src={profile.profileImage.pictureUrl || avatar}

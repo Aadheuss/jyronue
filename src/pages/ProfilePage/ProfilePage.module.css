@@ -96,6 +96,11 @@
   height: 100%;
 }
 
+.profileImageContainerNull {
+  composes: profileImageContainer;
+  background-color: var(--main-color-3);
+}
+
 .profileDetails {
   font-family: "inter", system-ui, sans-serif;
   display: flex;
