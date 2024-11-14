@@ -141,7 +141,7 @@
   color: var(--main-accent-color);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 820px) {
   .mainWrapper {
     grid-template-columns: 1fr;
     grid-template-rows: 50vh 1fr;
