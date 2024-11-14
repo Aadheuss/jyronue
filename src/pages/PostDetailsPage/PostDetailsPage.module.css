@@ -144,12 +144,6 @@
 @media screen and (max-width: 820px) {
   .mainWrapper {
     grid-template-columns: 1fr;
-    grid-template-rows: 50vh 1fr;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .mainWrapper {
-    grid-template-rows: 35vh 1fr;
+    grid-template-rows: 60vh 1fr;
   }
 }

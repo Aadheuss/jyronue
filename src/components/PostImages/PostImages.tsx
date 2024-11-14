@@ -13,7 +13,13 @@ interface Props {
 
 const PostImages: FC<Props> = ({ images }) => {
   return (
-    <ul className={styles.postImages}>
+    <ul
+      className={
+        images && images.length < 2
+          ? styles.postImagesSingle
+          : styles.postImages
+      }
+    >
       {images &&
         images.length &&
         images.map((image) => {
