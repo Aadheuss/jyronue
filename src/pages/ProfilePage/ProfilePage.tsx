@@ -153,24 +153,25 @@ const ProfilePage = () => {
                               >{`@${profile.username}`}</p>
                             </div>
                           </div>
-
-                          {user ? (
-                            user.id === profile.id ? (
-                              <button
-                                className={styles.editButton}
-                                onClick={() => navigate("/setting")}
-                              >
-                                Edit profile
-                              </button>
-                            ) : (
-                              <button
-                                className={styles.followButton}
-                                onClick={toggleFollow}
-                              >
-                                {profile.isFollowing ? "unfollow" : "follow"}
-                              </button>
-                            )
-                          ) : null}
+                          <div className={styles.profileButtons}>
+                            {user ? (
+                              user.id === profile.id ? (
+                                <button
+                                  className={styles.editButton}
+                                  onClick={() => navigate("/setting")}
+                                >
+                                  Edit profile
+                                </button>
+                              ) : (
+                                <button
+                                  className={styles.followButton}
+                                  onClick={toggleFollow}
+                                >
+                                  {profile.isFollowing ? "unfollow" : "follow"}
+                                </button>
+                              )
+                            ) : null}
+                          </div>
                         </div>
 
                         <div className={styles.bottomItem}>

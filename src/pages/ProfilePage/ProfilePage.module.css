@@ -147,6 +147,11 @@
   font-weight: 300;
 }
 
+.profileButtons {
+  display: flex;
+  justify-content: right;
+}
+
 .followButton {
   font-size: var(--medium-little-font);
   padding: 0.25em 0.75em;
@@ -223,10 +228,12 @@
 
 @media screen and (max-width: 720px) {
   .topItem {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: min-content 1fr;
   }
 
   .topItemChild {
+    grid-column: 1 / 3;
     padding: 0 1rem;
     order: 1;
   }
