@@ -67,6 +67,7 @@
 .commentText {
   composes: text;
   font-size: var(--small-little-font);
+  word-break: break-word;
 }
 
 .interactionInfo {

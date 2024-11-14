@@ -70,6 +70,7 @@
   margin: 0;
   text-align: start;
   font-size: var(--medium-little-font);
+  word-break: break-word;
 }
 
 .displayName {

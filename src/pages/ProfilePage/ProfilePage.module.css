@@ -177,6 +177,7 @@
   text-align: start;
   composes: text;
   font-size: var(--small-font);
+  word-break: break-word;
 }
 
 .follows {
