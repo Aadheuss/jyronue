@@ -25,7 +25,8 @@
 
 .replyProfileInfo {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
 }
 
 .replyUserProfile {
