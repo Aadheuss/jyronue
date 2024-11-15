@@ -4,6 +4,7 @@ import { CommentFormValue } from "../../config/formValues";
 import { useParams } from "react-router-dom";
 import { FC, useState } from "react";
 import { CommentValue } from "../../config/typeValues";
+import Loader from "../Loader/Loader";
 
 interface Props {
   updateComments: ({ comment }: { comment: CommentValue }) => void;
@@ -29,11 +30,13 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
     },
   });
   const [input, setInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<CommentFormValue> = async (data) => {
     const formData = new URLSearchParams();
     formData.append("content", data.content);
 
+    setIsSubmitting(true);
     setInput("");
     try {
       const res = await fetch(`http://localhost:3000/post/${postId}/comment`, {
@@ -53,12 +56,18 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className={styles.commentBox} onSubmit={handleSubmit(onSubmit)}>
-      <form className={styles.commentBoxForm} method="post">
+    <div className={styles.commentBox}>
+      <form
+        className={styles.commentBoxForm}
+        method="post"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className={styles.inputContainer}>
           <label
             className={styles.hidden}
@@ -87,10 +96,20 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
             {...rest}
           ></input>
         </div>
-        <button
-          className={styles.commentButton}
-          aria-label="Reply to the post"
-        ></button>
+        {isSubmitting ? (
+          <div>
+            <Loader
+              type="spinner"
+              size={{ width: "1.5em", height: "1.5em" }}
+              color="var(--accent-color-1)"
+            />
+          </div>
+        ) : (
+          <button
+            className={styles.commentButton}
+            aria-label="Reply to the post"
+          ></button>
+        )}
       </form>
     </div>
   );
