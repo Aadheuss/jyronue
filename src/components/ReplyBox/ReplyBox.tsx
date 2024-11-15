@@ -4,6 +4,7 @@ import { CommentFormValue } from "../../config/formValues";
 import { useParams } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import { CommentValue } from "../../config/typeValues";
+import Loader from "../Loader/Loader";
 
 interface Props {
   replyToUsername: string;
@@ -46,6 +47,7 @@ const ReplyBox: FC<Props> = ({
     },
   });
   const [input, setInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const focus = () => {
@@ -78,6 +80,7 @@ const ReplyBox: FC<Props> = ({
 
     setInput("");
 
+    setIsSubmitting(true);
     try {
       const res = await fetch(
         `http://localhost:3000/post/${postId}/comment/${commentId}/reply`,
@@ -115,16 +118,22 @@ const ReplyBox: FC<Props> = ({
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className={styles.replyBox} onSubmit={handleSubmit(onSubmit)}>
+    <div className={styles.replyBox}>
       <p className={styles.replyTo}>
         To
         <span className={styles.replyToUsername}> {`@${replyToUsername}`}</span>
       </p>
-      <form className={styles.replyBoxForm} method="post">
+      <form
+        className={styles.replyBoxForm}
+        method="post"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className={styles.inputContainer}>
           <label
             className={styles.hidden}
@@ -153,10 +162,18 @@ const ReplyBox: FC<Props> = ({
             {...rest}
           ></input>
         </div>
-        <button
-          className={styles.replyButton}
-          aria-label="Reply to comment"
-        ></button>
+        {isSubmitting ? (
+          <Loader
+            type="spinner"
+            size={{ width: "1.5em", height: "1.5em" }}
+            color="var(--accent-color-1)"
+          />
+        ) : (
+          <button
+            className={styles.replyButton}
+            aria-label="Reply to comment"
+          ></button>
+        )}
       </form>
     </div>
   );
