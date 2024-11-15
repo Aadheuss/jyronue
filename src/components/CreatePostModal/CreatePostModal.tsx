@@ -6,6 +6,7 @@ import { CreatePostFormValues } from "../../config/formValues";
 import { useNavigate } from "react-router-dom";
 import InputContainer from "../InputContainer/InputContainer";
 import { convertFile } from "../../utils/fileHelper";
+import Loader from "../Loader/Loader";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -25,6 +26,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
   } = methods;
   const [filesError, setFIlesError] = useState<string[]>([]);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<CreatePostFormValues> = async (data) => {
     setFIlesError([]);
@@ -38,16 +40,15 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
     if (files.length < 1) {
       setFIlesError(["Please select atleast one image"]);
     } else {
+      setIsSubmitting(true);
       try {
         const res = await fetch("http://localhost:3000/post", {
           method: "POST",
           credentials: "include",
           body: formData,
         });
-
         const resData = await res.json();
         console.log(resData);
-
         if (resData.errors) {
           console.log(resData.errors);
         } else {
@@ -56,6 +57,8 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
         }
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -162,18 +165,39 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
         ref={modalRef}
         className={isOpen ? styles.modal : styles.modalHidden}
       >
-        <button
-          className={styles.closeButton}
-          type="button"
-          aria-label="Close button"
-          onClick={closeModal}
-        ></button>
+        {isSubmitting ? (
+          <div className={styles.isSubmittingCloseButton}>
+            <Loader
+              type="spinner"
+              bgColor="#000000"
+              size={{ width: "1em", height: "1em" }}
+              color="var(--accent-color-1)"
+            />
+          </div>
+        ) : (
+          <button
+            className={styles.closeButton}
+            type="button"
+            aria-label="Close button"
+            onClick={closeModal}
+          ></button>
+        )}
+
         <FormProvider {...methods}>
           <form
             className={styles.postForm}
             method="dialog"
             encType="multipart/form-data"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!isSubmitting) {
+                handleSubmit(onSubmit)();
+              } else {
+                console.log(
+                  "You are currently submitting a new post, please wait for the submission to create another one"
+                );
+              }
+            }}
           >
             {errors.caption && (
               <span className={styles.error}>{errors.caption.message}</span>
@@ -203,6 +227,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
                 files={files}
                 previews={previews}
                 unselectImage={unselectImage}
+                isSubmitting={isSubmitting}
               />
             )}
             {files.length > 0 && (
@@ -223,21 +248,33 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
             )}
             <div className={styles.formItem}>
               <div className={styles.inputContainer}>
-                <button
-                  className={styles.fileButton}
-                  type="button"
-                  aria-label="Select images"
-                  onClick={() => {
-                    setFIlesError([]);
-                    const current = fileInputRef.current;
+                {isSubmitting ? (
+                  <div className={styles.isSubmittingFileButton}>
+                    <Loader
+                      type="spinner"
+                      bgColor="#000000"
+                      size={{ width: "2em", height: "2em" }}
+                      color="var(--accent-color-1)"
+                    />
+                  </div>
+                ) : (
+                  <button
+                    className={styles.fileButton}
+                    type="button"
+                    aria-label="Select images"
+                    onClick={() => {
+                      setFIlesError([]);
+                      const current = fileInputRef.current;
 
-                    if (current) {
-                      if (files.length < 10) {
-                        current.click();
+                      if (current) {
+                        if (files.length < 10) {
+                          current.click();
+                        }
                       }
-                    }
-                  }}
-                ></button>
+                    }}
+                  ></button>
+                )}
+
                 <input
                   className={styles.fileInput}
                   ref={fileInputRef}
@@ -251,7 +288,18 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
                   }}
                 ></input>
               </div>
-              <button className={styles.postButton}>Share</button>
+              {!isSubmitting ? (
+                <button className={styles.postButton}>Share</button>
+              ) : (
+                <div className={styles.isSubmitting}>
+                  <button className={styles.postButton}>Submitting</button>
+                  <Loader
+                    type="dots"
+                    size={{ width: "0.9em", height: "0.15em" }}
+                    color="var(--accent-color-1)"
+                  />
+                </div>
+              )}
             </div>
           </form>
         </FormProvider>

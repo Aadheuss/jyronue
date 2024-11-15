@@ -1,0 +1,29 @@
+.dots {
+  clip-path: inset(0 100% 0 0);
+  background: radial-gradient(
+      circle closest-side,
+      var(--color) 90%,
+      transparent
+    )
+    0 0/33% 100% space;
+  animation: movingDots 1.5s steps(4) infinite;
+}
+
+@keyframes movingDots {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
+
+.spinner {
+  border-radius: 50%;
+  background: conic-gradient(var(--bg-color) 10%, var(--color));
+  mask: radial-gradient(farthest-side, #0000 75%, var(--bg-color) 0);
+  animation: movingSpinner 1s infinite linear;
+}
+
+@keyframes movingSpinner {
+  to {
+    transform: rotate(1turn);
+  }
+}

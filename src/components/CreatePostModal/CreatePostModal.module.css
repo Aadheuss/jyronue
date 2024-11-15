@@ -225,3 +225,29 @@
   margin: 0;
   list-style: none;
 }
+
+.isSubmitting {
+  display: flex;
+  gap: 0.25em;
+  align-items: center;
+}
+
+.isSubmittingCloseButton {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  padding: 0;
+  width: 1em;
+  height: 1em;
+  align-self: flex-end;
+}
+
+.isSubmittingFileButton {
+  font-size: var(--medium-little-font);
+  position: relative;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background-color: transparent;
+}

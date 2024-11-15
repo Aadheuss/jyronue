@@ -41,3 +41,14 @@
   object-position: center;
   border-radius: 4px;
 }
+
+.removeButtonLoader {
+  composes: removeButton;
+  background: none;
+}
+
+.removeButton:hover {
+  background: none;
+  transform: none;
+  transition: all 250ms ease-in;
+}
