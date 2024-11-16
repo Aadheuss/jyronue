@@ -129,38 +129,73 @@
 
 .avatarSkeleton {
   composes: avatar;
-  background-color: var(--main-color-3);
-  background-size: 100%;
+  background-color: var(--main-color);
   animation: skeleton-loading 2s infinite;
 }
 
 @keyframes skeleton-loading {
   0% {
-    background-color: var(--main-color-3);
+    background-color: var(--main-color);
   }
 
   25% {
-    background-color: var(--main-accent-color);
+    background-color: #151515;
   }
 
   75% {
-    background-color: var(--main-color-3);
+    background-color: var(--main-color);
   }
 }
 
 .displayNameSkeleton {
   composes: displayName;
-  height: 0.75em;
+  background-color: var(--main-color);
+  height: 1em;
   margin-bottom: 0.25em;
   border-radius: 8px;
-  width: min(30vw, 150px);
-  background-color: var(--main-color-3);
-  background-size: 100%;
-
   animation: skeleton-loading 2s infinite;
 }
 
 .usernameSkeleton {
   composes: displayNameSkeleton;
   width: min(20vw, 100px);
+}
+
+.buttonSkeleton {
+  background-color: var(--main-color);
+  border-radius: 8px;
+  width: 1.5em;
+  height: 1.5em;
+  animation: skeleton-loading 2s infinite;
+}
+
+.slideshowSkeleton {
+  background-color: var(--main-color);
+  border-radius: 4px;
+  width: min(calc(350px + 5vh + 5vw), calc(90vw - 2rem));
+  height: min(calc(350px + 5vh + 5vw), calc(90vw - 2rem));
+  animation: skeleton-loading 2s infinite;
+}
+
+.countTextSkeleton {
+  composes: text;
+  background-color: var(--main-color);
+  animation: skeleton-loading 2s infinite;
+  border-radius: 4px;
+  width: 5ch;
+  height: 1em;
+}
+
+.captionSkeleton {
+  composes: text;
+  background-color: var(--main-color);
+  border-radius: 4px;
+  animation: skeleton-loading 2s infinite;
+  height: 1em;
+  width: 100%;
+}
+
+.captionSkeletonTwo {
+  composes: captionSkeleton;
+  width: 40%;
 }

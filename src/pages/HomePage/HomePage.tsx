@@ -6,6 +6,7 @@ import { fetchData } from "../../utils/fetchFunctions";
 import PostItem from "../../components/PostItem/PostItem";
 import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
+import PostItemSkeleton from "../../components/PostItem/PostItemSkeleton";
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
@@ -69,7 +70,7 @@ const HomePage = () => {
       <NavBar activeNavButton={3} />
       <main className={styles.mainWrapper}>
         <ul className={styles.postList}>
-          {posts &&
+          {posts ? (
             posts.map((post) => {
               return (
                 <PostItem
@@ -78,7 +79,13 @@ const HomePage = () => {
                   key={post.id}
                 />
               );
-            })}
+            })
+          ) : (
+            <>
+              <PostItemSkeleton />
+              <PostItemSkeleton />
+            </>
+          )}
         </ul>
       </main>
     </>
