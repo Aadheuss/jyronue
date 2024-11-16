@@ -61,9 +61,7 @@ const HomePage = () => {
 
     fetchFollowingPosts();
 
-    return () => {
-      setPosts(null);
-    };
+    return () => {};
   }, [user, navigate]);
 
   return (
