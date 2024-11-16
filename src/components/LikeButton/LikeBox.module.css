@@ -19,6 +19,19 @@
   background-image: url("../../assets/images/like_icon.svg");
 }
 
+/* Preload bacground image */
+.like::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("../../assets/images/like_icon_hover.svg")
+    url("../../assets/images/like_icon_liked.svg")
+    url("../../assets/images/like_icon_liked_hover.svg")
+    url("../../assets/images/like_icon.svg");
+}
+
 .like:hover {
   background-image: url("../../assets/images/like_icon_hover.svg");
 }
@@ -35,11 +48,10 @@
 }
 
 .likeSmall {
-  composes: button;
+  composes: like;
   width: 1em;
   height: 1em;
   background-size: 1em 1em;
-  background-image: url("../../assets/images/like_icon.svg");
 }
 
 .likeSmall:hover {
