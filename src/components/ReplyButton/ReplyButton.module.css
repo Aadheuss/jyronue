@@ -1,0 +1,41 @@
+.button {
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+  border-radius: 0;
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #000000;
+}
+
+.button:hover {
+  background-color: #000000;
+  transition: background-image 500ms ease-out;
+}
+
+.reply {
+  composes: button;
+  background-image: url("../../assets//images/comment_icon.svg");
+}
+
+/* Preload hover bacground image */
+.reply::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("../../assets//images/comment_icon_hover.svg");
+}
+
+.reply:hover {
+  background-image: url("../../assets//images/comment_icon_hover.svg");
+}
+
+.replySmall {
+  composes: reply;
+  width: 1em;
+  height: 1em;
+  background-size: 1em 1em;
+}

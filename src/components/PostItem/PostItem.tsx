@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LikeButton from "../LikeButton/LikeButton";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import avatar from "../../assets/images/avatar_icon.svg";
+import ReplyButton from "../ReplyButton/ReplyButton";
 
 interface Props {
   post: PostValue;
@@ -71,12 +72,11 @@ const PostItem: FC<Props> = ({ post, updateLikesBox }) => {
                 size="REGULAR"
                 userLikeStatus={post.userLikeStatus}
               />
-              <button
-                className={styles.reply}
+              <ReplyButton
                 onClick={() => {
                   navigate(`/post/${post.id}`);
                 }}
-              ></button>
+              />
             </div>
             <div className={styles.countBox}>
               <p className={styles.countText}>

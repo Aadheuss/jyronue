@@ -8,6 +8,7 @@ import ReplyList from "../ReplyList/ReplyList";
 import ReplyBox from "../ReplyBox/ReplyBox";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
+import ReplyButton from "../ReplyButton/ReplyButton";
 
 interface Props {
   comment: CommentValue;
@@ -81,8 +82,8 @@ const Comment: FC<Props> = ({
               size="SMALL"
               userLikeStatus={comment.userLikeStatus}
             />
-            <button
-              className={styles.reply}
+            <ReplyButton
+              size="SMALL"
               onClick={() => {
                 if (user === false) {
                   navigate("/login");
@@ -90,7 +91,7 @@ const Comment: FC<Props> = ({
 
                 openReplyForm({ id: comment.id });
               }}
-            ></button>
+            />
           </div>
         </div>
         {comment.likesBox._count.likes > 0 && (

@@ -127,27 +127,40 @@
   border-bottom: 1px solid var(--accent-color-1);
 }
 
-.button {
-  width: 1.5em;
-  height: 1.5em;
-  padding: 0;
-  border-radius: 0;
-  background-size: 1.5em 1.5em;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: #000000;
+.avatarSkeleton {
+  composes: avatar;
+  background-color: var(--main-color-3);
+  background-size: 100%;
+  animation: skeleton-loading 2s infinite;
 }
 
-.button:hover {
-  background-color: #000000;
-  transition: background-image 500ms ease-out;
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--main-color-3);
+  }
+
+  25% {
+    background-color: var(--main-accent-color);
+  }
+
+  75% {
+    background-color: var(--main-color-3);
+  }
 }
 
-.reply {
-  composes: button;
-  background-image: url("../../assets//images/comment_icon.svg");
+.displayNameSkeleton {
+  composes: displayName;
+  height: 0.75em;
+  margin-bottom: 0.25em;
+  border-radius: 8px;
+  width: min(30vw, 150px);
+  background-color: var(--main-color-3);
+  background-size: 100%;
+
+  animation: skeleton-loading 2s infinite;
 }
 
-.reply:hover {
-  background-image: url("../../assets//images/comment_icon_hover.svg");
+.usernameSkeleton {
+  composes: displayNameSkeleton;
+  width: min(20vw, 100px);
 }

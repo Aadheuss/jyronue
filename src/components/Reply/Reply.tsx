@@ -7,6 +7,7 @@ import { unescapeInput } from "../../utils/htmlDecoder";
 import ReplyBox from "../ReplyBox/ReplyBox";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
+import ReplyButton from "../ReplyButton/ReplyButton";
 
 interface Props {
   comment: CommentValue;
@@ -89,15 +90,15 @@ const Reply: FC<Props> = ({
               size="SMALL"
               userLikeStatus={reply.userLikeStatus}
             />
-            <button
-              className={styles.replyButton}
+            <ReplyButton
+              size="SMALL"
               onClick={() => {
                 if (user === false) {
                   navigate("/login");
                 }
                 openReplyForm({ id: reply.id });
               }}
-            ></button>
+            />
           </div>
         </div>
         {reply.likesBox._count.likes > 0 && (

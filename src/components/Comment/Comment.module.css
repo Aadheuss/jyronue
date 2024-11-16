@@ -82,31 +82,6 @@
   gap: 1rem;
 }
 
-.button {
-  width: 1em;
-  height: 1em;
-  padding: 0;
-  border-radius: 0;
-  background-size: 1em 1em;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-color: #000000;
-}
-
-.button:hover {
-  background-color: #000000;
-  transition: background-image 500ms ease-out;
-}
-
-.reply {
-  composes: button;
-  background-image: url("../../assets//images/comment_icon.svg");
-}
-
-.reply:hover {
-  background-image: url("../../assets//images/comment_icon_hover.svg");
-}
-
 .likeCountText {
   margin: 0;
   font-size: calc(var(--small-little-font) - 0.2rem);

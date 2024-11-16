@@ -9,6 +9,7 @@ import LikeButton from "../../components/LikeButton/LikeButton";
 import { UserContext } from "../../context/context";
 import { PostValue } from "../../config/typeValues";
 import avatar from "../../assets/images/avatar_icon.svg";
+import ReplyButton from "../../components/ReplyButton/ReplyButton";
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
@@ -111,8 +112,7 @@ const PostDetailsPage = () => {
                   updateLikesBox={updateLikesBox}
                   userLikeStatus={post ? post.userLikeStatus : false}
                 />
-                <button
-                  className={styles.reply}
+                <ReplyButton
                   onClick={() => {
                     if (user === false) {
                       navigate("/login");
@@ -120,7 +120,7 @@ const PostDetailsPage = () => {
 
                     focusCommentInput();
                   }}
-                ></button>
+                />
               </div>
               <p className={styles.likeInfo}>
                 <span className={styles.likeNumber}>
