@@ -49,6 +49,16 @@
   transition: all 250ms ease-out;
 }
 
+/* Preload bacground image */
+.commentButton::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("../../assets/images/send_icon_hover.svg");
+}
+
 .commentButton:hover {
   background-image: url("../../assets/images/send_icon_hover.svg");
   background-color: inherit;
