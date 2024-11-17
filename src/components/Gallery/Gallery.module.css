@@ -20,3 +20,24 @@
   height: 100%;
   width: 100%;
 }
+
+.listItemSkeleton {
+  composes: listItem;
+  aspect-ratio: 1 / 1;
+  background-color: var(--main-color);
+  animation: skeleton-loading 2s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--main-color);
+  }
+
+  25% {
+    background-color: #151515;
+  }
+
+  75% {
+    background-color: var(--main-color);
+  }
+}

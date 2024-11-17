@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PostGallery } from "../../config/typeValues";
 import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
+import GallerySkeleton from "../../components/Gallery/GallerySkeleton";
 
 const ExplorePage = () => {
   const [posts, setPosts] = useState<null | PostGallery[]>(null);
@@ -33,13 +34,14 @@ const ExplorePage = () => {
       setPosts(null);
     };
   }, []);
+
   return (
     <>
       <NavBar activeNavButton={1} />
       <main className={styles.mainWrapper}>
         <div className={styles.mainContent}>
           <h2 className={styles.heading}>Explore latest posts</h2>
-          {posts && <Gallery posts={posts} />}
+          {posts ? <Gallery posts={posts} /> : <GallerySkeleton amount={20} />}
           {!isCursor && (
             <p className={styles.text}>
               You have reached the end, no more posts to explore
