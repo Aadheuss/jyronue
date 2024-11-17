@@ -10,6 +10,7 @@ import { UserContext } from "../../context/context";
 import { PostValue } from "../../config/typeValues";
 import avatar from "../../assets/images/avatar_icon.svg";
 import ReplyButton from "../../components/ReplyButton/ReplyButton";
+import PostDetailsPageSkeleton from "./PostDetailsPageSkeleton";
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
@@ -75,64 +76,72 @@ const PostDetailsPage = () => {
         <NavBar activeNavButton={null} />
       </header>
       <main className={styles.mainWrapper}>
-        <PostImages images={post ? post.content : null} />
-        <div className={styles.postData}>
-          <div className={styles.postDataItem}>
-            <div className={styles.postProfile}>
-              <Link to={post ? `/profile/${post.author.username}` : ""}>
-                {" "}
-                <img
-                  className={styles.postUserProfile}
-                  src={post?.author.profileImage.pictureUrl || avatar}
-                ></img>
-              </Link>
-              <div className={styles.postProfileItem}>
-                <Link
-                  to={post ? `/profile/${post.author.username}` : ""}
-                  className={styles.displayName}
-                >
-                  {post && post.author.displayName}
-                </Link>
-                <Link
-                  to={post ? `/profile/${post.author.username}` : ""}
-                  className={styles.username}
-                >
-                  {post && `@${post.author.username}`}
-                </Link>
-              </div>
-            </div>
-            <p className={styles.text}>{post && unescapeInput(post.caption)}</p>
-            <div className={styles.interactionInfo}>
-              <div className={styles.interactionButtons}>
-                <LikeButton
-                  id={postId}
-                  type="post"
-                  likesBoxId={post ? post.likesBox.id : null}
-                  likesBox={post ? post.likesBox : null}
-                  updateLikesBox={updateLikesBox}
-                  userLikeStatus={post ? post.userLikeStatus : false}
-                />
-                <ReplyButton
-                  onClick={() => {
-                    if (user === false) {
-                      navigate("/login");
-                    }
+        {post ? (
+          <>
+            <PostImages images={post ? post.content : null} />
+            <div className={styles.postData}>
+              <div className={styles.postDataItem}>
+                <div className={styles.postProfile}>
+                  <Link to={post ? `/profile/${post.author.username}` : ""}>
+                    {" "}
+                    <img
+                      className={styles.postUserProfile}
+                      src={post?.author.profileImage.pictureUrl || avatar}
+                    ></img>
+                  </Link>
+                  <div className={styles.postProfileItem}>
+                    <Link
+                      to={post ? `/profile/${post.author.username}` : ""}
+                      className={styles.displayName}
+                    >
+                      {post && post.author.displayName}
+                    </Link>
+                    <Link
+                      to={post ? `/profile/${post.author.username}` : ""}
+                      className={styles.username}
+                    >
+                      {post && `@${post.author.username}`}
+                    </Link>
+                  </div>
+                </div>
+                <p className={styles.text}>
+                  {post && unescapeInput(post.caption)}
+                </p>
+                <div className={styles.interactionInfo}>
+                  <div className={styles.interactionButtons}>
+                    <LikeButton
+                      id={postId}
+                      type="post"
+                      likesBoxId={post ? post.likesBox.id : null}
+                      likesBox={post ? post.likesBox : null}
+                      updateLikesBox={updateLikesBox}
+                      userLikeStatus={post ? post.userLikeStatus : false}
+                    />
+                    <ReplyButton
+                      onClick={() => {
+                        if (user === false) {
+                          navigate("/login");
+                        }
 
-                    focusCommentInput();
-                  }}
-                />
+                        focusCommentInput();
+                      }}
+                    />
+                  </div>
+                  <p className={styles.likeInfo}>
+                    <span className={styles.likeNumber}>
+                      {post && post.likesBox._count.likes}
+                    </span>{" "}
+                    likes
+                  </p>
+                </div>
               </div>
-              <p className={styles.likeInfo}>
-                <span className={styles.likeNumber}>
-                  {post && post.likesBox._count.likes}
-                </span>{" "}
-                likes
-              </p>
-            </div>
-          </div>
 
-          <CommentList commentInputRef={commentInputRef} />
-        </div>
+              <CommentList commentInputRef={commentInputRef} />
+            </div>
+          </>
+        ) : (
+          <PostDetailsPageSkeleton />
+        )}
       </main>
     </>
   );

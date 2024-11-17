@@ -122,3 +122,62 @@
     grid-template-rows: 60vh 1fr;
   }
 }
+.skeleton {
+  composes: text;
+  border-radius: 4px;
+  background-color: var(--main-color);
+  height: 1em;
+  animation: skeleton-loading 2s infinite;
+}
+
+.postUserProfileSkeleton {
+  composes: postUserProfile;
+  background-color: var(--main-color);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--main-color);
+  }
+
+  25% {
+    background-color: #151515;
+  }
+
+  75% {
+    background-color: var(--main-color);
+  }
+}
+
+.displayNameSkeleton {
+  composes: skeleton;
+  width: 18ch;
+  margin-bottom: 0.25em;
+}
+
+.usernameSkeleton {
+  composes: skeleton;
+  width: 12ch;
+}
+
+.captionSkeleton {
+  composes: skeleton;
+  margin-bottom: 0.5em;
+}
+
+.captionSkeleton:last-child {
+  width: 13ch;
+}
+
+.buttonSkeleton {
+  composes: skeleton;
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.likeInfoSkeleton {
+  composes: skeleton;
+  height: 0.75em;
+  width: 6ch;
+}
