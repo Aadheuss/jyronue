@@ -63,7 +63,7 @@ const LikeButton: FC<Props> = ({
       formData,
     });
 
-    if (!toggleLikeData.errors || !toggleLikeData.errors) {
+    if (!toggleLikeData.error || !toggleLikeData.errors) {
       const likesBoxData = await fetchLikesBox({ id, type, likesBoxId });
       if (!likesBoxData.error || !likesBoxData.errors) {
         const likesBox = likesBoxData.likesBox;
