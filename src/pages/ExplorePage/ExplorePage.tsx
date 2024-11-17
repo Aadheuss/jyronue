@@ -39,9 +39,7 @@ const ExplorePage = () => {
       <main className={styles.mainWrapper}>
         <div className={styles.mainContent}>
           <h2 className={styles.heading}>Explore latest posts</h2>
-          <ul className={styles.gallery}>
-            {posts && <Gallery posts={posts} />}
-          </ul>
+          {posts && <Gallery posts={posts} />}
           {!isCursor && (
             <p className={styles.text}>
               You have reached the end, no more posts to explore
