@@ -181,3 +181,10 @@
   height: 0.75em;
   width: 6ch;
 }
+
+.postImages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: auto;
+}
