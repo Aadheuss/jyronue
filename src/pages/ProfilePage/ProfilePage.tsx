@@ -207,7 +207,13 @@ const ProfilePage = () => {
               <ProfilePageSkeleton />
             )}
             {posts ? (
-              <Gallery posts={posts} />
+              posts.length > 0 ? (
+                <Gallery posts={posts} />
+              ) : (
+                <div>
+                  <p className={styles.emptyPosts}>Nothing here yet</p>
+                </div>
+              )
             ) : (
               <div className={styles.spinnerContainer}>
                 <Loader

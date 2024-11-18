@@ -336,3 +336,8 @@
   justify-content: center;
   flex: auto;
 }
+
+.emptyPosts {
+  margin: 0;
+  font-size: var(--medium-little-font);
+}
