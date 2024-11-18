@@ -177,6 +177,8 @@
   flex-direction: column;
   justify-content: space-between;
   max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .bio {
@@ -200,6 +202,7 @@
 .followNumber {
   color: var(--main-accent-color);
 }
+
 .notFoundContainer {
   display: flex;
   flex-direction: column;
@@ -241,5 +244,88 @@
   .followButton,
   .editButton {
     align-self: flex-end;
+  }
+}
+
+.skeleton {
+  border-radius: 4px;
+  background-color: var(--main-accent-color);
+  animation: skeleton-loading 2s infinite;
+}
+
+.bannerSkeleton {
+  composes: banner;
+}
+
+.profileImageSkeleton {
+  composes: skeleton;
+  border: 5px solid #171717;
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.displayNameSkeleton {
+  composes: skeleton;
+  font-size: var(--medium-font);
+  height: 1em;
+  width: 18ch;
+  margin: 0.25em;
+}
+
+.usernameSkeleton {
+  composes: displayNameSkeleton;
+  font-size: var(--medium-little-font);
+  width: 12ch;
+}
+
+.buttonSkeleton {
+  composes: skeleton;
+  font-size: var(--medium-font);
+  padding: 0.15em 0.5em;
+  width: 7ch;
+  height: 1em;
+}
+
+.followTextSkeleton {
+  composes: skeleton;
+  font-size: var(--medium-little-font);
+  width: 5ch;
+  height: 1em;
+  border-radius: 8px;
+}
+
+.bioContainer {
+  width: 100%;
+}
+
+.bioSkeleton {
+  composes: skeleton;
+  font-size: var(--small-font);
+  height: 1em;
+  width: 100%;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+}
+
+.bioSkeletonTwo {
+  composes: bioSkeleton;
+  margin-bottom: 0;
+  width: 27%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--main-accent-color);
+  }
+
+  25% {
+    background-color: #666666;
+  }
+
+  75% {
+    background-color: var(--main-accent-color);
   }
 }

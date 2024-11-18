@@ -8,6 +8,8 @@ import avatar from "../../assets/images/avatar_icon.svg";
 import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import ProfilePageSkeleton from "./ProfilePageSkeleton";
+import GallerySkeleton from "../../components/Gallery/GallerySkeleton";
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -110,7 +112,7 @@ const ProfilePage = () => {
           </div>
         ) : (
           <>
-            {profile && (
+            {profile ? (
               <>
                 <div className={styles.profileContainer}>
                   <div className={styles.userProfile}>
@@ -201,8 +203,10 @@ const ProfilePage = () => {
                   <p>Gallery</p>
                 </div>
               </>
+            ) : (
+              <ProfilePageSkeleton />
             )}
-            {posts && <Gallery posts={posts} />}
+            {posts ? <Gallery posts={posts} /> : <GallerySkeleton amount={3} />}
           </>
         )}
       </main>
