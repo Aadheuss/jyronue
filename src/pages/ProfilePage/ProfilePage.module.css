@@ -341,3 +341,8 @@
   margin: 0;
   font-size: var(--medium-little-font);
 }
+
+.galleryHeading {
+  font-size: var(--medium-large-font);
+  margin-bottom: 0;
+}

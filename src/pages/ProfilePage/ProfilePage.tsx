@@ -200,7 +200,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 <div className={styles.profilePosts}>
-                  <p>Gallery</p>
+                  <h2 className={styles.galleryHeading}>Gallery</h2>
                 </div>
               </>
             ) : (
