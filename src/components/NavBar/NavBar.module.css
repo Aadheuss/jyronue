@@ -179,6 +179,7 @@
 }
 
 .menuChild {
+  border-bottom: 1px solid transparent;
   background-color: inherit;
   color: var(--main-color-3);
   font-size: var(--medium-little-font);
@@ -195,4 +196,5 @@
 .activeMenuChild {
   composes: menuChild;
   background-color: "#212121";
+  border-bottom-color: var(--accent-color-1);
 }
