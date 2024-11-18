@@ -9,7 +9,7 @@ import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ProfilePageSkeleton from "./ProfilePageSkeleton";
-import GallerySkeleton from "../../components/Gallery/GallerySkeleton";
+import Loader from "../../components/Loader/Loader";
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -206,7 +206,17 @@ const ProfilePage = () => {
             ) : (
               <ProfilePageSkeleton />
             )}
-            {posts ? <Gallery posts={posts} /> : <GallerySkeleton amount={3} />}
+            {posts ? (
+              <Gallery posts={posts} />
+            ) : (
+              <div className={styles.spinnerContainer}>
+                <Loader
+                  size={{ width: "2em", height: "2em" }}
+                  color="var(--accent-color-1)"
+                  type="spinner"
+                />
+              </div>
+            )}
           </>
         )}
       </main>

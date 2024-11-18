@@ -329,3 +329,10 @@
     background-color: var(--main-accent-color);
   }
 }
+
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: auto;
+}
