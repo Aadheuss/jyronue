@@ -71,15 +71,24 @@ const HomePage = () => {
       <main className={styles.mainWrapper}>
         <ul className={styles.postList}>
           {posts ? (
-            posts.map((post) => {
-              return (
-                <PostItem
-                  post={post}
-                  updateLikesBox={updateLikesBox}
-                  key={post.id}
-                />
-              );
-            })
+            posts.length > 0 ? (
+              posts.map((post) => {
+                return (
+                  <PostItem
+                    post={post}
+                    updateLikesBox={updateLikesBox}
+                    key={post.id}
+                  />
+                );
+              })
+            ) : (
+              <div>
+                <h2 className={styles.emptyPosts}>Nothing here yet</h2>
+                <p className={styles.text}>
+                  Follow more people to see their posts on your feed
+                </p>
+              </div>
+            )
           ) : (
             <>
               <PostItemSkeleton />
