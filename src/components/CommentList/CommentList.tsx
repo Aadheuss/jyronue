@@ -28,28 +28,33 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
       cursor: null | false | string;
     }) => {
       const cursorQuery = cursor ? `&cursor=${cursor}` : "";
+      const limit = 3;
 
-      setIsScrollLoading(true);
+      if (cursor !== null) {
+        setIsScrollLoading(true);
+      }
 
-      if (cursor === null || cursor) {
-        const commentsData = await fetchData({
-          link: `http://localhost:3000/post/${postid}/comments?limit=50${cursorQuery}`,
-          options: {
-            method: "GET",
-            credentials: "include",
-          },
-        });
+      const commentsData = await fetchData({
+        link: `http://localhost:3000/post/${postid}/comments?limit=${limit}${cursorQuery}`,
+        options: {
+          method: "GET",
+          credentials: "include",
+        },
+      });
 
-        if (commentsData?.isError) {
-          console.error(commentsData?.data.error, commentsData?.data.errors);
-        } else {
-          setCursor(commentsData?.data.nextCursor);
-          setComments(
-            comments
-              ? [...comments, ...(commentsData?.data.comments || [])]
-              : commentsData?.data.comments
-          );
-        }
+      if (commentsData?.isError) {
+        console.error(commentsData?.data.error, commentsData?.data.errors);
+      } else {
+        const nextCursor =
+          commentsData?.data.comments.length >= limit
+            ? commentsData?.data.nextCursor
+            : false;
+        setCursor(nextCursor);
+        setComments(
+          comments
+            ? [...comments, ...(commentsData?.data.comments || [])]
+            : commentsData?.data.comments
+        );
       }
 
       setIsScrollLoading(false);
@@ -58,11 +63,14 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
     const current = observerRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log(entries[0].intersectionRatio);
         if (entries[0].isIntersecting) {
           // Fetch new data if only another fetch hasn't started
           if (!isScrollLoading) {
-            fetchComments({ cursor });
+            // Only fetch if not the initial fetch or false cursor
+            if (cursor !== null && cursor !== false) {
+              console.log("Fecthing new data");
+              fetchComments({ cursor });
+            }
           }
         }
       },
@@ -76,7 +84,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
     }
 
     if (cursor === null) {
-      // Fetch initial comments
+      // initial fetch
       fetchComments({ cursor });
     }
 
@@ -139,7 +147,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
 
       <p className={styles.commentHeading}>Comments</p>
       <ul className={styles.commentList}>
-        {comments && comments.length > 0 ? (
+        {comments && comments.length > 0 && (
           <>
             {comments.map((comment) => {
               return (
@@ -153,22 +161,33 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
                 />
               );
             })}
-            {isScrollLoading && (
-              <div className={styles.loaderContainer}>
-                <Loader
-                  type="spinner"
-                  size={{ width: "1.5em", height: "1.5em" }}
-                  color="var(--accent-color-1)"
-                />
-              </div>
-            )}
-            <div ref={observerRef} className={styles.observer}></div>
           </>
-        ) : (
+        )}
+        <div
+          className={cursor === null ? styles.loaderContainer : styles.hidden}
+        >
+          <Loader
+            type="spinner"
+            size={{ width: "1.5em", height: "1.5em" }}
+            color="var(--accent-color-3)"
+          />
+        </div>
+        <div
+          className={isScrollLoading ? styles.loaderContainer : styles.hidden}
+        >
+          <Loader
+            type="spinner"
+            size={{ width: "1.5em", height: "1.5em" }}
+            color="var(--accent-color-1)"
+          />
+        </div>
+        {cursor !== null && comments && comments.length < 1 && (
           <li className={styles.comment} key="no-comment-list">
             <p className={styles.commentText}>No comments yet</p>
           </li>
         )}
+
+        <div ref={observerRef} className={styles.observer}></div>
       </ul>
     </div>
   );

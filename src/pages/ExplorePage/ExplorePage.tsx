@@ -20,14 +20,15 @@ const ExplorePage = () => {
       cursor: null | false | string;
     }) => {
       const currentQuery = cursor ? `&cursor=${cursor}` : "";
-
-      if (cursor) {
-        setIsScrollLoading(true);
-      }
+      const limit = 20;
 
       if (cursor === null || cursor) {
+        if (cursor !== null) {
+          setIsScrollLoading(true);
+        }
+
         const postsData = await fetchData({
-          link: `http://localhost:3000/posts?limit=20${currentQuery}`,
+          link: `http://localhost:3000/posts?limit=${limit}${currentQuery}`,
           options: {
             method: "GET",
             credentials: "include",
@@ -35,25 +36,35 @@ const ExplorePage = () => {
         });
 
         if (postsData?.isError) {
-          console.log(postsData?.data.error, postsData?.data.errors);
+          console.error(postsData?.data.error, postsData?.data.errors);
         } else {
-          setCursor(postsData?.data.nextCursor);
+          const nextCursor =
+            postsData?.data.posts.length >= limit
+              ? postsData?.data.nextCursor
+              : false;
+          setCursor(nextCursor);
           setPosts(
             posts
               ? [...posts, ...(postsData?.data.posts || [])]
               : postsData?.data.posts
           );
         }
-      }
 
-      setIsScrollLoading(false);
+        setIsScrollLoading(false);
+      }
     };
 
     const current = observerRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchPosts({ cursor });
+          // Only fetch if another fetch hasn't started
+          // and not the first initial fetch
+          if (!isScrollLoading) {
+            if (cursor !== null) {
+              fetchPosts({ cursor });
+            }
+          }
         }
       },
       {
@@ -74,7 +85,7 @@ const ExplorePage = () => {
         observer.unobserve(current);
       }
     };
-  }, [posts, cursor]);
+  }, [posts, cursor, isScrollLoading]);
 
   return (
     <>
@@ -83,21 +94,21 @@ const ExplorePage = () => {
         <div className={styles.mainContent}>
           <h2 className={styles.heading}>Explore latest posts</h2>
           {posts ? <Gallery posts={posts} /> : <GallerySkeleton amount={20} />}
-          {isScrollLoading && (
-            <div className={styles.loaderContainer}>
-              <Loader
-                type="spinner"
-                size={{ width: "1.5em", height: "1.5em" }}
-                color="var(--accent-color-1)"
-              />
-            </div>
-          )}
-          <div ref={observerRef} className={styles.observer}></div>
+          <div
+            className={isScrollLoading ? styles.loaderContainer : styles.hidden}
+          >
+            <Loader
+              type="spinner"
+              size={{ width: "1.5em", height: "1.5em" }}
+              color="var(--accent-color-1)"
+            />
+          </div>
           {cursor === false && (
             <p className={styles.text}>
               You have reached the end, no more posts to explore
             </p>
           )}
+          <div ref={observerRef} className={styles.observer}></div>
         </div>
       </main>
     </>

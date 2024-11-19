@@ -1,6 +1,7 @@
 .mainWrapper {
   display: flex;
   flex-direction: column;
+  overflow-anchor: none;
 }
 
 .mainContent {
@@ -50,9 +51,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1em;
+  padding: 0.75em;
 }
 
 .observer {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
+}
+
+.hidden {
+  display: none;
 }

@@ -41,7 +41,6 @@ const Gallery: FC<Props> = ({ posts }) => {
           }
         >
           <Link to={`/post/${post.id}`}>
-            {" "}
             <img className={styles.img} ref={imgRef} src={post.thumbnail} />
           </Link>
         </li>

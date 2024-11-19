@@ -54,11 +54,11 @@ const HomePage = () => {
     }) => {
       const currentQuery = cursor ? `&cursor=${cursor}` : "";
 
-      if (cursor) {
-        setIsScrollLoading(true);
-      }
-
       if (cursor === null || cursor) {
+        if (cursor !== null) {
+          setIsScrollLoading(true);
+        }
+
         const followingPosts = await fetchData({
           link: `http://localhost:3000/posts/following?limit=3${currentQuery}`,
           options: {
@@ -80,18 +80,22 @@ const HomePage = () => {
               : followingPosts?.data.posts
           );
         }
-      }
 
-      setIsScrollLoading(false);
+        setIsScrollLoading(false);
+      }
     };
 
     const current = observerRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log(entries[0].intersectionRatio);
         if (entries[0].isIntersecting) {
           // Fetch new data only if another fetch hasn't started
-          fetchFollowingPosts({ cursor });
+          // and not the first initial fetch
+          if (!isScrollLoading) {
+            if (cursor !== null) {
+              fetchFollowingPosts({ cursor });
+            }
+          }
         }
       },
       {
@@ -103,7 +107,8 @@ const HomePage = () => {
       observer.observe(current);
     }
 
-    if (current === null) {
+    if (cursor === null) {
+      // Initial fetch
       fetchFollowingPosts({ cursor });
     }
 
@@ -131,16 +136,6 @@ const HomePage = () => {
                     />
                   );
                 })}
-                {isScrollLoading && (
-                  <div className={styles.loaderContainer}>
-                    <Loader
-                      type="spinner"
-                      size={{ width: "1.5em", height: "1.5em" }}
-                      color="var(--accent-color-1)"
-                    />
-                  </div>
-                )}
-                <div ref={observerRef} className={styles.observer}></div>
               </>
             ) : (
               <div>
@@ -156,6 +151,18 @@ const HomePage = () => {
               <PostItemSkeleton />
             </>
           )}
+
+          <div
+            className={isScrollLoading ? styles.loaderContainer : styles.hidden}
+          >
+            <Loader
+              type="spinner"
+              size={{ width: "1.5em", height: "1.5em" }}
+              color="var(--accent-color-1)"
+            />
+          </div>
+
+          <div ref={observerRef} className={styles.observer}></div>
         </ul>
       </main>
     </>
