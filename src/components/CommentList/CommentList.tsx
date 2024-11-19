@@ -33,7 +33,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
 
       if (cursor === null || cursor) {
         const commentsData = await fetchData({
-          link: `http://localhost:3000/post/${postid}/comments?limit=100${cursorQuery}`,
+          link: `http://localhost:3000/post/${postid}/comments?limit=50${cursorQuery}`,
           options: {
             method: "GET",
             credentials: "include",
@@ -85,7 +85,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
         observer.unobserve(current);
       }
     };
-  }, [postid, cursor, comments]);
+  }, [postid, cursor, comments, isScrollLoading]);
 
   const updateLikesBox = ({
     likesBox,
