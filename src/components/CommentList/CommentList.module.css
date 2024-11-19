@@ -37,3 +37,16 @@
   font-size: var(--small-little-font);
   color: #757575;
 }
+
+.loaderContainer {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  width: 100%;
+}
+
+.observer {
+  margin-bottom: 3em;
+}
