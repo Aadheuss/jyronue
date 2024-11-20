@@ -32,17 +32,15 @@ const SignupPage = () => {
       });
 
       const resData = await res.json();
-      console.log(resData);
 
       if (resData.errors) {
-        console.log(resData.errors);
+        console.error(resData.errors);
         setErrorList(resData.errors);
       } else {
-        console.log(resData);
         navigate("/login");
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       navigate("/error");
     }
   };

@@ -30,13 +30,12 @@ const PostDetailsPage = () => {
         const resData = await res.json();
 
         if (resData.error) {
-          console.log(resData.error);
+          console.error(resData.error);
         } else {
-          console.log(resData.post);
           setPost(resData.post);
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
 

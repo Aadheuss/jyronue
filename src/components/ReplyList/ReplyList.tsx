@@ -36,18 +36,16 @@ const ReplyList: FC<Props> = ({
           );
 
           const resData = await res.json();
-          console.log(resData);
 
           if (resData.error) {
-            console.log(resData.error);
+            console.error(resData.error);
           } else {
-            console.log(resData);
             const updatedComment = { ...comment, replies: resData.replies };
-            console.log(updatedComment);
+
             updateComment({ updatedComment });
           }
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       }
     };

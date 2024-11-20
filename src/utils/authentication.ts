@@ -10,16 +10,15 @@ const getUser = async (): Promise<null | User> => {
     });
 
     const resData = await res.json();
-    console.log(resData);
 
     if (resData.error) {
-      console.log(resData.error);
+      console.error(resData.error);
       return null;
     } else {
       return resData.user;
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
