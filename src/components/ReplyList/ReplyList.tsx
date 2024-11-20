@@ -19,11 +19,12 @@ const ReplyList: FC<Props> = ({
   view,
   setView,
 }) => {
-  const { replies } = comment;
   const [openReplyId, setOpenReplyId] = useState<string>("");
 
   useEffect(() => {
     const fetchReplies = async () => {
+      const replies = comment.replies;
+
       if (!replies && view) {
         try {
           const res = await fetch(
@@ -54,7 +55,7 @@ const ReplyList: FC<Props> = ({
     fetchReplies();
 
     return () => {};
-  }, [view]);
+  }, [view, comment, updateComment]);
 
   const updateLikesBox = ({
     likesBox,
@@ -68,6 +69,8 @@ const ReplyList: FC<Props> = ({
     };
     userLikeStatus: boolean;
   }) => {
+    const replies = comment.replies;
+
     if (replies) {
       const selectedReply = replies.find(
         (reply) => reply.likesBox.id === likesBox.id
@@ -87,7 +90,7 @@ const ReplyList: FC<Props> = ({
       {view ? (
         <>
           <ul className={styles.replies}>
-            {!replies && (
+            {!comment.replies && (
               <div className={styles.loaderContainer}>
                 <Loader
                   type="spinner"
@@ -97,9 +100,9 @@ const ReplyList: FC<Props> = ({
               </div>
             )}
             <div className={styles.replyList}>
-              {replies &&
-                replies.length > 0 &&
-                replies.map((reply) => (
+              {comment.replies &&
+                comment.replies.length > 0 &&
+                comment.replies.map((reply) => (
                   <Reply
                     comment={comment}
                     reply={reply}
