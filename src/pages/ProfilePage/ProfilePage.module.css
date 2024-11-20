@@ -283,7 +283,7 @@
 .buttonSkeleton {
   composes: skeleton;
   font-size: var(--medium-font);
-  padding: 0.15em 0.5em;
+  padding: 0.1em 0.25em;
   width: 7ch;
   height: 1em;
 }
