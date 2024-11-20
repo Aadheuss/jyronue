@@ -42,9 +42,7 @@ const PostDetailsPage = () => {
 
     fetchPost();
 
-    return () => {
-      setPost(null);
-    };
+    return () => {};
   }, [postId]);
 
   const updateLikesBox = ({
