@@ -137,6 +137,10 @@
   background-color: var(--main-color);
 }
 
+.postUserProfileSkeleton:hover {
+  box-shadow: none;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-color: var(--main-color);
