@@ -133,6 +133,10 @@
   animation: skeleton-loading 2s infinite;
 }
 
+.avatarSkeleton:hover {
+  box-shadow: none;
+}
+
 @keyframes skeleton-loading {
   0% {
     background-color: var(--main-color);
@@ -154,6 +158,10 @@
   margin-bottom: 0.25em;
   border-radius: 8px;
   animation: skeleton-loading 2s infinite;
+}
+
+.displayNameSkeleton:hover {
+  border-bottom-color: transparent;
 }
 
 .usernameSkeleton {
