@@ -36,3 +36,10 @@
   color: var(--main-color-3);
   transition: color 250ms ease-out;
 }
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import styles from "./ReplyList.module.css";
 import { CommentValue, ReplyValue } from "../../config/typeValues";
 import Reply from "../Reply/Reply";
+import Loader from "../Loader/Loader";
 
 interface Props {
   comment: CommentValue;
@@ -86,6 +87,15 @@ const ReplyList: FC<Props> = ({
       {view ? (
         <>
           <ul className={styles.replies}>
+            {!replies && (
+              <div className={styles.loaderContainer}>
+                <Loader
+                  type="spinner"
+                  size={{ width: "1em", height: "1em" }}
+                  color="var(--accent-color-1)"
+                />
+              </div>
+            )}
             <div className={styles.replyList}>
               {replies &&
                 replies.length > 0 &&
