@@ -331,6 +331,7 @@
 }
 
 .spinnerContainer {
+  padding: 0.15em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,4 +346,12 @@
 .galleryHeading {
   font-size: var(--medium-large-font);
   margin-bottom: 0;
+}
+
+.observer {
+  margin-bottom: 1em;
+}
+
+.hidden {
+  opacity: 0;
 }

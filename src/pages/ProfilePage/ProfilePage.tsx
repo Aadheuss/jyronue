@@ -1,6 +1,6 @@
 import NavBar from "../../components/NavBar/NavBar";
 import styles from "./ProfilePage.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PostGallery, UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
@@ -17,50 +17,114 @@ const ProfilePage = () => {
   const [notFound, setNotFound] = useState<boolean>(false);
   const [profile, setProfile] = useState<null | UserProfileValue>(null);
   const [posts, setPosts] = useState<null | PostGallery[]>(null);
+  const [cursor, setCursor] = useState<null | string | false>(null);
+  const [isScrollLoading, setIsScrollLoading] = useState<boolean>(false);
+  const observerRef = useRef<null | HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (username) {
-        const [userProfile, userPosts] = await Promise.all([
-          fetchData({
-            link: `http://localhost:3000/user/profile?username=${username}`,
-            options: {
-              method: "GET",
-              credentials: "include",
-            },
-          }),
-          fetchData({
-            link: `http://localhost:3000/user/${username}/posts`,
-            options: {
-              method: "GET",
-              credentials: "include",
-            },
-          }),
-        ]);
+      const userProfile = await fetchData({
+        link: `http://localhost:3000/user/profile?username=${username}`,
+        options: {
+          method: "GET",
+          credentials: "include",
+        },
+      });
 
-        if (userProfile?.status === 404 || userPosts?.status === 404) {
-          setNotFound(true);
-        }
+      if (userProfile?.status === 404) {
+        setNotFound(true);
+      }
 
-        if (userProfile?.isError || userProfile?.isError) {
-          console.error(userProfile?.data.error, userProfile?.data.errors);
-          console.error(userPosts?.data.error, userPosts?.data.errors);
-        } else {
-          setProfile(userProfile?.data.profile);
-
-          setPosts(userPosts?.data.userPosts);
-          console.log(userPosts?.data);
-        }
+      if (userProfile?.isError) {
+        console.error(userProfile?.data.error, userProfile?.data.errors);
+      } else {
+        setProfile(userProfile?.data.profile);
       }
     };
 
-    fetchUserProfile();
+    const fetchUserPosts = async ({
+      cursor,
+    }: {
+      cursor: null | string | false;
+    }) => {
+      const cursorQuery = cursor ? `&cursor=${cursor}` : "";
+      const limit = 20;
+
+      if (cursor !== null) {
+        setIsScrollLoading(true);
+      }
+
+      const userPosts = await fetchData({
+        link: `http://localhost:3000/user/${username}/posts?limit=${limit}${cursorQuery}`,
+        options: {
+          method: "GET",
+          credentials: "include",
+        },
+      });
+
+      if (userPosts?.status === 404) {
+        setNotFound(true);
+        return;
+      }
+
+      if (userPosts?.isError) {
+        console.error(userPosts?.data.error, userPosts?.data.errors);
+      } else {
+        const nextCursor =
+          userPosts?.data.userPosts.length >= limit
+            ? userPosts?.data.nextCursor
+            : false;
+        setCursor(nextCursor);
+        setPosts(
+          posts
+            ? [...posts, ...(userPosts?.data.userPosts || [])]
+            : userPosts?.data.userPosts
+        );
+      }
+
+      setIsScrollLoading(false);
+    };
+
+    const current = observerRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          // Fetch new data only if another fetch hasn't started
+          // and not the first fetch
+
+          if (!isScrollLoading && cursor !== null && cursor !== false) {
+            fetchUserPosts({ cursor });
+          }
+        }
+      },
+      {
+        threshold: 1,
+      }
+    );
+
+    if (current) {
+      observer.observe(current);
+    }
+
+    if (username) {
+      if (profile === null) {
+        fetchUserProfile();
+      }
+
+      if (profile && posts === null) {
+        // Fetch only if profile data has been fetched to prevent rerender from profile state change from causing initial fetch to fetch twice
+        // Initial fetch
+        fetchUserPosts({ cursor });
+      }
+    }
 
     return () => {
-      setProfile(null);
+      if (current) {
+        observer.unobserve(current);
+      }
     };
-  }, [username]);
+  }, [username, cursor, isScrollLoading, posts, profile]);
 
   const toggleFollow = async () => {
     const type = profile?.isFollowing ? "unfollow" : "follow";
@@ -160,6 +224,7 @@ const ProfilePage = () => {
                               user.id === profile.id ? (
                                 <button
                                   className={styles.editButton}
+                                  type="button"
                                   onClick={() => navigate("/setting")}
                                 >
                                   Edit profile
@@ -167,6 +232,7 @@ const ProfilePage = () => {
                               ) : (
                                 <button
                                   className={styles.followButton}
+                                  type="button"
                                   onClick={toggleFollow}
                                 >
                                   {profile.isFollowing ? "unfollow" : "follow"}
@@ -206,25 +272,32 @@ const ProfilePage = () => {
             ) : (
               <ProfilePageSkeleton />
             )}
-            {posts ? (
-              posts.length > 0 ? (
+            {posts &&
+              (posts.length > 0 ? (
                 <Gallery posts={posts} />
               ) : (
                 <div>
                   <p className={styles.emptyPosts}>Nothing here yet</p>
                 </div>
-              )
-            ) : (
-              <div className={styles.spinnerContainer}>
-                <Loader
-                  size={{ width: "2em", height: "2em" }}
-                  color="var(--accent-color-1)"
-                  type="spinner"
-                />
-              </div>
-            )}
+              ))}
           </>
         )}
+        <div
+          className={
+            isScrollLoading || posts === null
+              ? styles.spinnerContainer
+              : styles.hidden
+          }
+        >
+          <Loader
+            size={{ width: "min(2em, 7vw)", height: "min(2em, 7vw)" }}
+            color={
+              posts === null ? "var(--accent-color-3)" : "var(--accent-color-1)"
+            }
+            type="spinner"
+          />
+        </div>
+        <div ref={observerRef} className={styles.observer}></div>
       </main>
     </>
   );
