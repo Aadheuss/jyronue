@@ -2,7 +2,7 @@ type CommentValue = {
   id: string;
   createdAt: string;
   updatedAt: string;
-  authorid: string;
+  authorId: string;
   postId: string;
   content: string;
   author: {
@@ -29,7 +29,7 @@ type ReplyValue = {
   id: string;
   createdAt: string;
   updatedAt: string;
-  authorid: string;
+  authorId: string;
   postId: string;
   commentId: string;
   replyToId: string;
@@ -82,7 +82,7 @@ type UserProfileValue = {
 
 type PostGallery = {
   id: string;
-  authorid: string;
+  authorId: string;
   thumbnail: string;
   createdAt: string;
   updatedAt: string;
@@ -97,7 +97,7 @@ type Content = {
 
 type PostValue = {
   id: string;
-  authorid: string;
+  authorId: string;
   createdAt: string;
   updatedAt: string;
   caption: string;

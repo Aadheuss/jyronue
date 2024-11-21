@@ -110,7 +110,7 @@ const Reply: FC<Props> = ({
         {openReplyId === reply.id && (
           <ReplyBox
             replyToUsername={reply.author.username}
-            replyToId={reply.authorid}
+            replyToId={reply.authorId}
             commentId={comment.id}
             comment={comment}
             parentId={reply.id}
