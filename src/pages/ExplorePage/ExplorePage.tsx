@@ -6,6 +6,7 @@ import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
 import GallerySkeleton from "../../components/Gallery/GallerySkeleton";
 import Loader from "../../components/Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const ExplorePage = () => {
   const [posts, setPosts] = useState<null | PostGallery[]>(null);
@@ -28,7 +29,7 @@ const ExplorePage = () => {
         }
 
         const postsData = await fetchData({
-          link: `http://localhost:3000/posts?limit=${limit}${currentQuery}`,
+          link: `${domain}/posts?limit=${limit}${currentQuery}`,
           options: {
             method: "GET",
             credentials: "include",

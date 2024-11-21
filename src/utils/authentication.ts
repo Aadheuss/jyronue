@@ -1,10 +1,12 @@
+const domain = import.meta.env.VITE_DOMAIN;
+
 type User = {
   id: string;
 };
 
 const getUser = async (): Promise<null | User> => {
   try {
-    const res = await fetch("http://localhost:3000/user/login", {
+    const res = await fetch(`${domain}/user/login`, {
       method: "GET",
       credentials: "include",
     });

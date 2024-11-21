@@ -10,6 +10,7 @@ import Gallery from "../../components/Gallery/Gallery";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ProfilePageSkeleton from "./ProfilePageSkeleton";
 import Loader from "../../components/Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const ProfilePage = () => {
   const { user } = useContext(UserContext);
@@ -25,7 +26,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       const userProfile = await fetchData({
-        link: `http://localhost:3000/user/profile?username=${username}`,
+        link: `${domain}/user/profile?username=${username}`,
         options: {
           method: "GET",
           credentials: "include",
@@ -56,7 +57,7 @@ const ProfilePage = () => {
       }
 
       const userPosts = await fetchData({
-        link: `http://localhost:3000/user/${username}/posts?limit=${limit}${cursorQuery}`,
+        link: `${domain}/user/${username}/posts?limit=${limit}${cursorQuery}`,
         options: {
           method: "GET",
           credentials: "include",
@@ -133,7 +134,7 @@ const ProfilePage = () => {
     formData.append("username", username as string);
 
     const follows = await fetchData({
-      link: `http://localhost:3000/user/${type}`,
+      link: `${domain}/user/${type}`,
       options: {
         method: "POST",
         credentials: "include",

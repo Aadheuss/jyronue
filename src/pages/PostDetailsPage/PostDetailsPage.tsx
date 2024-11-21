@@ -11,6 +11,7 @@ import { PostValue } from "../../config/typeValues";
 import avatar from "../../assets/images/avatar_icon.svg";
 import ReplyButton from "../../components/ReplyButton/ReplyButton";
 import PostDetailsPageSkeleton from "./PostDetailsPageSkeleton";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
@@ -22,7 +23,7 @@ const PostDetailsPage = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/post/${postId}`, {
+        const res = await fetch(`${domain}/post/${postId}`, {
           method: "GET",
           credentials: "include",
         });

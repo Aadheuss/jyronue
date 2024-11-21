@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { errorValue } from "../../config/formValues";
 import Loader from "../../components/Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const SignupPage = () => {
   const methods = useForm<formValues>();
@@ -27,7 +28,7 @@ const SignupPage = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:3000/user/signup", {
+      const res = await fetch(`${domain}/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

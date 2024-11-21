@@ -3,6 +3,7 @@ import styles from "./ReplyList.module.css";
 import { CommentValue, ReplyValue } from "../../config/typeValues";
 import Reply from "../Reply/Reply";
 import Loader from "../Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   comment: CommentValue;
@@ -27,13 +28,10 @@ const ReplyList: FC<Props> = ({
 
       if (!replies && view) {
         try {
-          const res = await fetch(
-            `http://localhost:3000/comment/${comment.id}/replies`,
-            {
-              method: "GET",
-              credentials: "include",
-            }
-          );
+          const res = await fetch(`${domain}/comment/${comment.id}/replies`, {
+            method: "GET",
+            credentials: "include",
+          });
 
           const resData = await res.json();
 

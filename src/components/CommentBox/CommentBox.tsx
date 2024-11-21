@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { FC, useState } from "react";
 import { CommentValue } from "../../config/typeValues";
 import Loader from "../Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   updateComments: ({ comment }: { comment: CommentValue }) => void;
@@ -39,7 +40,7 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
     setIsSubmitting(true);
     setInput("");
     try {
-      const res = await fetch(`http://localhost:3000/post/${postId}/comment`, {
+      const res = await fetch(`${domain}/post/${postId}/comment`, {
         method: "POST",
         credentials: "include",
         body: formData,

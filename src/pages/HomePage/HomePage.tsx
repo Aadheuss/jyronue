@@ -8,6 +8,7 @@ import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import PostItemSkeleton from "../../components/PostItem/PostItemSkeleton";
 import Loader from "../../components/Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const HomePage = () => {
   const { user } = useContext(UserContext);
@@ -60,7 +61,7 @@ const HomePage = () => {
         }
 
         const followingPosts = await fetchData({
-          link: `http://localhost:3000/posts/following?limit=3${currentQuery}`,
+          link: `${domain}/posts/following?limit=3${currentQuery}`,
           options: {
             method: "GET",
             credentials: "include",

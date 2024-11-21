@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import InputContainer from "../InputContainer/InputContainer";
 import { convertFile } from "../../utils/fileHelper";
 import Loader from "../Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<null | (() => void)>>;
@@ -42,7 +43,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
     } else {
       setIsSubmitting(true);
       try {
-        const res = await fetch("http://localhost:3000/post", {
+        const res = await fetch(`${domain}/post`, {
           method: "POST",
           credentials: "include",
           body: formData,

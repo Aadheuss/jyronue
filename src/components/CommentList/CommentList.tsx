@@ -7,6 +7,7 @@ import Comment from "../Comment/Comment";
 import { UserContext } from "../../context/context";
 import { fetchData } from "../../utils/fetchFunctions";
 import Loader from "../Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   commentInputRef: React.MutableRefObject<null | HTMLInputElement>;
@@ -35,7 +36,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
       }
 
       const commentsData = await fetchData({
-        link: `http://localhost:3000/post/${postid}/comments?limit=${limit}${cursorQuery}`,
+        link: `${domain}/post/${postid}/comments?limit=${limit}${cursorQuery}`,
         options: {
           method: "GET",
           credentials: "include",

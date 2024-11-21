@@ -5,6 +5,7 @@ import { FC, useContext, useState } from "react";
 import { UserContext } from "../../context/context";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import avatar from "../../assets/images/avatar_icon.svg";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   activeNavButton?: null | number;
@@ -17,7 +18,7 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
 
   const logout = async () => {
     try {
-      const res = await fetch("http://localhost:3000/user/logout", {
+      const res = await fetch(`${domain}/user/logout`, {
         method: "GET",
         credentials: "include",
       });

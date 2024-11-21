@@ -9,6 +9,7 @@ import { errorValue } from "../../config/formValues";
 import { UserContext } from "../../context/context";
 import { fetchData } from "../../utils/fetchFunctions";
 import Loader from "../../components/Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 const LoginPage = () => {
   const methods = useForm<formValues>();
@@ -38,7 +39,7 @@ const LoginPage = () => {
     formData.append("password", data.password);
 
     try {
-      const res = await fetch("http://localhost:3000/user/login", {
+      const res = await fetch(`${domain}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -54,7 +55,7 @@ const LoginPage = () => {
         setError(resData.error);
       } else {
         const userData = await fetchData({
-          link: `http://localhost:3000/user/profile?id=${resData.user.id}`,
+          link: `${domain}/user/profile?id=${resData.user.id}`,
           options: {
             method: "GET",
             credentials: "include",

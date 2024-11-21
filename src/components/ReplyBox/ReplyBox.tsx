@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import { CommentValue } from "../../config/typeValues";
 import Loader from "../Loader/Loader";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   replyToUsername: string;
@@ -83,7 +84,7 @@ const ReplyBox: FC<Props> = ({
     setIsSubmitting(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/post/${postId}/comment/${commentId}/reply`,
+        `${domain}/post/${postId}/comment/${commentId}/reply`,
         {
           method: "POST",
           credentials: "include",

@@ -1,3 +1,5 @@
+const domain = import.meta.env.VITE_DOMAIN;
+
 const fetchLikesBox = async ({
   id,
   type,
@@ -8,13 +10,10 @@ const fetchLikesBox = async ({
   likesBoxId: string;
 }) => {
   try {
-    const res = await fetch(
-      `http://localhost:3000/${type}/${id}/likesbox/${likesBoxId}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
+    const res = await fetch(`${domain}/${type}/${id}/likesbox/${likesBoxId}`, {
+      method: "GET",
+      credentials: "include",
+    });
 
     const resData = await res.json();
 
@@ -37,7 +36,7 @@ const fetchToggleLike = async ({
   formData: URLSearchParams;
 }) => {
   try {
-    const res = await fetch(`http://localhost:3000/${type}/${id}/${toggle}`, {
+    const res = await fetch(`${domain}/${type}/${id}/${toggle}`, {
       method: "POST",
       credentials: "include",
       body: formData,

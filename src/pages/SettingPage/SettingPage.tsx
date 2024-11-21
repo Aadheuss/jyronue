@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../utils/fetchFunctions";
 import { UserProfileValue, UserValue } from "../../config/typeValues";
 import { unescapeInput } from "../../utils/htmlDecoder";
+const domain = import.meta.env.VITE_DOMAIN;
 
 type filePreview = null | string;
 
@@ -39,7 +40,7 @@ const SettingPage = () => {
     const fetchUserProfile = async () => {
       if (user) {
         const userProfile = await fetchData({
-          link: `http://localhost:3000/user/profile?id=${user.id}`,
+          link: `${domain}/user/profile?id=${user.id}`,
           options: {
             method: "GET",
             credentials: "include",
@@ -147,7 +148,7 @@ const SettingPage = () => {
     });
 
     const userProfile = await fetchData({
-      link: `http://localhost:3000/user/profile`,
+      link: `${domain}/user/profile`,
       options: {
         method: "POST",
         credentials: "include",
