@@ -21,6 +21,7 @@ const ProfilePage = () => {
   const [cursor, setCursor] = useState<null | string | false>(null);
   const [isScrollLoading, setIsScrollLoading] = useState<boolean>(false);
   const observerRef = useRef<null | HTMLDivElement>(null);
+  const [currentUsername, setCurrentUsername] = useState<null | string>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -108,8 +109,22 @@ const ProfilePage = () => {
       observer.observe(current);
     }
 
+    //Reset data if parameter changes to rerender profile page
+    if (currentUsername !== null && currentUsername !== username) {
+      console.log("username parameter changes");
+      setCursor(null);
+      setProfile(null);
+      setPosts(null);
+      setNotFound(false);
+      setIsScrollLoading(false);
+      setCurrentUsername(null);
+    }
+
     if (username) {
       if (profile === null) {
+        console.log({ currentUsername, username });
+        console.log("fetching");
+        setCurrentUsername(username);
         fetchUserProfile();
       }
 
@@ -125,7 +140,7 @@ const ProfilePage = () => {
         observer.unobserve(current);
       }
     };
-  }, [username, cursor, isScrollLoading, posts, profile]);
+  }, [username, cursor, isScrollLoading, posts, profile, currentUsername]);
 
   const toggleFollow = async () => {
     const type = profile?.isFollowing ? "unfollow" : "follow";
