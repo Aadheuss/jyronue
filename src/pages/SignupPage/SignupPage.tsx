@@ -6,6 +6,7 @@ import { formValues } from "../../config/formValues";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { errorValue } from "../../config/formValues";
+import Loader from "../../components/Loader/Loader";
 
 const SignupPage = () => {
   const methods = useForm<formValues>();
@@ -16,11 +17,14 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [focus, setFocus] = useState(false);
   const [errorList, setErrorList] = useState<errorValue[] | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<formValues> = async (data) => {
     const formData = new URLSearchParams();
     formData.append("username", data.username);
     formData.append("password", data.password);
+
+    setIsSubmitting(true);
 
     try {
       const res = await fetch("http://localhost:3000/user/signup", {
@@ -37,6 +41,7 @@ const SignupPage = () => {
         console.error(resData.errors);
         setErrorList(resData.errors);
       } else {
+        setIsSubmitting(false);
         navigate("/login");
       }
     } catch (err) {
@@ -61,7 +66,13 @@ const SignupPage = () => {
             <FormProvider {...methods}>
               <form
                 className={styles.signupForm}
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+
+                  if (!isSubmitting) {
+                    handleSubmit(onSubmit)();
+                  }
+                }}
               >
                 <div className={styles.itemContainer}>
                   {errors.username && (
@@ -144,7 +155,17 @@ const SignupPage = () => {
                   />
                 </div>
 
-                <button type="submit">Sign up</button>
+                <button className={styles.submitButton} type="submit">
+                  {isSubmitting ? "Signing up" : "Sign up"}
+
+                  {isSubmitting && (
+                    <Loader
+                      type="spinner"
+                      size={{ height: "0.75em", width: "0.75em" }}
+                      color="var(--accent-color-1)"
+                    />
+                  )}
+                </button>
               </form>
             </FormProvider>
             <p className={styles.text}>

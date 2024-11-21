@@ -79,3 +79,10 @@
   border-bottom-color: var(--accent-color-1);
   transition: all 150ms ease-in;
 }
+
+.submitButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}

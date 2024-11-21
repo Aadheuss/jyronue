@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { errorValue } from "../../config/formValues";
 import { UserContext } from "../../context/context";
 import { fetchData } from "../../utils/fetchFunctions";
+import Loader from "../../components/Loader/Loader";
 
 const LoginPage = () => {
   const methods = useForm<formValues>();
@@ -19,6 +20,7 @@ const LoginPage = () => {
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState<null | errorValue>(null);
   const { user, setUser } = useContext(UserContext);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const isLoggedIn = () => {
@@ -63,9 +65,9 @@ const LoginPage = () => {
           console.error(userData.data.error, userData.data.error);
         } else {
           setUser(userData?.data.profile);
+          setIsSubmitting(false);
+          navigate("/");
         }
-
-        navigate("/");
       }
     } catch (err) {
       console.error(err);
@@ -88,7 +90,13 @@ const LoginPage = () => {
             <FormProvider {...methods}>
               <form
                 className={styles.loginForm}
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!isSubmitting) {
+                    setIsSubmitting(true);
+                    handleSubmit(onSubmit)();
+                  }
+                }}
               >
                 <div className={styles.itemContainer}>
                   {errors.username && (
@@ -158,7 +166,16 @@ const LoginPage = () => {
                   />
                 </div>
 
-                <button type="submit">Log up</button>
+                <button className={styles.submitButton} type="submit">
+                  {isSubmitting ? "logging in" : "Log in"}
+                  {isSubmitting && (
+                    <Loader
+                      type="spinner"
+                      size={{ height: "0.75em", width: "0.75em" }}
+                      color="var(--accent-color-1)"
+                    />
+                  )}
+                </button>
               </form>
             </FormProvider>
             <p className={styles.text}>
