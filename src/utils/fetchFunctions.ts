@@ -62,20 +62,16 @@ const fetchData = async ({
     body?: FormData | URLSearchParams;
   };
 }) => {
-  try {
-    const res = await fetch(link, options);
-    const status = res.status;
-    const data = await res.json();
-    const isError = data.error || data.errors;
+  const res = await fetch(link, options);
+  const status = res.status;
+  const data = await res.json();
+  const isError = !!data.error || !!data.errors;
 
-    return {
-      status,
-      data,
-      isError,
-    };
-  } catch (err) {
-    console.error(err);
-  }
+  return {
+    status,
+    data,
+    isError,
+  };
 };
 
 export { fetchLikesBox, fetchToggleLike, fetchData };
