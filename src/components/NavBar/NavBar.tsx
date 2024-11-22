@@ -5,6 +5,7 @@ import { FC, useContext, useState } from "react";
 import { UserContext } from "../../context/context";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import avatar from "../../assets/images/avatar_icon.svg";
+import Loader from "../Loader/Loader";
 const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
@@ -15,9 +16,13 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
   const { user, setUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState<null | (() => void)>(null);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const logout = async () => {
     const username = user ? user.username : null;
+
+    setIsSubmitting(true);
+
     try {
       const res = await fetch(`${domain}/user/logout`, {
         method: "GET",
@@ -42,6 +47,8 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
     } catch (err) {
       console.log(`Something went wrong! Failed to log out`);
       console.log(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -122,7 +129,14 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
                     type="button"
                     onClick={logout}
                   >
-                    Log out
+                    {isSubmitting ? "Logging out" : "Log out"}
+                    {isSubmitting && (
+                      <Loader
+                        type="dots"
+                        size={{ height: "0.2em", width: "1.5em" }}
+                        color="var(--main-color-2)"
+                      />
+                    )}
                   </button>
                 </li>
               </ul>
