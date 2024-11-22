@@ -46,7 +46,8 @@
 
 @media screen and (max-width: 450px) {
   .gallery {
-    padding: 1.2vw;
+    padding-right: 1.35vw;
+    padding-left: 1.35vw;
     gap: 0.9vw;
   }
 }
