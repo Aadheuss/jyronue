@@ -232,7 +232,7 @@
   border-bottom-color: var(--warning-color);
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 820px) {
   .topItem {
     display: grid;
     grid-template-columns: min-content 1fr;
