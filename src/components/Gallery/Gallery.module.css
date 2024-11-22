@@ -43,3 +43,10 @@
     background-color: var(--main-color);
   }
 }
+
+@media screen and (max-width: 450px) {
+  .gallery {
+    padding: 1.2vw;
+    gap: 0.9vw;
+  }
+}
