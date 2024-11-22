@@ -90,6 +90,7 @@
 }
 
 .profileImage {
+  aspect-ratio: 1 /1;
   border: 5px solid #171717;
   border-radius: 50%;
   width: 100%;
@@ -150,6 +151,8 @@
 .profileButtons {
   display: flex;
   justify-content: right;
+  height: 1em;
+  padding: 0.25em 0.75em;
 }
 
 .followButton {
