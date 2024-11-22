@@ -22,6 +22,7 @@ const ProfilePage = () => {
   const [isScrollLoading, setIsScrollLoading] = useState<boolean>(false);
   const observerRef = useRef<null | HTMLDivElement>(null);
   const [currentUsername, setCurrentUsername] = useState<null | string>(null);
+  const [initialFetch, setInitalFetch] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,26 +112,26 @@ const ProfilePage = () => {
 
     //Reset data if parameter changes to rerender profile page
     if (currentUsername !== null && currentUsername !== username) {
-      console.log("username parameter changes");
+      console.log(
+        "Current profile page username changes, fetching new profile page data..."
+      );
       setCursor(null);
       setProfile(null);
       setPosts(null);
       setNotFound(false);
       setIsScrollLoading(false);
       setCurrentUsername(null);
+      setInitalFetch(true);
     }
 
     if (username) {
-      if (profile === null) {
-        console.log({ currentUsername, username });
-        console.log("fetching");
+      if (initialFetch) {
+        console.log("initial profile and posts fetch");
+        setInitalFetch(false);
+        // Initial fetch
+        // Fetch only if initialFetch is true
         setCurrentUsername(username);
         fetchUserProfile();
-      }
-
-      if (profile && posts === null) {
-        // Fetch only if profile data has been fetched to prevent rerender from profile state change from causing initial fetch to fetch twice
-        // Initial fetch
         fetchUserPosts({ cursor });
       }
     }
@@ -140,7 +141,15 @@ const ProfilePage = () => {
         observer.unobserve(current);
       }
     };
-  }, [username, cursor, isScrollLoading, posts, profile, currentUsername]);
+  }, [
+    username,
+    cursor,
+    isScrollLoading,
+    posts,
+    profile,
+    currentUsername,
+    initialFetch,
+  ]);
 
   const toggleFollow = async () => {
     const type = profile?.isFollowing ? "unfollow" : "follow";
