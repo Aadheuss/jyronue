@@ -34,7 +34,6 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
     const formData = new FormData();
     formData.append("caption", data.caption);
     files.forEach((file) => {
-      console.log(file);
       formData.append("images", file);
     });
 
@@ -49,14 +48,17 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
           body: formData,
         });
         const resData = await res.json();
-        console.log(resData);
+
         if (resData.errors) {
+          console.log("Failed to create the post");
           console.log(resData.errors);
         } else {
+          console.log("successfully created the post");
           closeModal();
           navigate(`/post/${resData.post.id}`);
         }
       } catch (err) {
+        console.log("Something went wrong! failed to create the post");
         console.log(err);
       } finally {
         setIsSubmitting(false);
@@ -122,7 +124,6 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
 
     if (fileInput) {
       const fileList = fileInput.files;
-      console.log({ fileList });
 
       if (fileList) {
         const setupFiles = [...files];
