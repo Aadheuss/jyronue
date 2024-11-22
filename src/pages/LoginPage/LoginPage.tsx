@@ -38,6 +38,8 @@ const LoginPage = () => {
     formData.append("username", data.username);
     formData.append("password", data.password);
 
+    console.log(`Logging in as ${data.username}`);
+
     try {
       const res = await fetch(`${domain}/user/login`, {
         method: "POST",
@@ -63,13 +65,18 @@ const LoginPage = () => {
         });
 
         if (userData?.isError) {
+          console.log(`Failed to fetch user profile data`);
           console.error(userData.data.error, userData.data.error);
         } else {
           setUser(userData?.data.profile);
+          console.log(
+            `successfully logged in as ${userData?.data.profile.username}`
+          );
           navigate("/");
         }
       }
     } catch (err) {
+      console.log(`Something went wrong, failed to log in`);
       console.error(err);
       navigate("/error");
     } finally {
