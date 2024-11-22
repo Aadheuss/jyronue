@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../utils/fetchFunctions";
 import { UserProfileValue, UserValue } from "../../config/typeValues";
 import { unescapeInput } from "../../utils/htmlDecoder";
+import Loader from "../../components/Loader/Loader";
 const domain = import.meta.env.VITE_DOMAIN;
 
 type filePreview = null | string;
@@ -31,6 +32,7 @@ const SettingPage = () => {
   const [bannerPreview, setBannerPreview] = useState<filePreview>(null);
   const navigate = useNavigate();
   const [profile, setProfile] = useState<null | UserProfileValue>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     if (user === false) {
@@ -132,6 +134,9 @@ const SettingPage = () => {
     const formData = new FormData();
     formData.append("displayname", data.displayname);
     formData.append("bio", data.bio);
+
+    setIsSubmitting(true);
+
     if (avatarImg) {
       formData.append("avatar", avatarImg);
     }
@@ -140,12 +145,7 @@ const SettingPage = () => {
       formData.append("banner", bannerImg);
     }
 
-    console.log({
-      avatarImg,
-      bannerImg,
-      displayname: data.displayname,
-      bio: data.bio,
-    });
+    console.log(`Updating your user profile`);
 
     const userProfile = await fetchData({
       link: `${domain}/user/profile`,
@@ -157,18 +157,22 @@ const SettingPage = () => {
     });
 
     if (userProfile?.isError) {
+      console.log(`Failed to update your user profile`);
       console.error(userProfile?.data.error, userProfile?.data.errors);
     } else {
       const pictureUrl = userProfile
         ? userProfile.data.profile.profileImage.pictureUrl
         : null;
 
+      console.log(`Successfully updated your user profile`);
       setUser({
         ...user,
         profileImage: {
           pictureUrl,
         },
       } as UserValue);
+
+      setIsSubmitting(false);
 
       navigate(`/profile/${userProfile?.data.profile.username}`);
     }
@@ -185,7 +189,12 @@ const SettingPage = () => {
               className={styles.settingForm}
               method="post"
               encType="multipart/form-data"
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!isSubmitting) {
+                  handleSubmit(onSubmit)();
+                }
+              }}
             >
               <div className={styles.imageContainer}>
                 <div className={styles.bannerContainer}>
@@ -320,7 +329,16 @@ const SettingPage = () => {
                 }
               />
 
-              <button className={styles.saveButton}>Save</button>
+              <button className={styles.saveButton}>
+                {isSubmitting ? "Saving" : "Save"}
+                {isSubmitting && (
+                  <Loader
+                    type="dots"
+                    size={{ height: "0.15em", width: "1.5em" }}
+                    color="var(--main-color-2)"
+                  />
+                )}
+              </button>
             </form>
           </FormProvider>
         </div>

@@ -229,3 +229,9 @@
   background-color: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(5px);
 }
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
