@@ -26,6 +26,7 @@ const SignupPage = () => {
     formData.append("password", data.password);
 
     setIsSubmitting(true);
+    console.log(`Signing up with username ${data.username}`);
 
     try {
       const res = await fetch(`${domain}/user/signup`, {
@@ -39,12 +40,15 @@ const SignupPage = () => {
       const resData = await res.json();
 
       if (resData.errors) {
+        console.log(`Failed to signup with username ${data.username}`);
         console.error(resData.errors);
         setErrorList(resData.errors);
       } else {
+        console.log(`Successfully signed up with username ${data.username}`);
         navigate("/login");
       }
     } catch (err) {
+      console.log("Something went wrong, failed to signup");
       console.error(err);
       navigate("/error");
     } finally {
