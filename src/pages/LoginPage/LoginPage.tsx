@@ -179,9 +179,9 @@ const LoginPage = () => {
                   {isSubmitting ? "logging in" : "Log in"}
                   {isSubmitting && (
                     <Loader
-                      type="spinner"
-                      size={{ height: "0.75em", width: "0.75em" }}
-                      color="var(--accent-color-1)"
+                      type="dots"
+                      size={{ height: "0.25em", width: "1.5em" }}
+                      color="var(--main-color-2)"
                     />
                   )}
                 </button>
