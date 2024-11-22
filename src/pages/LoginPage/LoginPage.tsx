@@ -66,13 +66,14 @@ const LoginPage = () => {
           console.error(userData.data.error, userData.data.error);
         } else {
           setUser(userData?.data.profile);
-          setIsSubmitting(false);
           navigate("/");
         }
       }
     } catch (err) {
       console.error(err);
       navigate("/error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

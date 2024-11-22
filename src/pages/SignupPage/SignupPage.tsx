@@ -42,12 +42,13 @@ const SignupPage = () => {
         console.error(resData.errors);
         setErrorList(resData.errors);
       } else {
-        setIsSubmitting(false);
         navigate("/login");
       }
     } catch (err) {
       console.error(err);
       navigate("/error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
