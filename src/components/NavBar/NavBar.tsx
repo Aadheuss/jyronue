@@ -17,6 +17,7 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const logout = async () => {
+    const username = user ? user.username : null;
     try {
       const res = await fetch(`${domain}/user/logout`, {
         method: "GET",
@@ -24,14 +25,22 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
       });
 
       const resData = await res.json();
-      console.log(resData);
 
       if (resData.error) {
-        console.log(resData.error);
+        console.log(
+          `Failed to log out`,
+          username && `with the username ${username}`
+        );
+        console.error(resData.error);
       } else {
+        console.log(
+          `Successfully logged out`,
+          username && `with the username ${username}`
+        );
         setUser(false);
       }
     } catch (err) {
+      console.log(`Something went wrong! Failed to log out`);
       console.log(err);
     }
   };
