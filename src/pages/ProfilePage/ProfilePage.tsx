@@ -37,6 +37,7 @@ const ProfilePage = () => {
 
       if (userProfile?.status === 404) {
         setNotFound(true);
+        return;
       }
 
       if (userProfile?.isError) {
