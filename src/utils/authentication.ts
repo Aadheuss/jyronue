@@ -23,7 +23,7 @@ const getUser = async (): Promise<null | User> => {
   } catch (err) {
     console.log("Something went wrong! Failed to authenticate");
     if (err instanceof TypeError) {
-      console.error(err.message);
+      console.log(err.message + ": Authentication");
     }
 
     return null;
