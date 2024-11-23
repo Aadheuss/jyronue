@@ -12,10 +12,10 @@ function App() {
 
   useEffect(() => {
     const configureUserState = async () => {
-      try {
-        const user = await getUser();
+      const user = await getUser();
 
-        if (user) {
+      if (user) {
+        try {
           const userData = await fetchData({
             link: `${domain}/user/profile?id=${user.id}`,
             options: {
@@ -25,15 +25,26 @@ function App() {
           });
 
           if (userData?.isError) {
-            console.error(userData.data.error, userData.data.error);
+            if (userData.data.error)
+              console.log(
+                `Failed to fetch user profile data: ${userData.data.error}`
+              );
+
+            if (userData?.data.errors) {
+              console.log(userData?.data.errors);
+            }
           } else {
+            console.log("Successfully fetched user profile data");
             setUser(userData?.data.profile);
           }
-        } else {
-          setUser(false);
+        } catch (err) {
+          console.log(
+            "Something went wrong! failed to fetch user profile data"
+          );
+          if (err instanceof TypeError) console.error(err.message);
         }
-      } catch (err) {
-        console.error(err);
+      } else {
+        setUser(false);
       }
     };
 
