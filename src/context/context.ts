@@ -11,4 +11,14 @@ const UserContext = createContext<UserContextValue>({
   setUser: () => {},
 });
 
-export { UserContext };
+type RefetchUserContextValue = {
+  refetchUser: boolean;
+  setRefetchUser: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const RefetchUserContext = createContext<RefetchUserContextValue>({
+  refetchUser: false,
+  setRefetchUser: () => {},
+});
+
+export { UserContext, RefetchUserContext };
