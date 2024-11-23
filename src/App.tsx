@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import { UserContext } from "./context/context";
 import { fetchData } from "./utils/fetchFunctions";
 import { UserValue } from "./config/typeValues";
+import { RefetchUserContext } from "./context/context";
 const domain = import.meta.env.VITE_DOMAIN;
 
 function App() {
   const [user, setUser] = useState<null | UserValue | false>(null);
+  const [refetchUser, setRefetchUser] = useState(false);
 
   useEffect(() => {
     const configureUserState = async () => {
@@ -41,20 +43,27 @@ function App() {
           console.log(
             "Something went wrong! failed to fetch user profile data"
           );
-          if (err instanceof TypeError) console.error(err.message);
+          if (err instanceof TypeError)
+            console.log(err.message + ": App user authentication");
         }
-      } else {
-        setUser(false);
       }
     };
 
-    configureUserState();
-  }, []);
+    if (user === null) {
+      configureUserState();
+    }
+
+    if (refetchUser) {
+      setRefetchUser(false);
+    }
+  }, [user, refetchUser]);
 
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>
-        <Outlet />
+        <RefetchUserContext.Provider value={{ refetchUser, setRefetchUser }}>
+          <Outlet />
+        </RefetchUserContext.Provider>
       </UserContext.Provider>
     </>
   );
