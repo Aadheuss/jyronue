@@ -14,13 +14,18 @@ const getUser = async (): Promise<null | User> => {
     const resData = await res.json();
 
     if (resData.error) {
-      console.error(resData.error);
+      console.log("Done checking authentication: " + resData.error);
       return null;
     } else {
+      console.log("Done checking authentication: You are logged in");
       return resData.user;
     }
   } catch (err) {
-    console.error(err);
+    console.log("Something went wrong! Failed to authenticate");
+    if (err instanceof TypeError) {
+      console.log(err.message);
+    }
+
     return null;
   }
 };
