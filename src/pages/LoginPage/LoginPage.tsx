@@ -41,7 +41,7 @@ const LoginPage = () => {
     console.log(`Logging in as ${data.username}`);
 
     try {
-      const res = await fetch(`${domain}/user/login`, {
+      const login = await fetch(`${domain}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -50,14 +50,14 @@ const LoginPage = () => {
         body: formData,
       });
 
-      const resData = await res.json();
+      const loginData = await login.json();
 
-      if (resData.error) {
-        console.error(resData.error);
-        setError(resData.error);
+      if (loginData.error) {
+        console.error(loginData.error);
+        setError(loginData.error);
       } else {
         const userData = await fetchData({
-          link: `${domain}/user/profile?id=${resData.user.id}`,
+          link: `${domain}/user/profile?id=${loginData.user.id}`,
           options: {
             method: "GET",
             credentials: "include",
