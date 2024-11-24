@@ -46,6 +46,8 @@ function App() {
           if (err instanceof TypeError)
             console.log(err.message + ": App user authentication");
         }
+      } else {
+        setUser(user);
       }
     };
 
