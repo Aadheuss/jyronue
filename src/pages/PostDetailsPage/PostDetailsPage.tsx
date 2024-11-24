@@ -1,49 +1,55 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./PostDetailsPage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import CommentList from "../../components/CommentList/CommentList";
 import PostImages from "../../components/PostImages/PostImages";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { UserContext } from "../../context/context";
+import { RefetchUserContext, UserContext } from "../../context/context";
 import { PostValue } from "../../config/typeValues";
 import avatar from "../../assets/images/avatar_icon.svg";
 import ReplyButton from "../../components/ReplyButton/ReplyButton";
 import PostDetailsPageSkeleton from "./PostDetailsPageSkeleton";
+import ErrorElement from "../../components/ErrorElement/ErrorElement";
 const domain = import.meta.env.VITE_DOMAIN;
 
 const PostDetailsPage = () => {
   const { user } = useContext(UserContext);
+  const { setRefetchUser } = useContext(RefetchUserContext);
   const postId = useParams().postid;
   const [post, setPost] = useState<null | PostValue>(null);
   const commentInputRef = useRef<null | HTMLInputElement>(null);
+  const [caughtError, setCaughtError] = useState<boolean>(false);
   const navigate = useNavigate();
+  const fetchPost = useCallback(async () => {
+    console.log("Fetching posts details");
+
+    try {
+      const postDetails = await fetch(`${domain}/post/${postId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const postDetailsData = await postDetails.json();
+
+      if (postDetailsData.error) {
+        console.log(postDetailsData.error);
+      } else {
+        setPost(postDetailsData.post);
+      }
+    } catch (err) {
+      console.log("Something went wrong! Failed to fetch posts details");
+      if (err instanceof TypeError) console.log(err.message + ": Post details");
+      setCaughtError(true);
+    }
+  }, [postId]);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const res = await fetch(`${domain}/post/${postId}`, {
-          method: "GET",
-          credentials: "include",
-        });
-
-        const resData = await res.json();
-
-        if (resData.error) {
-          console.error(resData.error);
-        } else {
-          setPost(resData.post);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchPost();
 
     return () => {};
-  }, [postId]);
+  }, [postId, fetchPost]);
 
   const updateLikesBox = ({
     likesBox,
@@ -138,7 +144,31 @@ const PostDetailsPage = () => {
             </div>
           </>
         ) : (
-          <PostDetailsPageSkeleton />
+          !caughtError && <PostDetailsPageSkeleton />
+        )}
+        {caughtError && (
+          <ErrorElement
+            parentStyles={styles}
+            children={
+              <>
+                <p className={styles.errorMsg}>Something went wrong</p>
+                <div>
+                  <button
+                    className={styles.refetchButton}
+                    type="button"
+                    aria-label="Retry"
+                    onClick={() => {
+                      console.log("Reefetching post details");
+
+                      setCaughtError(false);
+                      fetchPost();
+                      setRefetchUser(true);
+                    }}
+                  ></button>
+                </div>
+              </>
+            }
+          />
         )}
       </main>
     </>
