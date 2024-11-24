@@ -4,7 +4,7 @@ type User = {
   id: string;
 };
 
-const getUser = async (): Promise<null | User> => {
+const getUser = async (): Promise<null | User | false> => {
   try {
     const res = await fetch(`${domain}/user/login`, {
       method: "GET",
@@ -15,7 +15,7 @@ const getUser = async (): Promise<null | User> => {
 
     if (resData.error) {
       console.log("Done checking authentication: " + resData.error);
-      return null;
+      return false;
     } else {
       console.log("Done checking authentication: You are logged in");
       return resData.user;
