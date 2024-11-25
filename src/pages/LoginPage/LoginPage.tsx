@@ -59,6 +59,7 @@ const LoginPage = () => {
         const userData = await fetchData({
           link: `${domain}/user/profile?id=${loginData.user.id}`,
           options: {
+            mode: "cors",
             method: "GET",
             credentials: "include",
           },

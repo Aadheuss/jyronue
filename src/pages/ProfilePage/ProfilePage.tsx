@@ -30,6 +30,7 @@ const ProfilePage = () => {
       const userProfile = await fetchData({
         link: `${domain}/user/profile?username=${username}`,
         options: {
+          mode: "cors",
           method: "GET",
           credentials: "include",
         },
@@ -62,6 +63,7 @@ const ProfilePage = () => {
       const userPosts = await fetchData({
         link: `${domain}/user/${username}/posts?limit=${limit}${cursorQuery}`,
         options: {
+          mode: "cors",
           method: "GET",
           credentials: "include",
         },
@@ -161,6 +163,7 @@ const ProfilePage = () => {
     const follows = await fetchData({
       link: `${domain}/user/${type}`,
       options: {
+        mode: "cors",
         method: "POST",
         credentials: "include",
         body: formData,

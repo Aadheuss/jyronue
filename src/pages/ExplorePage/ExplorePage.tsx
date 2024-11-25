@@ -31,6 +31,7 @@ const ExplorePage = () => {
           const postsData = await fetchData({
             link: `${domain}/posts?limit=${limit}${currentQuery}`,
             options: {
+              mode: "cors",
               method: "GET",
               credentials: "include",
             },

@@ -41,6 +41,7 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
     setInput("");
     try {
       const res = await fetch(`${domain}/post/${postId}/comment`, {
+        mode: "cors",
         method: "POST",
         credentials: "include",
         body: formData,

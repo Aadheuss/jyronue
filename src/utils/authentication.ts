@@ -7,6 +7,7 @@ type User = {
 const getUser = async (): Promise<null | User | false> => {
   try {
     const res = await fetch(`${domain}/user/login`, {
+      mode: "cors",
       method: "GET",
       credentials: "include",
     });

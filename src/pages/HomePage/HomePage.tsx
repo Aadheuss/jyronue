@@ -33,6 +33,7 @@ const HomePage = () => {
           const followingPosts = await fetchData({
             link: `${domain}/posts/following?limit=3${currentQuery}`,
             options: {
+              mode: "cors",
               method: "GET",
               credentials: "include",
             },

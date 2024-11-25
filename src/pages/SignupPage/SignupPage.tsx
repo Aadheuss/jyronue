@@ -30,6 +30,7 @@ const SignupPage = () => {
 
     try {
       const res = await fetch(`${domain}/user/signup`, {
+        mode: "cors",
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

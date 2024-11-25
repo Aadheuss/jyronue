@@ -38,6 +38,7 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
       const commentsData = await fetchData({
         link: `${domain}/post/${postid}/comments?limit=${limit}${cursorQuery}`,
         options: {
+          mode: "cors",
           method: "GET",
           credentials: "include",
         },

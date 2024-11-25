@@ -29,6 +29,7 @@ const ReplyList: FC<Props> = ({
       if (!replies && view) {
         try {
           const res = await fetch(`${domain}/comment/${comment.id}/replies`, {
+            mode: "cors",
             method: "GET",
             credentials: "include",
           });

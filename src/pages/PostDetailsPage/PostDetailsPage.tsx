@@ -27,6 +27,7 @@ const PostDetailsPage = () => {
 
     try {
       const postDetails = await fetch(`${domain}/post/${postId}`, {
+        mode: "cors",
         method: "GET",
         credentials: "include",
       });

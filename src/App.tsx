@@ -21,6 +21,7 @@ function App() {
           const userData = await fetchData({
             link: `${domain}/user/profile?id=${user.id}`,
             options: {
+              mode: "cors",
               method: "GET",
               credentials: "include",
             },

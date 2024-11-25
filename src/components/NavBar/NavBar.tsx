@@ -25,6 +25,7 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
 
     try {
       const res = await fetch(`${domain}/user/logout`, {
+        mode: "cors",
         method: "GET",
         credentials: "include",
       });

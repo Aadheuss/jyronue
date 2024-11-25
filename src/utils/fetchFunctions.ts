@@ -11,6 +11,7 @@ const fetchLikesBox = async ({
 }) => {
   try {
     const res = await fetch(`${domain}/${type}/${id}/likesbox/${likesBoxId}`, {
+      mode: "cors",
       method: "GET",
       credentials: "include",
     });
@@ -37,6 +38,7 @@ const fetchToggleLike = async ({
 }) => {
   try {
     const res = await fetch(`${domain}/${type}/${id}/${toggle}`, {
+      mode: "cors",
       method: "POST",
       credentials: "include",
       body: formData,
@@ -58,6 +60,7 @@ const fetchData = async ({
   link: string;
   options: {
     method: "GET" | "POST";
+    mode: "cors" | "no-cors";
     credentials?: "include";
     body?: FormData | URLSearchParams;
   };

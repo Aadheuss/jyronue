@@ -86,6 +86,7 @@ const ReplyBox: FC<Props> = ({
       const res = await fetch(
         `${domain}/post/${postId}/comment/${commentId}/reply`,
         {
+          mode: "cors",
           method: "POST",
           credentials: "include",
           body: formData,

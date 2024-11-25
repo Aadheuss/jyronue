@@ -43,6 +43,7 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
       setIsSubmitting(true);
       try {
         const res = await fetch(`${domain}/post`, {
+          mode: "cors",
           method: "POST",
           credentials: "include",
           body: formData,
