@@ -42,6 +42,7 @@ const LoginPage = () => {
 
     try {
       const login = await fetch(`${domain}/user/login`, {
+        mode: "cors",
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
