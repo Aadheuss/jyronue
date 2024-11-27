@@ -135,10 +135,8 @@ const ProfilePage = () => {
         // Fetch only if initialFetch is true
         setCurrentUsername(username);
         fetchUserProfile();
-      }
-
-      if ((posts === null && !notFound) || initialFetch)
         fetchUserPosts({ cursor });
+      }
     }
 
     return () => {
