@@ -29,7 +29,7 @@ const SignupPage = () => {
     console.log(`Signing up with username ${data.username}`);
 
     try {
-      const res = await fetch(`${domain}/user/signup`, {
+      const login = await fetch(`${domain}/user/signup`, {
         mode: "cors",
         method: "POST",
         headers: {
@@ -38,19 +38,34 @@ const SignupPage = () => {
         body: formData,
       });
 
-      const resData = await res.json();
+      const loginData = await login.json();
 
-      if (resData.errors) {
-        console.log(`Failed to signup with username ${data.username}`);
-        console.error(resData.errors);
-        setErrorList(resData.errors);
+      // Handle errors
+
+      // Handle field validation error
+      if (loginData.error) {
+        const errorData = loginData.error;
+
+        // Log error message
+        console.log(
+          `Failed to signup with username ${data.username}: ` +
+            errorData.message
+        );
+
+        /* The error object consists of error with nested message and either a nested errors
+         field or a nested error field */
+
+        // errors field is an array with a list of validation errors
+        // Set validation errors to be printed to the UI
+        if (errorData.errors) setErrorList(errorData.errors);
       } else {
-        console.log(`Successfully signed up with username ${data.username}`);
+        // log successful signup message to the console and navigate to the login page
+        console.log(loginData.message);
         navigate("/login");
       }
     } catch (err) {
-      console.log("Something went wrong, failed to signup");
-      console.error(err);
+      console.log("Something went wrong, failed to sign up");
+      if (err instanceof TypeError) console.log(err.message);
       navigate("/error");
     } finally {
       setIsSubmitting(false);
