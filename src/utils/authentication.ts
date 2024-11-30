@@ -6,20 +6,20 @@ type User = {
 
 const getUser = async (): Promise<null | User | false> => {
   try {
-    const res = await fetch(`${domain}/user/login`, {
+    const login = await fetch(`${domain}/user/login`, {
       mode: "cors",
       method: "GET",
       credentials: "include",
     });
 
-    const resData = await res.json();
+    const loginData = await login.json();
 
-    if (resData.error) {
-      console.log("Done checking authentication: " + resData.error);
-      return false;
+    if (loginData.error) {
+      console.log(`${loginData.error.message}: Authentication`);
+      return null;
     } else {
-      console.log("Done checking authentication: You are logged in");
-      return resData.user;
+      console.log(`${loginData.message}`);
+      return loginData.user;
     }
   } catch (err) {
     console.log("Something went wrong! Failed to authenticate");
