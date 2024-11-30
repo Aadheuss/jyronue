@@ -35,7 +35,9 @@ const PostDetailsPage = () => {
       const postDetailsData = await postDetails.json();
 
       if (postDetailsData.error) {
-        console.log(postDetailsData.error);
+        console.log(
+          `${postDetailsData.error.message}: ${postDetailsData.error.error}: Post details`
+        );
       } else {
         setPost(postDetailsData.post);
       }
