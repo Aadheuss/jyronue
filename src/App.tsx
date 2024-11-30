@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import { getUser } from "./utils/authentication";
 import { useState, useEffect } from "react";
 import { UserContext } from "./context/context";
-import { fetchData } from "./utils/fetchFunctions";
 import { UserValue } from "./config/typeValues";
 import { RefetchUserContext } from "./context/context";
 const domain = import.meta.env.VITE_DOMAIN;
@@ -14,31 +13,27 @@ function App() {
 
   useEffect(() => {
     const configureUserState = async () => {
+      // Get user login status
+      /* The backend will return a user object with an id if the user is authenticated 
+      or false if the user is not */
       const user = await getUser();
 
+      // Fetch user profile if user is authenticated
       if (user) {
         try {
-          const userData = await fetchData({
-            link: `${domain}/user/profile?id=${user.id}`,
-            options: {
-              mode: "cors",
-              method: "GET",
-              credentials: "include",
-            },
+          const profile = await fetch(`${domain}/user/profile?id=${user.id}`, {
+            mode: "cors",
+            method: "GET",
+            credentials: "include",
           });
 
-          if (userData?.isError) {
-            if (userData.data.error)
-              console.log(
-                `Failed to fetch user profile data: ${userData.data.error}`
-              );
+          const profileData = await profile.json();
 
-            if (userData?.data.errors) {
-              console.log(userData?.data.errors);
-            }
+          if (profileData.error) {
+            console.log(`${profileData.error.message}: App profile`);
           } else {
             console.log("Successfully fetched user profile data");
-            setUser(userData?.data.profile);
+            setUser(profileData.profile);
           }
         } catch (err) {
           console.log(
