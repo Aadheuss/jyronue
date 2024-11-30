@@ -236,3 +236,15 @@
   background-image: url("../../assets/images/refresh-icon-hover.svg");
   transition: all 250ms ease-in;
 }
+
+.notFound {
+  position: absolute;
+  padding: min(1rem, 2.5vw);
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+
+.notFoundText {
+  font-size: var(--medium-large-font);
+}

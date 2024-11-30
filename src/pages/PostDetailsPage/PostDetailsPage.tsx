@@ -21,6 +21,7 @@ const PostDetailsPage = () => {
   const [post, setPost] = useState<null | PostValue>(null);
   const commentInputRef = useRef<null | HTMLInputElement>(null);
   const [caughtError, setCaughtError] = useState<boolean>(false);
+  const [notFound, setNotFound] = useState<boolean>(false);
   const navigate = useNavigate();
   const fetchPost = useCallback(async () => {
     console.log("Fetching posts details");
@@ -38,6 +39,9 @@ const PostDetailsPage = () => {
         console.log(
           `${postDetailsData.error.message}: ${postDetailsData.error.error}: Post details`
         );
+
+        // Handle 404 post not found
+        if (postDetails.status === 404) setNotFound(true);
       } else {
         setPost(postDetailsData.post);
       }
@@ -146,8 +150,12 @@ const PostDetailsPage = () => {
               <CommentList commentInputRef={commentInputRef} />
             </div>
           </>
+        ) : !caughtError && notFound ? (
+          <div className={styles.notFound}>
+            <h2 className={styles.notFoundText}>Post not found</h2>
+          </div>
         ) : (
-          !caughtError && <PostDetailsPageSkeleton />
+          <PostDetailsPageSkeleton />
         )}
         {caughtError && (
           <ErrorElement
