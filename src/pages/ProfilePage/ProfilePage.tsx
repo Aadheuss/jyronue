@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PostGallery, UserProfileValue } from "../../config/typeValues";
 import { UserContext } from "../../context/context";
 import avatar from "../../assets/images/avatar_icon.svg";
-import { fetchData } from "../../utils/fetchFunctions";
 import Gallery from "../../components/Gallery/Gallery";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import ProfilePageSkeleton from "./ProfilePageSkeleton";
@@ -27,24 +26,32 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const userProfile = await fetchData({
-        link: `${domain}/user/profile?username=${username}`,
-        options: {
-          mode: "cors",
-          method: "GET",
-          credentials: "include",
-        },
-      });
+      try {
+        const userProfile = await fetch(
+          `${domain}/user/profile?username=${username}`,
+          {
+            mode: "cors",
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-      if (userProfile?.status === 404) {
-        setNotFound(true);
-        return;
-      }
+        const userProfileData = await userProfile.json();
 
-      if (userProfile?.isError) {
-        console.error(userProfile?.data.error, userProfile?.data.errors);
-      } else {
-        setProfile(userProfile?.data.profile);
+        if (userProfile.status === 404) {
+          setNotFound(true);
+          return;
+        }
+
+        if (userProfileData.error) {
+          console.error(
+            `${userProfileData.error.message}: Profile page profile`
+          );
+        } else {
+          setProfile(userProfileData.profile);
+        }
+      } catch (err) {
+        if (err instanceof TypeError) console.log(err.message);
       }
     };
 
@@ -60,36 +67,52 @@ const ProfilePage = () => {
         setIsScrollLoading(true);
       }
 
-      const userPosts = await fetchData({
-        link: `${domain}/user/${username}/posts?limit=${limit}${cursorQuery}`,
-        options: {
-          mode: "cors",
-          method: "GET",
-          credentials: "include",
-        },
-      });
-
-      if (userPosts?.status === 404) {
-        setNotFound(true);
-        return;
-      }
-
-      if (userPosts?.isError) {
-        console.error(userPosts?.data.error, userPosts?.data.errors);
-      } else {
-        const nextCursor =
-          userPosts?.data.userPosts.length >= limit
-            ? userPosts?.data.nextCursor
-            : false;
-        setCursor(nextCursor);
-        setPosts(
-          posts
-            ? [...posts, ...(userPosts?.data.userPosts || [])]
-            : userPosts?.data.userPosts
+      try {
+        const userPosts = await fetch(
+          `${domain}/user/${username}/posts?limit=${limit}${cursorQuery}`,
+          {
+            mode: "cors",
+            method: "GET",
+            credentials: "include",
+          }
         );
-      }
 
-      setIsScrollLoading(false);
+        const userPostsData = await userPosts.json();
+
+        if (userPosts.status === 404) {
+          setNotFound(true);
+          return;
+        }
+
+        if (userPostsData.error) {
+          console.error(`${userPostsData.error.message}: User posts`);
+
+          // Log validation error
+          if (userPostsData.error.errors) {
+            const errorList = userPostsData.error.errors;
+
+            errorList.forEach(
+              (error: { field: string; value: string; msg: string }) =>
+                console.log(error.msg)
+            );
+          }
+        } else {
+          const nextCursor =
+            userPostsData.userPosts.length >= limit
+              ? userPostsData.nextCursor
+              : false;
+          setCursor(nextCursor);
+          setPosts(
+            posts
+              ? [...posts, ...(userPostsData.userPosts || [])]
+              : userPostsData.userPosts
+          );
+        }
+      } catch (err) {
+        if (err instanceof TypeError) console.log(err.message);
+      } finally {
+        setIsScrollLoading(false);
+      }
     };
 
     const current = observerRef.current;
@@ -160,18 +183,29 @@ const ProfilePage = () => {
     const formData = new URLSearchParams();
     formData.append("username", username as string);
 
-    const follows = await fetchData({
-      link: `${domain}/user/${type}`,
-      options: {
-        mode: "cors",
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      },
+    const follows = await fetch(`${domain}/user/${type}`, {
+      mode: "cors",
+      method: "POST",
+      credentials: "include",
+      body: formData,
     });
 
-    if (follows?.isError || follows?.isError) {
-      console.error(follows?.data.error, follows?.data.errors);
+    const followsData = await follows.json();
+
+    if (followsData.error) {
+      console.log(
+        `${followsData.error.message}: ${followsData.error.error}: Follows`
+      );
+
+      // Log validation error
+      if (followsData.error.errors) {
+        const errorList = followsData.error.errors;
+
+        errorList.forEach(
+          (error: { field: string; value: string; msg: string }) =>
+            console.log(error.msg)
+        );
+      }
     } else {
       if (profile) {
         const followedBy = profile?._count.followedBy;
