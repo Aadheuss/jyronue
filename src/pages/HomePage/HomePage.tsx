@@ -2,7 +2,6 @@ import styles from "./HomePage.module.css";
 import NavBar from "../../components/NavBar/NavBar";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { PostValue } from "../../config/typeValues";
-import { fetchData } from "../../utils/fetchFunctions";
 import PostItem from "../../components/PostItem/PostItem";
 import { RefetchUserContext, UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
@@ -30,27 +29,39 @@ const HomePage = () => {
         }
 
         try {
-          const followingPosts = await fetchData({
-            link: `${domain}/posts/following?limit=3${currentQuery}`,
-            options: {
+          const followingPosts = await fetch(
+            `${domain}/posts/following?limit=3${currentQuery}`,
+            {
               mode: "cors",
               method: "GET",
               credentials: "include",
-            },
-          });
+            }
+          );
 
-          if (followingPosts?.isError) {
+          const followingPostsData = await followingPosts.json();
+
+          if (followingPostsData.error) {
             console.log(
-              "Failed to fetch followed users posts: " +
-                followingPosts?.data.error.message
+              `${followingPostsData.error.message}: Followed users posts`
             );
+
+            // Handle validation error
+            if (followingPostsData.error.errors) {
+              const errorList = followingPostsData.error.errors;
+
+              errorList.forEach(
+                (error: { field: string; value: string; msg: string }) => {
+                  console.log(error.msg);
+                }
+              );
+            }
           } else {
             console.log("Successfully fetched followed users posts");
-            setCursor(followingPosts?.data.nextCursor);
+            setCursor(followingPostsData.nextCursor);
             setPosts(
               posts
-                ? [...posts, ...(followingPosts?.data.posts || [])]
-                : followingPosts?.data.posts
+                ? [...posts, ...(followingPostsData.posts || [])]
+                : followingPostsData.posts
             );
           }
         } catch (err) {
