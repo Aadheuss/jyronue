@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { errorValue } from "../../config/formValues";
 import { UserContext } from "../../context/context";
-import { fetchData } from "../../utils/fetchFunctions";
 import Loader from "../../components/Loader/Loader";
 const domain = import.meta.env.VITE_DOMAIN;
 
@@ -25,7 +24,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     const isLoggedIn = () => {
-      if (user) {
+      if (user === false) {
+        // Navigate to homepage if the user is authenticated
         navigate("/");
       }
     };
@@ -38,7 +38,7 @@ const LoginPage = () => {
     formData.append("username", data.username);
     formData.append("password", data.password);
 
-    console.log(`Logging in as ${data.username}`);
+    console.log(`Logging in as ${data.username}...`);
 
     try {
       const login = await fetch(`${domain}/user/login`, {
@@ -54,32 +54,35 @@ const LoginPage = () => {
       const loginData = await login.json();
 
       if (loginData.error) {
-        console.error(loginData.error);
-        setError(loginData.error);
+        // Log error message
+        console.log(`${loginData.error.message}`);
+
+        // Handle 401 login error
+        if (login.status === 401) setError(loginData.error.error);
       } else {
-        const userData = await fetchData({
-          link: `${domain}/user/profile?id=${loginData.user.id}`,
-          options: {
+        // Fetch user profile if login is successfull
+        const user = await fetch(
+          `${domain}/user/profile?id=${loginData.user.id}`,
+          {
             mode: "cors",
             method: "GET",
             credentials: "include",
-          },
-        });
+          }
+        );
 
-        if (userData?.isError) {
-          console.log(`Failed to fetch user profile data`);
-          console.error(userData.data.error, userData.data.error);
+        const userData = await user.json();
+
+        if (userData.error) {
+          console.log(`${userData.error.message}`);
         } else {
-          setUser(userData?.data.profile);
-          console.log(
-            `successfully logged in as ${userData?.data.profile.username}`
-          );
+          console.log(`successfully logged in as ${userData.profile.username}`);
+          setUser(userData.profile);
           navigate("/");
         }
       }
     } catch (err) {
       console.log(`Something went wrong, failed to log in`);
-      console.error(err);
+      if (err instanceof TypeError) console.log(err.message);
       navigate("/error");
     } finally {
       setIsSubmitting(false);
