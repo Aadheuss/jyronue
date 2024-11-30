@@ -9,7 +9,6 @@ import { convertFile } from "../../utils/fileHelper";
 import Input from "../../components/Input/Input";
 import { UserContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
-import { fetchData } from "../../utils/fetchFunctions";
 import { UserProfileValue, UserValue } from "../../config/typeValues";
 import { unescapeInput } from "../../utils/htmlDecoder";
 import Loader from "../../components/Loader/Loader";
@@ -41,19 +40,28 @@ const SettingPage = () => {
 
     const fetchUserProfile = async () => {
       if (user) {
-        const userProfile = await fetchData({
-          link: `${domain}/user/profile?id=${user.id}`,
-          options: {
-            mode: "cors",
-            method: "GET",
-            credentials: "include",
-          },
-        });
+        try {
+          const userProfile = await fetch(
+            `${domain}/user/profile?id=${user.id}`,
+            {
+              mode: "cors",
+              method: "GET",
+              credentials: "include",
+            }
+          );
 
-        if (userProfile?.isError) {
-          console.error(userProfile?.data.error, userProfile?.data.errors);
-        } else {
-          setProfile(userProfile?.data.profile);
+          const userProfileData = await userProfile.json();
+
+          if (userProfileData.error) {
+            console.log(
+              `${userProfileData.error.message}: Setting page user profile`
+            );
+          } else {
+            setProfile(userProfileData.profile);
+          }
+        } catch (err) {
+          console.log("Something went wrong failed to fetch user profile data");
+          if (err instanceof TypeError) console.log(err.message);
         }
       }
     };
@@ -148,35 +156,51 @@ const SettingPage = () => {
 
     console.log(`Updating your user profile`);
 
-    const userProfile = await fetchData({
-      link: `${domain}/user/profile`,
-      options: {
+    try {
+      const userProfile = await fetch(`${domain}/user/profile`, {
         mode: "cors",
         method: "POST",
         credentials: "include",
         body: formData,
-      },
-    });
+      });
 
-    if (userProfile?.isError) {
-      console.log(`Failed to update your user profile`);
-      console.error(userProfile?.data.error, userProfile?.data.errors);
-    } else {
-      const pictureUrl = userProfile
-        ? userProfile.data.profile.profileImage.pictureUrl
-        : null;
+      const userProfileData = await userProfile.json();
 
-      console.log(`Successfully updated your user profile`);
-      setUser({
-        ...user,
-        profileImage: {
-          pictureUrl,
-        },
-      } as UserValue);
+      if (userProfileData.error) {
+        console.log(`Failed to update your user profile`);
+        console.error(
+          `${userProfileData.error.message}: ${userProfileData.error.error}: Profile setting submission`
+        );
 
+        // Handle validation error
+        if (userProfileData.error.errors) {
+          const errorList = userProfileData.error.errors;
+
+          errorList.foreach(
+            (error: { field: string; value: string; msg: string }) =>
+              console.log(error.msg)
+          );
+        }
+      } else {
+        const pictureUrl = userProfile
+          ? userProfileData.profile.profileImage.pictureUrl
+          : null;
+
+        console.log(`Successfully updated your user profile`);
+        setUser({
+          ...user,
+          profileImage: {
+            pictureUrl,
+          },
+        } as UserValue);
+
+        navigate(`/profile/${userProfileData.profile.username}`);
+      }
+    } catch (err) {
+      console.log("Something went wrong failed to update profile");
+      if (err instanceof TypeError) console.log(err.message);
+    } finally {
       setIsSubmitting(false);
-
-      navigate(`/profile/${userProfile?.data.profile.username}`);
     }
   };
 
