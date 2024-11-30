@@ -155,7 +155,7 @@ const PostDetailsPage = () => {
             <h2 className={styles.notFoundText}>Post not found</h2>
           </div>
         ) : (
-          <PostDetailsPageSkeleton />
+          !caughtError && <PostDetailsPageSkeleton />
         )}
         {caughtError && (
           <ErrorElement
