@@ -28,23 +28,31 @@ const ReplyList: FC<Props> = ({
 
       if (!replies && view) {
         try {
-          const res = await fetch(`${domain}/comment/${comment.id}/replies`, {
-            mode: "cors",
-            method: "GET",
-            credentials: "include",
-          });
+          const replyList = await fetch(
+            `${domain}/comment/${comment.id}/replies`,
+            {
+              mode: "cors",
+              method: "GET",
+              credentials: "include",
+            }
+          );
 
-          const resData = await res.json();
+          const replyListData = await replyList.json();
 
-          if (resData.error) {
-            console.error(resData.error);
+          if (replyListData.error) {
+            console.log(`${replyListData.error.message}: Reply List`);
           } else {
-            const updatedComment = { ...comment, replies: resData.replies };
+            console.log(`${replyListData.message}`);
+            const updatedComment = {
+              ...comment,
+              replies: replyListData.replies,
+            };
 
             updateComment({ updatedComment });
           }
         } catch (err) {
-          console.error(err);
+          console.log("Something went wrong!: Reply List");
+          if (err instanceof TypeError) console.error(err.message);
         }
       }
     };
