@@ -102,6 +102,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    console.log({ user });
+
     if (user === false) {
       navigate("/explore");
       return;
@@ -115,7 +117,9 @@ const HomePage = () => {
           // and not the first initial fetch
           if (!isScrollLoading) {
             if (cursor !== null && !caughtError) {
-              fetchFollowingPosts({ cursor });
+              if (user) {
+                fetchFollowingPosts({ cursor });
+              }
             }
 
             if (caughtError) {
@@ -135,7 +139,9 @@ const HomePage = () => {
 
     if (cursor === null) {
       // Initial fetch
-      fetchFollowingPosts({ cursor });
+      if (user) {
+        fetchFollowingPosts({ cursor });
+      }
     }
 
     return () => {
