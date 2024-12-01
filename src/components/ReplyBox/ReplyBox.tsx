@@ -83,7 +83,7 @@ const ReplyBox: FC<Props> = ({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch(
+      const reply = await fetch(
         `${domain}/post/${postId}/comment/${commentId}/reply`,
         {
           mode: "cors",
@@ -93,13 +93,22 @@ const ReplyBox: FC<Props> = ({
         }
       );
 
-      const resData = await res.json();
-      console.log(resData);
+      const replyData = await reply.json();
 
-      if (resData.errors || resData.error) {
-        console.error(resData.errors, resData.errorW);
+      if (replyData.error) {
+        console.log(`${replyData.error.message}: Reply Box`);
+
+        // Handle validation error
+        if (replyData.error.errors) {
+          const errorList = replyData.error.errors;
+
+          errorList.forEach(
+            (error: { field: string; value: string; msg: string }) =>
+              console.log(error.msg)
+          );
+        }
       } else {
-        const newReply = resData.reply;
+        const newReply = replyData.reply;
         let updatedComment = comment;
 
         if (comment.replies) {
@@ -119,7 +128,8 @@ const ReplyBox: FC<Props> = ({
         }
       }
     } catch (err) {
-      console.error(err);
+      console.log("Something went wrong!: Reply Box");
+      if (err instanceof TypeError) console.log(err.message);
     } finally {
       setIsSubmitting(false);
     }
