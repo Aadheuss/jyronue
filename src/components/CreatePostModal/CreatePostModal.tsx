@@ -42,25 +42,35 @@ const CreatePostModal: FC<Props> = ({ setOpenModal }) => {
     } else {
       setIsSubmitting(true);
       try {
-        const res = await fetch(`${domain}/post`, {
+        const post = await fetch(`${domain}/post`, {
           mode: "cors",
           method: "POST",
           credentials: "include",
           body: formData,
         });
-        const resData = await res.json();
 
-        if (resData.errors) {
-          console.log("Failed to create the post");
-          console.log(resData.errors);
+        const postData = await post.json();
+
+        if (postData.error) {
+          console.log(`${postData.error.message}: Create Post`);
+
+          // Handle validation error
+          if (postData.error.errors) {
+            const errorList = postData.error.errors;
+
+            errorList.forEach(
+              (error: { field: string; value: string; msg: string }) =>
+                console.log(error.msg)
+            );
+          }
         } else {
-          console.log("successfully created the post");
+          console.log(`${postData.message}`);
           closeModal();
-          navigate(`/post/${resData.post.id}`);
+          navigate(`/post/${postData.post.id}`);
         }
       } catch (err) {
         console.log("Something went wrong! failed to create the post");
-        console.log(err);
+        if (err instanceof TypeError) console.log(err.message);
       } finally {
         setIsSubmitting(false);
       }
