@@ -5,7 +5,6 @@ import CommentBox from "../CommentBox/CommentBox";
 import { CommentValue } from "../../config/typeValues";
 import Comment from "../Comment/Comment";
 import { UserContext } from "../../context/context";
-import { fetchData } from "../../utils/fetchFunctions";
 import Loader from "../Loader/Loader";
 const domain = import.meta.env.VITE_DOMAIN;
 
@@ -35,31 +34,48 @@ const CommentList: FC<Props> = ({ commentInputRef }) => {
         setIsScrollLoading(true);
       }
 
-      const commentsData = await fetchData({
-        link: `${domain}/post/${postid}/comments?limit=${limit}${cursorQuery}`,
-        options: {
-          mode: "cors",
-          method: "GET",
-          credentials: "include",
-        },
-      });
-
-      if (commentsData?.isError) {
-        console.error(commentsData?.data.error, commentsData?.data.errors);
-      } else {
-        const nextCursor =
-          commentsData?.data.comments.length >= limit
-            ? commentsData?.data.nextCursor
-            : false;
-        setCursor(nextCursor);
-        setComments(
-          comments
-            ? [...comments, ...(commentsData?.data.comments || [])]
-            : commentsData?.data.comments
+      try {
+        const commentsList = await fetch(
+          `${domain}/post/${postid}/comments?limit=${limit}${cursorQuery}`,
+          {
+            mode: "cors",
+            method: "GET",
+            credentials: "include",
+          }
         );
-      }
 
-      setIsScrollLoading(false);
+        const commentsListData = await commentsList.json();
+
+        if (commentsListData.error) {
+          console.log(`${commentsListData.error.message}: Comment List `);
+
+          // Handle validation error
+          if (commentsListData.error.errors) {
+            const errorList = commentsListData.error.errors;
+
+            errorList.map(
+              (error: { field: string; value: string; msg: string }) =>
+                console.log(error.msg)
+            );
+          }
+        } else {
+          const nextCursor =
+            commentsListData.comments.length >= limit
+              ? commentsListData.nextCursor
+              : false;
+          setCursor(nextCursor);
+          setComments(
+            comments
+              ? [...comments, ...(commentsListData.comments || [])]
+              : commentsListData.comments
+          );
+        }
+      } catch (err) {
+        console.log("Something went wrong!: Comment List");
+        if (err instanceof TypeError) console.log(err.message);
+      } finally {
+        setIsScrollLoading(false);
+      }
     };
 
     const current = observerRef.current;
