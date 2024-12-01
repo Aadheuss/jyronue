@@ -151,7 +151,7 @@
 .menu {
   border-top: 1px solid var(--main-accent-color);
   width: min(calc(150px + 10vw), 75vw);
-  z-index: 1;
+  z-index: 2;
   position: absolute;
   background-color: #151515;
   display: flex;
