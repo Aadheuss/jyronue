@@ -21,7 +21,6 @@ const ProfilePage = () => {
   const [isScrollLoading, setIsScrollLoading] = useState<boolean>(false);
   const observerRef = useRef<null | HTMLDivElement>(null);
   const [currentUsername, setCurrentUsername] = useState<null | string>(null);
-  const [initialFetch, setInitalFetch] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -147,17 +146,16 @@ const ProfilePage = () => {
       setNotFound(false);
       setIsScrollLoading(false);
       setCurrentUsername(null);
-      setInitalFetch(true);
     }
 
     if (username) {
-      if (initialFetch) {
-        console.log("initial profile and posts fetch");
-        setInitalFetch(false);
-        // Initial fetch
-        // Fetch only if initialFetch is true
-        setCurrentUsername(username);
+      setCurrentUsername(username);
+
+      if (profile === null && !notFound) {
         fetchUserProfile();
+      }
+
+      if (posts === null && !notFound) {
         fetchUserPosts({ cursor });
       }
     }
@@ -174,7 +172,7 @@ const ProfilePage = () => {
     posts,
     profile,
     currentUsername,
-    initialFetch,
+    notFound,
   ]);
 
   const toggleFollow = async () => {
