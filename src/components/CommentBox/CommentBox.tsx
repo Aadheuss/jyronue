@@ -40,24 +40,34 @@ const CommentBox: FC<Props> = ({ updateComments, commentInputRef }) => {
     setIsSubmitting(true);
     setInput("");
     try {
-      const res = await fetch(`${domain}/post/${postId}/comment`, {
+      const comment = await fetch(`${domain}/post/${postId}/comment`, {
         mode: "cors",
         method: "POST",
         credentials: "include",
         body: formData,
       });
 
-      const resData = await res.json();
-      console.log(resData);
+      const commentData = await comment.json();
 
-      if (resData.errors || resData.error) {
-        console.error(resData.errors, resData.errorW);
+      if (commentData.error) {
+        console.log(`${commentData.error.message}: Comment box`);
+
+        // Handle validation error
+        if (commentData.error.errors) {
+          const errorList = commentData.error.errors;
+
+          errorList.forEach(
+            (error: { field: string; value: string; msg: string }) =>
+              console.log(error.msg)
+          );
+        }
       } else {
-        console.log(resData.comment);
-        updateComments({ comment: resData.comment });
+        console.log(`${commentData.message}`);
+        updateComments({ comment: commentData.comment });
       }
     } catch (err) {
-      console.error(err);
+      console.log("Something went wrong !: Comment box");
+      if (err instanceof TypeError) console.log(err.message);
     } finally {
       setIsSubmitting(false);
     }
