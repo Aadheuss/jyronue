@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     const isLoggedIn = () => {
-      if (user === false) {
+      if (user) {
         // Navigate to homepage if the user is authenticated
         navigate("/");
       }
