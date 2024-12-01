@@ -1,8 +1,8 @@
 import { FC, useContext } from "react";
 import styles from "./LikeBox.module.css";
 import { UserContext } from "../../context/context";
-import { fetchLikesBox, fetchToggleLike } from "../../utils/fetchFunctions";
 import { useNavigate } from "react-router-dom";
+const domain = import.meta.env.VITE_DOMAIN;
 
 interface Props {
   // The id of the thing to like
@@ -56,22 +56,55 @@ const LikeButton: FC<Props> = ({
     formData.append("type", type);
     formData.append("likesboxid", likesBoxId);
     const toggle = userLikeStatus ? "unlike" : "like";
-    const toggleLikeData = await fetchToggleLike({
-      id,
-      type,
-      toggle,
-      formData,
-    });
 
-    if (!toggleLikeData.error || !toggleLikeData.errors) {
-      const likesBoxData = await fetchLikesBox({ id, type, likesBoxId });
-      if (!likesBoxData.error || !likesBoxData.errors) {
-        const likesBox = likesBoxData.likesBox;
-        updateLikesBox({
-          likesBox,
-          userLikeStatus: !userLikeStatus,
-        });
+    try {
+      const toggleLike = await fetch(`${domain}/${type}/${id}/${toggle}`, {
+        mode: "cors",
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      const toggleLikeData = await toggleLike.json();
+
+      if (toggleLikeData.error) {
+        console.log(
+          `${toggleLikeData.error.message}: ${toggleLikeData.error.error} : Toggle Like`
+        );
+
+        // Handle validation error
+        if (toggleLikeData.error.errors) {
+          const errorList = toggleLikeData.error.errors;
+          errorList.forEach(
+            (error: { field: string; value: string; msg: string }) =>
+              console.log(error.msg)
+          );
+        }
+      } else {
+        // Fetch updated likesBox
+        const likesBox = await fetch(
+          `${domain}/${type}/${id}/likesbox/${likesBoxId}`,
+          {
+            mode: "cors",
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        const likesBoxData = await likesBox.json();
+
+        if (likesBoxData.error) {
+          console.log(`${likesBoxData.error.message}: Likes Box Data`);
+        } else {
+          console.log(`Successfully ${toggle}d the ${type}`);
+          updateLikesBox({
+            likesBox: likesBoxData.likesBox,
+            userLikeStatus: !userLikeStatus,
+          });
+        }
       }
+    } catch (err) {
+      console.log("Something went wrong: Like button");
+      if (err instanceof TypeError) console.log(err.message);
     }
   };
 
