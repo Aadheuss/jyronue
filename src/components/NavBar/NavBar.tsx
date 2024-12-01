@@ -19,35 +19,26 @@ const NavBar: FC<Props> = ({ activeNavButton = null }) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const logout = async () => {
-    const username = user ? user.username : null;
-
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(`${domain}/user/logout`, {
+      const logout = await fetch(`${domain}/user/logout`, {
         mode: "cors",
         method: "GET",
         credentials: "include",
       });
 
-      const resData = await res.json();
+      const logoutData = await logout.json();
 
-      if (resData.error) {
-        console.log(
-          `Failed to log out`,
-          username && `with the username ${username}`
-        );
-        console.error(resData.error);
+      if (logoutData.error) {
+        console.log(`${logoutData.error.message}: ${logoutData.error.error}`);
       } else {
-        console.log(
-          `Successfully logged out`,
-          username && `with the username ${username}`
-        );
+        console.log(`${logoutData.message}`);
         setUser(false);
       }
     } catch (err) {
-      console.log(`Something went wrong! Failed to log out`);
-      console.log(err);
+      console.log(`Something went wrong!: Logout`);
+      if (err instanceof TypeError) console.log(err.message);
     } finally {
       setIsSubmitting(false);
     }
